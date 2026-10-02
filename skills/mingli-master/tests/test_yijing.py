@@ -134,3 +134,21 @@ def test_meihua_json_ti_relations():
     d = run("meihua.py", "--numbers", "17", "23", "--json")
     assert d["biangua"]["ti_relation"] and d["hugua"]["ti_relation"]
     assert d["biangua"]["side_gua"] == d["biangua"]["upper"]
+
+
+def test_meihua_time_lunar_conversion():
+    """梅花時間起卦須走農曆: 2026-10-02 21:42 → 農曆8月22日, 年支7/月8/日22/時支12."""
+    d = run("meihua.py", "--time", "2026-10-02 21:42", "--json")
+    assert d["inputs"]["lunar"] == "二〇二六年8月22日"
+    assert d["inputs"]["zhi"] == {"年支數": 7, "月": 8, "日": 22, "時支數": 12}
+    assert d["bengua"]["name"] == "風天小畜" and d["dong_yao"] == 1
+
+
+def test_liuyao_time_includes_hour_pillar():
+    """六爻起卦時間含時柱 (Solar.fromDate 不可丟時間); 同搖卦不同時辰→四柱不同、卦相同."""
+    a = run("divine.py", "--coins", "1", "1", "1", "1", "1", "1",
+            "--time", "2026-10-02 09:00", "--json")
+    b = run("divine.py", "--coins", "1", "1", "1", "1", "1", "1",
+            "--time", "2026-10-02 21:00", "--json")
+    assert a["bazi"] != b["bazi"]
+    assert a["benguaming"] == b["benguaming"]

@@ -7,7 +7,7 @@ description: |
 license: MIT
 compatibility: 零安裝。只需系統 python3 與 Node.js>=18；依賴 (lunar_python 與 iztro) 已內嵌於 scripts/vendor 與 ziwei_full.bundle.mjs，不需 pip/npm/venv。用 bash scripts/check_env.sh 檢查。
 metadata:
-  version: 0.4.1
+  version: 0.4.2
   author: willywu (0524041)
   repository: https://github.com/0524041/fortune_master
 ---
@@ -39,6 +39,7 @@ metadata:
 | 八字細節 | `scripts/bazi_pai.py`（真太陽時＋四柱＋納音/長生/十神支/旬空＋胎元命宮身宮＋身強弱＋格局/用神/神煞＋大運＋校驗；`--year` 出流年＋12流月） | `methods/bazi_geju.md`；調候 `knowledge/tiaohou.md` |
 | 紫微細節 | `scripts/ziwei_full.sh`（十二宮＋全量格局＋本命/大限/流年四化；引擎內嵌 `scripts/vendor/ziwei/`） | `methods/ziwei_geju.md`；單星 `knowledge/star_detail.md`；流派 `schools/ni_mind.md` |
 | 流年運限 | `scripts/ziwei_full.sh --at YYYY-MM-DD`（大限/小限/流年/流月/流日/流時六層） | `methods/ziwei_geju.md` 運限節 |
+| 財運／財富 | 財帛＋田宅＋官祿＋財星用神（`cast.py`／`bazi_pai.py` 交叉） | `methods/caiyun.md`；輸出套 `knowledge/pan_output.md` |
 | 算事・六爻 | 排盤 `scripts/yijing/divine.py`（時間預設系統現在；`--time` 指定實際起卦時刻；`--coins`/`--random` 起卦） | **先讀 `yijing/questioning.md`**；解卦 `yijing/interpretation.md`、`yijing/yongshen.md`；卦辭 `data/hexagrams_64.json` |
 | 算事・梅花 | `scripts/yijing/meihua.py`（預設時間起卦＝系統現在；亦可 `--numbers`／`--random`） | **先讀 `yijing/questioning.md`**；`yijing/meihua.md` |
 | 合盤／合婚 | 各跑兩份排盤 → `scripts/hepan_check.py` | `methods/hepan_ni.md`；夫妻星 `knowledge/fuqi_stars.md` |
@@ -73,3 +74,5 @@ $VENV scripts/zeri_pick.py --matter 嫁娶 --from 2026-10-01 --to 2026-12-31 --b
 1. 數字照抄 JSON（年份用 `years`、調候用 `yongshen.tiaohou`）；格局名／卦名用程式判定的，不自創。
 2. 校驗未過或有 `warnings` 即標低置信；兩盤時支不一致退回重定盤。
 3. 不確定明說。腔調見 `knowledge/voice.md`，對外用語邊界見 `knowledge/output_style.md`。
+4. 命盤／流年輸出套 `knowledge/pan_output.md`：**結論先行、每句掛依據、必給應期與動作**；禁巴納姆（講了跟沒講一樣）。財運題見 `methods/caiyun.md`。
+5. 免責（「不構成投資建議」）**只用在六爻／梅花起卦問投資**；命盤／流年題不挾帶。

@@ -8,6 +8,7 @@
 |---|---|---|
 | 算命／看命盤（先天格局、個性、一生方向） | 跑 `bazi_pai.py` ＋ `ziwei_full.sh`，兩盤交叉 | `methods/bazi_geju.md`、`methods/ziwei_geju.md`、`schools/ni_mind.md` |
 | 看某年運勢 | 紫微 `--at YYYY-MM-DD`（或八字 `--year`） | `methods/ziwei_geju.md` 運限節 |
+| 財運／財富 | 財帛＋田宅＋官祿＋財星用神，兩盤交叉 | `methods/caiyun.md`；輸出套 `knowledge/pan_output.md` |
 | 問一件具體事（該不該、能不能、何時） | 起卦：六爻 `scripts/yijing/divine.py` 或梅花 `scripts/yijing/meihua.py` | `yijing/interpretation.md`、`yijing/yongshen.md`、`yijing/meihua.md` |
 | 合盤／合婚 | 各跑兩份排盤 → `hepan_check.py` | `methods/hepan_ni.md`、`knowledge/fuqi_stars.md` |
 | 擇日（嫁娶/入宅/開業/動土/安葬） | `zeri_pick.py` | `methods/zeri.md` |
@@ -29,7 +30,7 @@
 3. **環境**：有朝向入住年才查風水（外部 skill），否則記未驗。
 4. **事占**：只問具體事才起卦；用卦中用神旺衰回頭挺/駁命盤結論。
 
-輸出一律：**結論定性 + 宮星/干支依據 + 出處 + 置信度 + 翻轉條件**。多法同向＝置信高；衝突＝寫「矛盾未解」。
+輸出一律：**結論定性 + 宮星/干支依據 + 出處 + 置信度 + 翻轉條件**，並套 `knowledge/pan_output.md`（應期與可執行動作不可缺；禁巴納姆）。多法同向＝置信高；衝突＝寫「矛盾未解」。
 
 ## 四、紅線（準確性）
 

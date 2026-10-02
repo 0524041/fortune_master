@@ -15,4 +15,4 @@
 ## 三、排版自由
 
 表格、粗體、標題、列表、引文儘管用，lint 只檢查第一節那四類外洩，不管格式。
-開發時可用 `scripts/output_lint.py --text-file` 抽查，不必每 turn 跑。
+開發時可用 `scripts/output_lint.py --text-file` 抽查，不必每 turn 跑；`--strict` 另驗空泛語／巴納姆／免責濫用（判準見 `pan_output.md`）。

@@ -1,7 +1,7 @@
 {
   "name": "mingli-master",
   "displayName": "命理大師 (Mingli Master)",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "命理大師總控：八字、紫微斗數、易經六爻、梅花易數、合盤、擇日。排盤算數歸腳本（不心算），多法交叉驗證後鐵口。",
   "author": {
     "name": "willywu",

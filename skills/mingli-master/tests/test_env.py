@@ -111,6 +111,23 @@ def test_output_lint_clean_passes():
     assert r.returncode == 0, r.stdout
 
 
+def test_output_lint_strict_flags_vague():
+    """--strict 須抓空泛語/免責濫用; 非 strict 不抓 (向後相容)."""
+    import subprocess
+    import json
+    args = [str(SKILL / "scripts" / ".venv" / "bin" / "python"),
+            str(SKILL / "scripts" / "output_lint.py"),
+            "--text-file", str(SKILL / "tests" / "fixtures" / "vague_sample.txt"),
+            "--format", "json"]
+    r = subprocess.run(args, capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout           # 非 strict: 無外洩 -> 乾淨
+    r2 = subprocess.run(args + ["--strict"], capture_output=True, text=True)
+    assert r2.returncode != 0
+    hits = {h["token"] for h in json.loads(r2.stdout)["violations"]}
+    for tok in ["因人而異", "不構成投資建議", "無法由命盤推算收入金額"]:
+        assert tok in hits, tok
+
+
 def test_check_env_passes_when_set_up():
     """環境檢查: 已就緒的機器須 exit 0 並顯示『環境就緒』."""
     import subprocess

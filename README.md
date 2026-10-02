@@ -56,12 +56,24 @@ OpenCode 也會讀 `~/.claude/skills/` 與 `~/.agents/skills/` 這兩個相容�
 
 ### Codex（OpenAI）
 
+Codex 有外掛系統，而且**讀得懂本 repo 的 `.claude-plugin/marketplace.json`**，可直接外掛安裝：
+
+```bash
+codex plugin marketplace add 0524041/fortune_master
+codex plugin add mingli-master@fortune-master
+codex plugin list        # 應顯示 mingli-master@fortune-master
+```
+
+或不經外掛、當一般 skill：
+
 ```bash
 ln -s "$REPO/skills/mingli-master" ~/.agents/skills/mingli-master            # 使用者層
 # 專案內：.agents/skills/mingli-master（Codex 會由 CWD 往上掃到 repo 根）
 ```
 
-Codex 支援 symlink；用 `$mingli-master` 或 `/skills` 呼叫。可選加 `agents/openai.yaml` 設定 UI 與是否允許自動觸發。
+Codex 支援 symlink；用 `$mingli-master` 或 `/skills` 呼叫。
+> 實測：外掛安裝後，`codex exec` 的 skill 清單會出現 `mingli-master:mingli-master`。
+> 注意：用**本地路徑**加入市集時，Codex 會連 `.venv`/`node_modules` 一起複製（肥大）；用 **GitHub 來源**（如上）則乾淨。
 
 ### Pi
 
@@ -93,6 +105,7 @@ gemini skills list          # 確認列出 mingli-master
 ### 驗證
 
 - **Claude 外掛**：`claude plugin validate .` 與 `claude plugin validate ./skills/mingli-master` → 皆 `Validation passed`。
+- **Codex**：`codex plugin marketplace add 0524041/fortune_master` → `codex plugin add mingli-master@fortune-master`；`codex plugin list` 應顯示該外掛，`codex exec` 的 skill 清單應含 `mingli-master:mingli-master`。
 - **Gemini**：`gemini skills list` → 應列出 `mingli-master [Enabled]`。
 - **通則**：`SKILL.md` 的 `name` 須等於資料夾名並符合 `^[a-z0-9]+(-[a-z0-9]+)*$`；`description` ≤ 1024 字（本 skill 符合，286 字）。
 

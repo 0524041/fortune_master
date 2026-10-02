@@ -2,6 +2,11 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.2.2
+
+- README 補 Codex 外掛安裝（Codex 讀 `.claude-plugin/marketplace.json`）與本地來源的肥大快取注意事項。
+- 實測驗證：`codex plugin marketplace add` → `codex plugin add mingli-master@fortune-master` 安裝成功，`codex exec` 的 skill 清單出現 `mingli-master:mingli-master`；確認 Codex 可載入本 skill（無需另做 Codex 專屬外掛）。
+
 ## v0.2.1
 
 - README 補各 agent 的安裝設定（Claude Code 外掛／skill、OpenCode、Codex、Pi、Gemini CLI、其他 agentskills.io 工具），附驗證方法。

@@ -7,7 +7,7 @@ description: |
 license: MIT
 compatibility: 需 python3 與 Node.js>=18/npm；首次執行 bash scripts/setup.sh 安裝依賴 (lunar_python 與 iztro)。缺 node 時紫微不可用，其餘（八字/六爻/梅花/擇日）仍可跑。
 metadata:
-  version: 0.2.1
+  version: 0.2.2
   author: willywu (0524041)
   repository: https://github.com/0524041/fortune_master
 ---

@@ -1,5 +1,6 @@
 # 紫微解讀 (全量 patterns, 與 repo 同口徑)
 
+> 雙胞胎（同性）：**借宮立極**（南派，預設，星曜不動旋宮名）／**時辰遞推**（整盤重算）／**北派同盤**；見 `twins.md`。
 > 流派定位見 `references/ask-person/ni_mind.md`「紫微斗數流派定位」：**南派（三合）為體、北派（四化）為用、飛星細節為參考**。
 
 - 盤面以 `scripts/ziwei_full.sh --format both` JSON 為準，`patterns[]` 30+格全量來自 `scripts/vendor/ziwei/patterns.ts detectPatterns`（內嵌快照，見 vendor README）。

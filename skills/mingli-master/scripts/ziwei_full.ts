@@ -74,10 +74,14 @@ if (calendar === 'lunar') {
   }
 }
 const solarDate = `${Y}-${M}-${D}`;
+const hourShift = Math.max(0, +(args['hour-shift'] || '0'));
 const tsCorr = trueSolarBranch(Y, M, D, args.time || '', args.city || '', args.lon);
-const hour = tsCorr ? tsCorr.branch : parseHour(args.hour);
-const hourSrc = tsCorr ? `真太陽時${tsCorr.true_solar}(經度${tsCorr.lon},校正${tsCorr.corr_min}分)` : '直給時支';
+const hourBase = tsCorr ? tsCorr.branch : parseHour(args.hour);
+const hour = (hourBase + hourShift) % 12;   // 時辰遞推法: 生時進位、整盤重算（≠借宮立極）
+let hourSrc = tsCorr ? `真太陽時${tsCorr.true_solar}(經度${tsCorr.lon},校正${tsCorr.corr_min}分)` : '直給時支';
+if (hourShift) hourSrc += ` +生時進${hourShift}位(時辰遞推)`;
 const warnings: string[] = [];
+if (hourShift) warnings.push(`時辰遞推(雙胞胎): 生時${ZHI[hourBase]}→${ZHI[hour]}，整盤重算；借宮立極請用 twin_adjust`);
 if (tsCorr) {
   const om = args.time.match(/^(\d{1,2}):(\d{2})$/)!;
   const origMin = +om[1] * 60 + +om[2];
@@ -127,6 +131,7 @@ const out = {
   birth_input: { date: args.date, calendar, leap: !!args.leap },
   time_src: hourSrc,
   warnings,
+  twin: hourShift ? { method: '時辰遞推（生時進位、整盤重算）', shift: hourShift, original_hour: ZHI[hourBase], adjusted_hour: ZHI[hour] } : undefined,
   true_solar: tsCorr ? `${solarDate} ${tsCorr.true_solar}` : undefined,
   ming: { branch: BRANCHES[chart.mingGongBranch], shen: BRANCHES[chart.shenGongBranch], wuju: chart.wuxingJuName, summary },
   native_sihua: { stem: STEMS[yearStem], ...native4 },

@@ -199,3 +199,40 @@ def test_shensha_core_table():
     assert found["天乙貴人"]["at"] == ["月"] and found["天乙貴人"]["target"] == ["子", "申"]
     assert found["祿神"]["at"] == ["日", "時"]
     assert "羊刃" not in found  # 乙為陰干, 本表從略
+
+
+# ---- 雙胞胎 ----
+
+CAST = SKILL / "scripts" / "cast.py"
+
+
+def run_cast(*extra):
+    cmd = [VENV_PY, str(CAST), *extra, "--format", "json"]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    assert r.returncode == 0, f"CLI failed: {r.stderr}"
+    return json.loads(r.stdout)
+
+
+def test_twin_order_hour_shift():
+    """雙胞胎(同性)子平法: 老二時柱進一位(己卯→庚辰); 年/月/日柱與大運不變, 校驗仍過."""
+    base = run_bazi_json("--date", "1990-08-18", "--time", "06:30", "--city", "台北", "--gender", "male")
+    twin = run_bazi_json("--date", "1990-08-18", "--time", "06:30", "--city", "台北", "--gender", "male",
+                         "--twin-order", "2")
+    p = lambda d: [x["gan"] + x["zhi"] for x in d["pillars"]]
+    assert p(base)[:3] == p(twin)[:3]                 # 年/月/日柱不變
+    assert p(base)[3] == "己卯" and p(twin)[3] == "庚辰"  # 時柱進一位
+    assert [x["gan_zhi"] for x in base["dayun"]["pillars"]] == [x["gan_zhi"] for x in twin["dayun"]["pillars"]]
+    assert twin["twin"]["order"] == 2 and twin["verification"]["all_pass"] is True
+
+
+def test_cast_twin_modes():
+    """cast 雙胞胎: 紫微 rebase=借宮(命卯)、none=北派同盤(命辰); 交叉以原時支定位."""
+    rb = run_cast("--date", "1990-08-18", "--time", "06:30", "--city", "台北", "--gender", "male",
+                  "--twin-order", "2", "--twin-ziwei", "rebase")
+    assert rb["bazi"]["pillars"][3]["gan"] + rb["bazi"]["pillars"][3]["zhi"] == "庚辰"
+    assert rb["ziwei"]["ming"]["branch"] == "卯"
+    assert rb["cross_check"]["time_branch_match"] is True
+    assert "借宮立極" in rb["twin"]["ziwei"]
+    none = run_cast("--date", "1990-08-18", "--time", "06:30", "--city", "台北", "--gender", "male",
+                    "--twin-order", "2", "--twin-ziwei", "none")
+    assert none["ziwei"]["ming"]["branch"] == "辰"

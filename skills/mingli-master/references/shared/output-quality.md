@@ -54,7 +54,7 @@
 
 ## 四、對外用語邊界（只擋外洩）
 
-- **中文名對照**（寫給人看時用中文）：`bazi_pai.py`→八字排盤程式、`ziwei_full.sh`→紫微排盤程式、`hepan_check.py`→合盤比對程式、`zeri_pick.py`→擇日掃描程式、`divine.py`→六爻起卦程式、`meihua.py`→梅花起卦程式、`cast.py`→雙盤排盤程式；`patterns[]`→格局判定結果、`fuqi_stars`→夫妻宮斷語表、`tiaohou.json`→調候用神表、JSON 數據→排盤數據。
+- **中文名對照**（寫給人看時用中文）：`bazi_pai.py`→八字排盤程式、`ziwei_full.sh`→紫微排盤程式、`hepan_check.py`→合盤比對程式、`zeri_pick.py`→擇日掃描程式、`divine.py`→六爻起卦程式、`meihua.py`→梅花起卦程式、`cast.py`→雙盤排盤程式、`twin_adjust.py`→雙胞胎借宮變盤程式；`patterns[]`→格局判定結果、`fuqi_stars`→夫妻宮斷語表、`tiaohou.json`→調候用神表、JSON 數據→排盤數據。
 - **不寫**：英文檔名、函數名、`[]`/`->` 程式符號、本機路徑、過程口令。
 - **數字用法（唯一硬規則）**：年份、干支、分數照抄 script 輸出（`years` 欄），不心算。如：戊午運 31-40 歲（2020-2029 年走戊午運）。
 

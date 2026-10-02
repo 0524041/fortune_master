@@ -4,10 +4,11 @@
 > 輸出怎麼說見 `references/shared/output-quality.md`；驗證見 `references/shared/verification.md`。
 > 別拿命盤算「明天這檔漲不漲」——那是問事（`references/ask-event/`）。
 
-## 一、先收料（一次問 1-2 項，別連環砲）
+## 一、先收料（一次問 1–2 項，別連環砲）
 
 - 出生**年月日時分**、**性別**、**出生城市**（或經度）。
 - **曆制**：國曆還是農曆（農曆要問閏月）——**未確認前不排盤**。
+- **雙胞胎／多胞胎**：先問同性別或龍鳳胎、排行、時間差——見 `twins.md`（借宮立極／時辰遞推／北派同盤／八字時柱進位）。
 - 缺資料標「未驗」，不腦補。
 
 ## 二、怎麼選（依問題）
@@ -36,5 +37,5 @@ $VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender 
 ## 四、本軸檔案
 
 - 技法：`bazi.md`、`ziwei.md`、`caiyun.md`、`hepan.md`、`zeri.md`
-- 配套：`tiaohou.md`（調候用神）、`star_detail.md`（單星）、`fuqi_stars.md`（夫妻宮斷語）、`ni_mind.md`（流派立場：南派為體、北派四化為用）
+- 配套：`tiaohou.md`（調候用神）、`star_detail.md`（單星）、`fuqi_stars.md`（夫妻宮斷語）、`ni_mind.md`（流派立場：南派為體、北派四化為用）、`twins.md`（雙胞胎／多胞胎處理）
 - 範例：`examples/`（八字、合盤、擇日）

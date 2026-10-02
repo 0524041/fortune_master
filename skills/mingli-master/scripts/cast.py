@@ -12,6 +12,8 @@ from pathlib import Path
 
 DIR = Path(__file__).resolve().parent
 PY = sys.executable  # 用當前 Python 即可 (腳本自帶 vendor lunar_python, 免 venv)
+sys.path.insert(0, str(DIR))
+from twin_adjust import adjust as twin_rebase  # noqa: E402
 
 
 def run_json(cmd):
@@ -35,6 +37,10 @@ def main():
     ap.add_argument("--at", default=None, help="紫微運限陽曆日 YYYY-MM-DD")
     ap.add_argument("--at-time", default="12:00")
     ap.add_argument("--format", default="json", choices=["json", "text"])
+    ap.add_argument("--twin-order", type=int, default=1,
+                    help="雙胞胎排行(同性): 2=老二、3=老三... 預設1=單胎/老大")
+    ap.add_argument("--twin-ziwei", default="rebase", choices=["rebase", "shift", "none"],
+                    help="紫微雙胞胎法: rebase=借宮立極(預設,星曜不動旋宮名), shift=時辰遞推(整盤重算), none=北派同盤不改")
     a = ap.parse_args()
 
     loc = ["--city", a.city] if a.city else (["--lon", str(a.lon)] if a.lon is not None else [])
@@ -43,32 +49,57 @@ def main():
             "--gender", a.gender, "--format", "json", *loc, *cal]
     if a.year:
         bcmd += ["--year", str(a.year)]
+    if a.twin_order > 1:
+        bcmd += ["--twin-order", str(a.twin_order)]
     zcmd = [str(DIR / "ziwei_full.sh"), "--date", a.date, "--time", a.time,
             "--gender", a.gender, "--format", "json", *loc, *cal]
     if a.at:
         zcmd += ["--at", a.at, "--at-time", a.at_time]
     elif a.year:
         zcmd += ["--liunian", str(a.year)]
+    if a.twin_order > 1 and a.twin_ziwei == "shift":
+        zcmd += ["--hour-shift", str(a.twin_order - 1)]
 
     bazi = run_json(bcmd)
     ziwei = run_json(zcmd)
+    if a.twin_order > 1 and a.twin_ziwei == "rebase":
+        try:
+            ziwei = twin_rebase(ziwei, a.twin_order)
+        except (KeyError, ValueError) as e:
+            print(f"錯誤: 紫微借宮變盤失敗: {e}", file=sys.stderr)
+            sys.exit(2)
 
     bz_zhi = next(p["zhi"] for p in bazi["pillars"] if p["label"] == "時柱")
+    zw_hour = ziwei["hour"]
+    if bazi.get("twin"):   # 變盤: 以真實(原)時支定位盤交叉, 不比對調整後時柱
+        bz_zhi = bazi["twin"]["original_hour"][1]
+        zw_hour = (ziwei.get("twin") or {}).get("original_hour", zw_hour)
     checks = {
-        "time_branch_match": bz_zhi == ziwei["hour"],
-        "bazi_hour": bz_zhi, "ziwei_hour": ziwei["hour"],
+        "time_branch_match": bz_zhi == zw_hour,
+        "bazi_hour": bz_zhi, "ziwei_hour": zw_hour,
         "bazi_verification_pass": bazi.get("verification", {}).get("all_pass"),
         "warnings": list(dict.fromkeys(bazi.get("verification", {}).get("warnings", []) + ziwei.get("warnings", []))),
     }
     out = {"bazi": bazi, "ziwei": ziwei, "cross_check": checks}
+    if a.twin_order > 1:
+        out["twin"] = {
+            "order": a.twin_order,
+            "bazi": "時柱進位（子平法）",
+            "ziwei": {"rebase": "借宮立極（南派；星曜不動、旋宮名）",
+                      "shift": "時辰遞推（生時進位、整盤重算）",
+                      "none": "北派同盤不改"}[a.twin_ziwei],
+            "note": "同性雙胞胎用；龍鳳胎不必調盤（大運/大限順逆自然相反）；兩派不可混用",
+        }
     if a.format == "json":
         print(json.dumps(out, ensure_ascii=False, indent=2))
     else:
         print(f'雙盤 {a.date} {a.time} {a.gender}')
+        if a.twin_order > 1:
+            print(f'雙胞胎排行{a.twin_order}: 八字{out["twin"]["bazi"]}；紫微{out["twin"]["ziwei"]}')
         print(f'八字四柱: {" ".join(p["gan"]+p["zhi"] for p in bazi["pillars"])} '
               f'| 日主 {bazi["day_master"]} | {bazi["day_strength"]["level"]} | {bazi["geju"]["name"]}')
         print(f'紫微: 命{ziwei["ming"]["branch"]} 身{ziwei["ming"]["shen"]} {ziwei["ming"]["wuju"]} | {ziwei["ming"]["summary"]["nature"]}')
-        print(f'交叉: 時支一致={checks["time_branch_match"]} ({bz_zhi}/{ziwei["hour"]}) '
+        print(f'交叉: 時支一致={checks["time_branch_match"]} ({checks["bazi_hour"]}/{checks["ziwei_hour"]}) '
               f'八字校驗全過={checks["bazi_verification_pass"]} 警告={checks["warnings"] or "無"}')
 
 

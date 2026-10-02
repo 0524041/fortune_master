@@ -177,8 +177,15 @@ def verify(data, corr, lunar):
     # 2) 時支自洽: 四柱時支 == 真太陽時落支
     mins = ts_dt.hour * 60 + ts_dt.minute
     branch = ZHI[((mins + 60) % 1440) // 120]
-    checks["hour_branch_consistent"] = {
-        "ok": branch == pillars[3]["zhi"], "expected": branch, "got": pillars[3]["zhi"]}
+    if data.get("twin"):
+        tw = data["twin"]
+        checks["hour_branch_consistent"] = {
+            "ok": True,
+            "note": f"雙胞胎排行{tw['order']}時柱進位（{tw['original_hour']}→{tw['adjusted_hour']}），不與真實時支比對",
+            "expected": branch, "got": pillars[3]["zhi"]}
+    else:
+        checks["hour_branch_consistent"] = {
+            "ok": branch == pillars[3]["zhi"], "expected": branch, "got": pillars[3]["zhi"]}
 
     # 3) 大運基準節氣: 必為 12 節, 距出生 0..32 天, 起運日 > 出生日
     forward = dayun["direction"] == "順"
@@ -291,6 +298,8 @@ def main():
     ap.add_argument("--gender", required=True, choices=["male", "female"])
     ap.add_argument("--format", default="text", choices=["text", "json", "both"])
     ap.add_argument("--year", type=int, default=None, help="流年年份")
+    ap.add_argument("--twin-order", type=int, default=1,
+                    help="雙胞胎排行(同性): 2=老二(時柱進一位子平法)、3=老三... 預設1=單胎/老大")
     a = ap.parse_args()
 
     hh, mm = (int(x) for x in a.time.split(":"))
@@ -317,6 +326,26 @@ def main():
                (lunar.getDayGan(), lunar.getDayZhi()), (lunar.getTimeGan(), lunar.getTimeZhi())]
     ec = lunar.getEightChar()
     day_gan = pillars[2][0]
+    # 雙胞胎(同性)子平法: 時柱進位 (年/月/日柱與大運不變; 進一時辰取新時柱; 亥→子用當日23:30晚子時)
+    twin_shift = max(0, a.twin_order - 1)
+    twin_info = None
+    ec_time = ec
+    if twin_shift:
+        t = ZHI.index(pillars[3][1]) + twin_shift
+        if t > 12 or (pillars[3][1] == "子" and corr.hour >= 23):
+            print("錯誤: 八字雙胞胎時柱進位在此時辰需跨日（晚子時/跨兩日），暫不支援；"
+                  "紫微借宮法不受此限。", file=sys.stderr)
+            sys.exit(2)
+        sim = corr.replace(hour=(23 if t == 12 else 2 * t), minute=(30 if t == 12 else 0))
+        lunar_t = Solar.fromYmdHms(sim.year, sim.month, sim.day, sim.hour, sim.minute, 0).getLunar()
+        ec_time = lunar_t.getEightChar()
+        new_hour = ec_time.getTimeGan() + ec_time.getTimeZhi()
+        twin_info = {
+            "order": a.twin_order, "shift": twin_shift, "method": "時柱進位（子平法）",
+            "original_hour": pillars[3][0] + pillars[3][1], "adjusted_hour": new_hour,
+            "note": "同性雙胞胎用；年/月/日柱與大運不變，僅時柱進位；校驗不與真實時支比對",
+        }
+        pillars[3] = (ec_time.getTimeGan(), ec_time.getTimeZhi())
     # 逐柱本質資訊 (納音/十神支/藏干十神/長生十二運/旬空) 全走 lunar_python, 不心算
     cols = [
         ("年柱", ec.getYearGan, ec.getYearZhi, ec.getYearShiShenGan, ec.getYearShiShenZhi,
@@ -325,8 +354,8 @@ def main():
          ec.getMonthHideGan, ec.getMonthNaYin, ec.getMonthDiShi, ec.getMonthXunKong),
         ("日柱", ec.getDayGan, ec.getDayZhi, ec.getDayShiShenGan, ec.getDayShiShenZhi,
          ec.getDayHideGan, ec.getDayNaYin, ec.getDayDiShi, ec.getDayXunKong),
-        ("時柱", ec.getTimeGan, ec.getTimeZhi, ec.getTimeShiShenGan, ec.getTimeShiShenZhi,
-         ec.getTimeHideGan, ec.getTimeNaYin, ec.getTimeDiShi, ec.getTimeXunKong),
+        ("時柱", ec_time.getTimeGan, ec_time.getTimeZhi, ec_time.getTimeShiShenGan, ec_time.getTimeShiShenZhi,
+         ec_time.getTimeHideGan, ec_time.getTimeNaYin, ec_time.getTimeDiShi, ec_time.getTimeXunKong),
     ]
     pillar_data = []
     for label, fgan, fzhi, fss, fssz, fhid, fnayin, fdishi, fxk in cols:
@@ -340,8 +369,8 @@ def main():
     extras = {
         "taiyuan": {"gan_zhi": ec.getTaiYuan(), "nayin": ec.getTaiYuanNaYin()},
         "taixi": {"gan_zhi": ec.getTaiXi(), "nayin": ec.getTaiXiNaYin()},
-        "minggong": {"gan_zhi": ec.getMingGong(), "nayin": ec.getMingGongNaYin()},
-        "shengong": {"gan_zhi": ec.getShenGong(), "nayin": ec.getShenGongNaYin()},
+        "minggong": {"gan_zhi": ec_time.getMingGong(), "nayin": ec_time.getMingGongNaYin()},
+        "shengong": {"gan_zhi": ec_time.getShenGong(), "nayin": ec_time.getShenGongNaYin()},
     }
     score = wuxing_score(pillars)
     strength = day_strength(pillars, day_gan)
@@ -360,6 +389,7 @@ def main():
             "extras": extras,
             "relations": rel, "dayun": dayun,
             "engine": "lunar_python+true_solar(EoT近似,誤差<1分)"}
+    data["twin"] = twin_info
     data["verification"] = verify(data, corr, lunar)
     if a.year:
         # 取年中(6/1)定年干支: 立春時刻每年浮動, 固定2/4取法在立春日晚會錯年柱
@@ -374,6 +404,10 @@ def main():
         if warn:
             print(warn)
         print(f"四柱: {' '.join(x['gan']+x['zhi'] for x in p)}  日主:{data['day_master']}")
+        if data.get("twin"):
+            tw = data["twin"]
+            print(f"（雙胞胎排行{tw['order']}：時柱 {tw['original_hour']}→{tw['adjusted_hour']}，{tw['method']}；"
+                  f"年/月/日柱與大運不變）")
         print(f"十神(干): {' '.join(x['shishen'] for x in p)}")
         print(f"藏干: {' | '.join(x['zhi']+':'+','.join(x['hidden'])+'('+'/'.join(x['hidden_shishen'])+')' for x in p)}")
         print(f"納音: {' '.join(x['label']+x['nayin'] for x in p)}")

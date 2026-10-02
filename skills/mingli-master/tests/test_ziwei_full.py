@@ -171,3 +171,34 @@ def test_warnings_near_hour_boundary():
     d2 = run_zw("--date", "1990-08-18", "--time", "06:30", "--city", "台北",
                 "--gender", "male")
     assert d2["warnings"] == []
+
+
+# ---- 雙胞胎 ----
+
+def test_twin_rebase_borrow_sibling_palace():
+    """南派借宮立極: 星曜不動、命宮辰→卯(原兄弟宮)、大限自新命宮起沿用原起運歲、身宮支不動."""
+    import copy
+    import sys
+    sys.path.insert(0, str(SKILL / "scripts"))
+    from twin_adjust import adjust
+    d = run_zw("--date", "1990-08-18", "--hour", "卯", "--gender", "male")
+    orig = copy.deepcopy(d)
+    rb = adjust(copy.deepcopy(d), 2)
+    by_gz = {p["gz"]: p for p in orig["palaces"]}
+    rby = {p["gz"]: p for p in rb["palaces"]}
+    assert rb["ming"]["branch"] == "卯" and rb["ming"]["shen"] == orig["ming"]["shen"]
+    assert rby["己卯"]["name"] == "命宫"
+    assert [s["name"] for s in rby["己卯"]["stars"]] == [s["name"] for s in by_gz["己卯"]["stars"]]
+    assert rby["庚辰"]["name"] == "父母"
+    assert rb["daxian"][0]["palaceBranch"] == 3
+    assert rb["daxian"][0]["startAge"] == orig["daxian"][0]["startAge"]
+    assert "借宮立極" in rb["twin"]["method"]
+
+
+def test_twin_hour_shift_recasts_chart():
+    """時辰遞推: 生時進一位(卯→辰)整盤重算; 命宮亦退到卯但身宮/星曜會變 (≠借宮)."""
+    base = run_zw("--date", "1990-08-18", "--hour", "卯", "--gender", "male")
+    d = run_zw("--date", "1990-08-18", "--hour", "卯", "--gender", "male", "--hour-shift", "1")
+    assert d["hour"] == "辰" and d["twin"]["original_hour"] == "卯"
+    assert d["ming"]["branch"] == "卯"
+    assert d["ming"]["shen"] != base["ming"]["shen"]

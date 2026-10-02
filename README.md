@@ -14,11 +14,38 @@
 
 ## 安裝
 
-```bash
-# 1) 連結到 agent 的 skills 目錄（Claude / OpenCode 皆讀 <skills-dir>/<name>/SKILL.md）
-ln -s "$PWD/skills/mingli-master" ~/.config/opencode/skills/mingli-master
+本 skill 同時是 **Claude Code 外掛**（透過 `.claude-plugin/`）與**標準 Agent Skill**（`SKILL.md`）。挑一種：
 
-# 2) 安裝依賴（Python venv + Node）
+### A. Claude Code 外掛（建議，可自動更新）
+
+在 Claude Code 內：
+
+```
+/plugin marketplace add 0524041/fortune_master
+/plugin install mingli-master@fortune-master
+```
+
+安裝後 skill 以 `/mingli-master:...` 命名空間提供。
+
+### B. 當成一般 Agent Skill（Claude／OpenCode／Codex…）
+
+把 `skills/mingli-master/` 連到該工具的 skills 目錄即可（各工具路徑不同）：
+
+```bash
+REPO="$PWD/fortune_master"          # clone 後的位置
+# Claude Code / Claude 個人 skill
+ln -s "$REPO/skills/mingli-master" ~/.claude/skills/mingli-master
+# OpenCode
+ln -s "$REPO/skills/mingli-master" ~/.config/opencode/skills/mingli-master
+# Codex 及採 .agents/skills 慣例的工具
+ln -s "$REPO/skills/mingli-master" ~/.agents/skills/mingli-master
+```
+
+> 有些工具也讀**專案內**的 `.claude/skills/` 或 `.agents/skills/`；把上面的連結放進你正在工作的 repo 即可。
+
+### 安裝依賴（兩種方式都要）
+
+```bash
 bash skills/mingli-master/scripts/setup.sh
 ```
 
@@ -46,14 +73,16 @@ $V skills/mingli-master/scripts/yijing/meihua.py --time "2026-08-01 10:30"
 
 ```
 fortune_master/
+├─ .claude-plugin/marketplace.json   # Claude Code 外掛市集目錄（列出本 repo 的外掛）
 ├─ README.md  LICENSE  CHANGELOG.md  VERSION  .gitignore
 └─ skills/
-   └─ mingli-master/
-      ├─ SKILL.md              # skill 入口（name/description）
-      ├─ references/           # 知識與 SOP（按需讀）：schools/methods/knowledge/yijing/examples
-      ├─ data/                 # 結構化表（干支/四化/神煞/調候/擇日規則/64卦/城市）
-      ├─ scripts/              # 排盤：bazi_pai.py, ziwei_full.sh(+vendor), yijing/, hepan_check.py, zeri_pick.py, cast.py
-      └─ tests/                # 回歸測試
+   └─ mingli-master/                 # 既是 Agent Skill，也是 Claude 外掛
+      ├─ .claude-plugin/plugin.json  # 外掛 manifest（name/version/license）
+      ├─ SKILL.md                    # skill 入口（name/description/license/compatibility/metadata）
+      ├─ references/                 # 知識與 SOP（按需讀）：schools/methods/knowledge/yijing/examples
+      ├─ data/                       # 結構化表（干支/四化/神煞/調候/擇日規則/64卦/城市）
+      ├─ scripts/                    # 排盤：bazi_pai.py, ziwei_full.sh(+vendor), yijing/, hepan_check.py, zeri_pick.py, cast.py
+      └─ tests/                      # 回歸測試
 ```
 
 ## 測試

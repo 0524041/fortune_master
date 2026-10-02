@@ -1,0 +1,16 @@
+{
+  "name": "fortune-master",
+  "description": "命理大師 skill 市集：八字、紫微斗數、易經六爻、梅花易數、合盤、擇日。",
+  "owner": {
+    "name": "willywu",
+    "url": "https://github.com/0524041"
+  },
+  "plugins": [
+    {
+      "name": "mingli-master",
+      "source": "./skills/mingli-master",
+      "description": "命理大師總控：八字／紫微斗數雙盤交叉、易經六爻／梅花易數問事、合盤、擇日；排盤算數歸腳本（不心算），多法交叉驗證。",
+      "license": "MIT"
+    }
+  ]
+}

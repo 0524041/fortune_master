@@ -4,6 +4,12 @@ description: |
   命理大師總控. 多流派多功能：八字、紫微斗數、易經六爻、梅花易數，含合盤、擇日、流年運限、神煞調候。排盤算數全走腳本(不心算)，多法交叉驗證後鐵口直斷。
   觸發: 算命/命盤/排盤/八字/紫微/斗數/格局/用神/調候/身強弱/大運/流年/流月/流日/小限/神煞/合盤/合婚/感情婚姻/擇日/入宅/開業/動土/起卦/卜卦/算卦/解卦/占卜/六爻/金錢卦/文王卦/易經/梅花易數/卦象/感情/事業/財運/健康/考試/失物/農曆/國曆/時辰/真太陽時/時辰校正.
   陽宅風水走 fengshui.skill (本 skill 不含); 單事隨機占卜走本 skill 的六爻/梅花.
+license: MIT
+compatibility: 需 python3 與 Node.js>=18/npm；首次執行 bash scripts/setup.sh 安裝依賴 (lunar_python 與 iztro)。缺 node 時紫微不可用，其餘（八字/六爻/梅花/擇日）仍可跑。
+metadata:
+  version: 0.2.0
+  author: willywu (0524041)
+  repository: https://github.com/0524041/fortune_master
 ---
 
 # 命理大師 (總控：排盤算數歸腳本，知識解讀歸 references，多法交叉驗證)

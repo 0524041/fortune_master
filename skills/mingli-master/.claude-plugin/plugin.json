@@ -1,0 +1,17 @@
+{
+  "name": "mingli-master",
+  "displayName": "命理大師 (Mingli Master)",
+  "version": "0.2.0",
+  "description": "命理大師總控：八字、紫微斗數、易經六爻、梅花易數、合盤、擇日。排盤算數歸腳本（不心算），多法交叉驗證後鐵口。",
+  "author": {
+    "name": "willywu",
+    "url": "https://github.com/0524041"
+  },
+  "homepage": "https://github.com/0524041/fortune_master",
+  "repository": "https://github.com/0524041/fortune_master",
+  "license": "MIT",
+  "keywords": [
+    "命理", "算命", "八字", "紫微斗數", "易經", "六爻", "梅花易數",
+    "合盤", "擇日", "divination", "bazi", "ziwei", "liuyao", "fortune-telling"
+  ]
+}

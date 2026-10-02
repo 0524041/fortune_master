@@ -7,7 +7,7 @@ description: |
 license: MIT
 compatibility: 零安裝。只需系統 python3 與 Node.js>=18；依賴 (lunar_python 與 iztro) 已內嵌於 scripts/vendor 與 ziwei_full.bundle.mjs，不需 pip/npm/venv。用 bash scripts/check_env.sh 檢查。
 metadata:
-  version: 0.4.0
+  version: 0.4.1
   author: willywu (0524041)
   repository: https://github.com/0524041/fortune_master
 ---
@@ -29,7 +29,7 @@ metadata:
 
 ## 收料（一次問 1-2 項）
 
-出生**年月日時分、性別、出生城市**（或經度）。**曆制（國曆／農曆，閏月）未確認前不排盤**——先問清，再跑（`scripts/*` 支援 `--calendar lunar [--leap]`）。問事另需**實際起卦時間**。缺資料就標「未驗」，不腦補。
+出生**年月日時分、性別、出生城市**（或經度）。**曆制（國曆／農曆，閏月）未確認前不排盤**——先問清，再跑（`scripts/*` 支援 `--calendar lunar [--leap]`）。問事起卦**時間預設系統現在**（現在問＝現在起卦）；只有使用者提供他**實際起卦的時刻**才用 `--time`。缺資料就標「未驗」，不腦補。
 
 ## 路由表
 
@@ -39,13 +39,13 @@ metadata:
 | 八字細節 | `scripts/bazi_pai.py`（真太陽時＋四柱＋納音/長生/十神支/旬空＋胎元命宮身宮＋身強弱＋格局/用神/神煞＋大運＋校驗；`--year` 出流年＋12流月） | `methods/bazi_geju.md`；調候 `knowledge/tiaohou.md` |
 | 紫微細節 | `scripts/ziwei_full.sh`（十二宮＋全量格局＋本命/大限/流年四化；引擎內嵌 `scripts/vendor/ziwei/`） | `methods/ziwei_geju.md`；單星 `knowledge/star_detail.md`；流派 `schools/ni_mind.md` |
 | 流年運限 | `scripts/ziwei_full.sh --at YYYY-MM-DD`（大限/小限/流年/流月/流日/流時六層） | `methods/ziwei_geju.md` 運限節 |
-| 算事・六爻 | 起卦 `scripts/yijing/toss_coins.py` → 排盤 `scripts/yijing/divine.py` | **先讀 `yijing/questioning.md`**；解卦 `yijing/interpretation.md`、`yijing/yongshen.md`；卦辭 `data/hexagrams_64.json` |
-| 算事・梅花 | `scripts/yijing/meihua.py`（時間／數字／隨機起卦） | **先讀 `yijing/questioning.md`**；`yijing/meihua.md` |
+| 算事・六爻 | 排盤 `scripts/yijing/divine.py`（時間預設系統現在；`--time` 指定實際起卦時刻；`--coins`/`--random` 起卦） | **先讀 `yijing/questioning.md`**；解卦 `yijing/interpretation.md`、`yijing/yongshen.md`；卦辭 `data/hexagrams_64.json` |
+| 算事・梅花 | `scripts/yijing/meihua.py`（預設時間起卦＝系統現在；亦可 `--numbers`／`--random`） | **先讀 `yijing/questioning.md`**；`yijing/meihua.md` |
 | 合盤／合婚 | 各跑兩份排盤 → `scripts/hepan_check.py` | `methods/hepan_ni.md`；夫妻星 `knowledge/fuqi_stars.md` |
 | 擇日 | `scripts/zeri_pick.py`（通書→個人→紫微三層掃描） | `methods/zeri.md` |
 | 陽宅風水 | 轉 `fengshui.skill`（本 skill 不含） | — |
 
-> **起卦鐵則**：問題不明確先引導，勿急起卦（`yijing/questioning.md`）；一次只問一件事、記實際起卦時間。
+> **起卦鐵則**：問題不明確先引導，勿急起卦（`yijing/questioning.md`）；一次只問一件事。**時間預設系統現在，不用問使用者**；只有他提供實際起卦時刻才用 `--time`。
 > **紫微流派**：南派（三合）為體、北派（四化）為用、飛星細節僅參考（`schools/ni_mind.md`）。
 
 ## 命令
@@ -56,8 +56,8 @@ $VENV scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male
 $VENV scripts/cast.py --calendar lunar --date 1990-07-28 --time 06:30 --city 台北 --gender male  # 農曆出生 (閏月加 --leap)
 $VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026 --format json
 ./scripts/ziwei_full.sh --date 1990-08-18 --hour 卯 --gender male --at 2026-06-15 --format json
-$VENV scripts/yijing/divine.py --random --time "2026-08-01 10:30"        # 六爻
-$VENV scripts/yijing/meihua.py --time "2026-08-01 10:30"                 # 梅花
+$VENV scripts/yijing/divine.py --random          # 六爻 (時間=系統現在; --time 指定實際起卦時刻)
+$VENV scripts/yijing/meihua.py                   # 梅花 (預設時間起卦=系統現在)
 $VENV scripts/hepan_check.py --a-bazi A.json --a-ziwei Az.json --b-bazi B.json --b-ziwei Bz.json --format json
 $VENV scripts/zeri_pick.py --matter 嫁娶 --from 2026-10-01 --to 2026-12-31 --bazi A.json --ziwei Az.json --top 10
 ```

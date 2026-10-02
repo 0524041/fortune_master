@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """梅花易數起卦 (時間起卦 / 數字起卦 / 隨機). Deterministic, 不心算.
-依賴 lunar_python (共用本 skill venv). 卦名/五行表自 scripts/yijing/liuyao_core.py 重用.
+依賴: 內嵌 lunar_python (scripts/vendor, 零安裝). 卦名/五行表自 liuyao_core.py 重用.
 
 用法:
-  meihua.py --time "2026-08-01 10:30"        # 時間起卦 (公曆, 內部轉農曆)
+  meihua.py                                   # 預設: 以系統現在時間起卦
+  meihua.py --time "2026-08-01 10:30"         # 指定起卦時刻 (使用者提供)
   meihua.py --numbers 17 23                   # 數字起卦 (兩數)
   meihua.py --numbers 17 23 5                 # 數字起卦 (三數: 上/下/動)
   meihua.py --random                          # 隨機起卦
-  meihua.py --time "..." --json               # 結構化輸出
+  meihua.py --json                            # 結構化輸出
 """
 import argparse
 import json
@@ -134,22 +135,29 @@ def parse_time(s: str) -> datetime:
 
 
 def main():
-    ap = argparse.ArgumentParser(description='梅花易數起卦')
-    ap.add_argument('--time', type=parse_time, help='時間起卦 (公曆 YYYY-MM-DD HH:MM)')
+    ap = argparse.ArgumentParser(description='梅花易數起卦 (預設: 以系統現在時間起卦)')
+    ap.add_argument('--time', nargs='?', const='now', default=None,
+                    help='時間起卦；可給 YYYY-MM-DD HH:MM，或省略值=系統現在')
     ap.add_argument('--numbers', nargs='+', type=int, help='數字起卦 (兩數或三數)')
     ap.add_argument('--random', action='store_true', help='隨機起卦')
     ap.add_argument('--text', action='store_true')
     ap.add_argument('--json', action='store_true')
     ap.add_argument('--both', action='store_true')
     a = ap.parse_args()
-    n = sum(bool(x) for x in [a.time, a.numbers, a.random])
-    if n != 1:
-        print('錯誤：--time / --numbers / --random 需擇一', file=sys.stderr)
+    if a.numbers and a.random:
+        print('錯誤：--numbers 與 --random 不能同時使用', file=sys.stderr)
         sys.exit(1)
     if a.numbers and len(a.numbers) not in (2, 3):
         print('錯誤：--numbers 需 2 或 3 個整數', file=sys.stderr)
         sys.exit(1)
-    cast = from_time(a.time) if a.time else (from_numbers(a.numbers) if a.numbers else from_random())
+    if a.numbers:
+        cast = from_numbers(a.numbers)
+    elif a.random:
+        cast = from_random()
+    else:
+        # 預設: 以系統現在時間起卦 (現在問=現在起卦); --time 值為使用者提供的實際起卦時刻
+        dt = datetime.now() if a.time in (None, 'now') else parse_time(a.time)
+        cast = from_time(dt)
     d = build(cast)
     want_text = a.text or a.both or not (a.json or a.both)
     if want_text:

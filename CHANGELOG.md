@@ -2,6 +2,12 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.4.1
+
+- 六爻／梅花起卦**時間預設系統現在**（現在問＝現在起卦），不再要求使用者先給時間；`--time` 保留給「使用者提供實際起卦時刻」。
+- `meihua.py` 無參數即時間起卦（系統現在）；`divine.py` 本已預設系統現在。
+- 文件（SKILL.md / workflow / questioning）同步。
+
 ## v0.4.0
 
 - **零安裝**：內嵌 `scripts/vendor/lunar_python`（純 Python、MIT、1.0M）與 `scripts/ziwei_full.bundle.mjs`（esbuild 打包 iztro/lunar-javascript、MIT、~880K）。**執行期只需系統 `python3` + `node`，免 pip/npm/venv。**

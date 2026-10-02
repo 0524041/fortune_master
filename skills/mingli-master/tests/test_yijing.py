@@ -66,7 +66,21 @@ def test_meihua_deterministic():
     assert json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)
 
 
-def test_meihua_requires_one_method():
-    r = subprocess.run([VENV_PY, str(YJ / "meihua.py"), "--json"],
-                       capture_output=True, text=True)
-    assert r.returncode != 0 and "擇一" in r.stderr
+def test_meihua_defaults_to_now_time():
+    """無參數 → 預設以系統現在時間起卦 (不再要求使用者先給時間)."""
+    d = run("meihua.py", "--json")
+    assert d["method"] == "時間起卦"
+
+
+def test_meihua_conflicting_methods():
+    """--numbers 與 --random 同時給 → 報錯."""
+    r = subprocess.run([VENV_PY, str(YJ / "meihua.py"), "--numbers", "1", "2",
+                        "--random", "--json"], capture_output=True, text=True)
+    assert r.returncode != 0 and "不能同時" in r.stderr
+
+
+def test_divine_defaults_to_now():
+    """六爻無參數 → 隨機起卦 + 系統現在時間."""
+    d = run("divine.py", "--json")
+    assert d.get("benguaming")
+    assert d.get("time")

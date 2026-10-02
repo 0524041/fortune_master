@@ -46,7 +46,8 @@ def main():
     parser.add_argument('--coins', nargs='+', type=int, choices=[0, 1, 2, 3],
                         help='六次背面數量 (初爻→上爻)，省略則隨機')
     parser.add_argument('--random', action='store_true', help='電腦隨機起卦')
-    parser.add_argument('--time', type=parse_time, help='起卦時間 (預設現在)')
+    parser.add_argument('--time', nargs='?', const='now', default=None,
+                        help='起卦時間 (省略=系統現在; 使用者提供實際起卦時刻才給值)')
     parser.add_argument('--text', action='store_true', help='輸出固定文字格式 (預設)')
     parser.add_argument('--json', action='store_true', help='輸出結構化 JSON')
     parser.add_argument('--both', action='store_true', help='同時輸出文字與 JSON')
@@ -61,7 +62,7 @@ def main():
         print('錯誤：--coins 需要剛好 6 個數字 (初爻→上爻)', file=sys.stderr)
         sys.exit(1)
 
-    dt = args.time or datetime.now()
+    dt = datetime.now() if args.time in (None, 'now') else parse_time(args.time)
     chart = LiuYaoChart(dt, coins)
 
     want_text = args.text or args.both or not (args.json or args.both)

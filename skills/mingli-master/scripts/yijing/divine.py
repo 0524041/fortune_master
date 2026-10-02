@@ -27,6 +27,7 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "vendor"))  # 內嵌 lunar_python (零安裝)
 from liuyao_core import LiuYaoChart, toss_coins  # noqa: E402
 
 

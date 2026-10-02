@@ -9,6 +9,7 @@ import argparse, json, sys
 from datetime import datetime, timedelta
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent / "vendor"))  # 內嵌 lunar_python (零安裝)
 from time_correct import true_solar
 from lunar_python import Lunar, Solar
 from lunar_python.util import LunarUtil

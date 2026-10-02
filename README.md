@@ -21,16 +21,21 @@ git clone git@github.com:0524041/fortune_master.git
 REPO="$PWD/fortune_master"
 ```
 
-### 安裝依賴（所有 agent 都要，只需一次）
+### 依賴（零安裝）
 
-> **安裝 skill／外掛只會放檔案，不會自動裝依賴**（Claude/Codex 外掛沒有 install-time 腳本；hooks 是 session 生命週期、非安裝）。第一次使用前**必須手動跑一次**：
+依賴**已內嵌在 repo**（`scripts/vendor/lunar_python` 純 Python ＋ `scripts/ziwei_full.bundle.mjs` 單一 JS），**不需 pip / npm / venv**。只要系統有：
+
+- `python3`（八字/六爻/梅花/擇日）
+- `node` (>=18)（紫微）
+
+檢查：
 
 ```bash
-bash "$REPO/skills/mingli-master/scripts/check_env.sh"   # 先檢查環境（唯讀，列出缺什麼）
-bash "$REPO/skills/mingli-master/scripts/setup.sh"       # 安裝依賴（冪等，可重跑）
+bash "$REPO/skills/mingli-master/scripts/check_env.sh"   # 應顯示「環境就緒 ✅」
 ```
 
-硬性需求：`python3` 與 `node` (>=18)／`npm`。**缺 node 時 `setup.sh` 直接失敗**（紫微引擎必需）。完成後 `check_env.sh` 應顯示「環境就緒 ✅」。
+> 安裝 skill／外掛**只會放檔案**（沒有 install-time 腳本），但因為依賴已內嵌，**裝完即可用，不需再跑 setup**。
+> `scripts/setup.sh` 只給**開發者**重建內嵌依賴與 bundle 用（需 npm）。
 
 ### Claude Code
 
@@ -117,7 +122,7 @@ gemini skills list          # 確認列出 mingli-master
 完整說明見 [`skills/mingli-master/SKILL.md`](skills/mingli-master/SKILL.md)。常用：
 
 ```bash
-V=skills/mingli-master/scripts/.venv/bin/python
+V=python3   # 零安裝: 依賴已內嵌; 紫微走 ziwei_full.sh (bundle)
 
 # 雙盤（八字＋紫微）＋交叉檢查
 $V skills/mingli-master/scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male
@@ -142,7 +147,9 @@ fortune_master/
       ├─ SKILL.md                    # skill 入口（name/description/license/compatibility/metadata）
       ├─ references/                 # 知識與 SOP（按需讀）：schools/methods/knowledge/yijing/examples
       ├─ data/                       # 結構化表（干支/四化/神煞/調候/擇日規則/64卦/城市）
-      ├─ scripts/                    # 排盤：bazi_pai.py, ziwei_full.sh(+vendor), yijing/, hepan_check.py, zeri_pick.py, cast.py
+      ├─ scripts/                    # 排盤：bazi_pai.py, ziwei_full.sh(+bundle), yijing/, hepan_check.py, zeri_pick.py, cast.py
+      │  ├─ vendor/lunar_python/     # 內嵌曆法庫（純 Python, MIT）→ 免 venv/pip
+      │  └─ ziwei_full.bundle.mjs    # 內嵌紫微引擎（esbuild 打包 iztro, MIT）→ 免 npm
       └─ tests/                      # 回歸測試
 ```
 

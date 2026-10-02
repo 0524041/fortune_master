@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 DIR = Path(__file__).resolve().parent
-VENV = DIR / ".venv" / "bin" / "python"
+PY = sys.executable  # 用當前 Python 即可 (腳本自帶 vendor lunar_python, 免 venv)
 
 
 def run_json(cmd):
@@ -39,7 +39,7 @@ def main():
 
     loc = ["--city", a.city] if a.city else (["--lon", str(a.lon)] if a.lon is not None else [])
     cal = ["--calendar", a.calendar] + (["--leap"] if a.leap else [])
-    bcmd = [str(VENV), str(DIR / "bazi_pai.py"), "--date", a.date, "--time", a.time,
+    bcmd = [str(PY), str(DIR / "bazi_pai.py"), "--date", a.date, "--time", a.time,
             "--gender", a.gender, "--format", "json", *loc, *cal]
     if a.year:
         bcmd += ["--year", str(a.year)]

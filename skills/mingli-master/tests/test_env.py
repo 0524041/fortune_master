@@ -118,5 +118,49 @@ def test_check_env_passes_when_set_up():
                        capture_output=True, text=True)
     assert r.returncode == 0, r.stdout + r.stderr
     assert "環境就緒" in r.stdout
-    for tok in ("python3", "node", "npm", "lunar_python"):
+    for tok in ("python3", "node", "lunar_python"):
         assert tok in r.stdout, tok
+
+
+def test_vendor_lunar_python_present():
+    """零安裝: scripts/vendor/lunar_python 存在, 且可被『未安裝』的系統 python3 匯入."""
+    import shutil
+    import subprocess
+    vendor = SKILL / "scripts" / "vendor"
+    assert (vendor / "lunar_python").is_dir()
+    py = shutil.which("python3")
+    assert py, "找不到系統 python3"
+    code = f"import sys; sys.path.insert(0, {str(vendor)!r}); import lunar_python; print('ok')"
+    r = subprocess.run([py, "-c", code], capture_output=True, text=True)
+    assert r.returncode == 0 and "ok" in r.stdout, r.stderr
+
+
+def test_bazi_runs_on_system_python3():
+    """零安裝: 用系統 python3 (無 lunar_python 安裝) 跑八字應成功 (靠 vendor)."""
+    import shutil
+    import subprocess
+    import json
+    py = shutil.which("python3")
+    r = subprocess.run([py, str(SKILL / "scripts" / "bazi_pai.py"),
+                        "--date", "1990-08-18", "--time", "06:30", "--city", "台北",
+                        "--gender", "male", "--format", "json"],
+                       capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    d = json.loads(r.stdout)
+    assert [p["gan"] + p["zhi"] for p in d["pillars"]] == ["庚午", "甲申", "乙卯", "己卯"]
+
+
+def test_ziwei_bundle_runs_with_plain_node():
+    """零安裝: bundle 用純 node (無 NODE_PATH / node_modules) 應可跑."""
+    import os
+    import subprocess
+    import json
+    bundle = SKILL / "scripts" / "ziwei_full.bundle.mjs"
+    assert bundle.exists(), "缺 ziwei_full.bundle.mjs"
+    env = dict(os.environ)
+    env.pop("NODE_PATH", None)
+    r = subprocess.run(["node", str(bundle), "--date", "1990-08-18", "--hour", "卯",
+                        "--gender", "male", "--format", "json"],
+                       capture_output=True, text=True, env=env)
+    assert r.returncode == 0, r.stderr
+    assert json.loads(r.stdout)["hour"] == "卯"

@@ -2,6 +2,14 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.4.0
+
+- **零安裝**：內嵌 `scripts/vendor/lunar_python`（純 Python、MIT、1.0M）與 `scripts/ziwei_full.bundle.mjs`（esbuild 打包 iztro/lunar-javascript、MIT、~880K）。**執行期只需系統 `python3` + `node`，免 pip/npm/venv。**
+- 所有 Python 腳本改由 `scripts/vendor` 匯入 lunar_python；`cast.py` 改用當前 Python 直呼子工具。
+- `ziwei_full.sh` 優先跑預打包 bundle（純 `node`），找不到才退回 tsx（開發）。
+- `check_env.sh` 改檢查 python3／node／內嵌依賴；`setup.sh` 改為**開發用**（重建 vendor 與 bundle）。
+- 測試：新增零安裝驗證（系統 python3 跑八字、純 node 跑 bundle）；共 90 條。
+
 ## v0.3.0
 
 - 新增 `scripts/check_env.sh`：唯讀環境檢查（python3 / Node.js>=18 / npm / venv+lunar_python / node_modules），列出缺項並回傳退出碼。

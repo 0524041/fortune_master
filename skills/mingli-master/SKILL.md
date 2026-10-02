@@ -5,9 +5,9 @@ description: |
   觸發: 算命/命盤/排盤/八字/紫微/斗數/格局/用神/調候/身強弱/大運/流年/流月/流日/小限/神煞/合盤/合婚/感情婚姻/擇日/入宅/開業/動土/起卦/卜卦/算卦/解卦/占卜/六爻/金錢卦/文王卦/易經/梅花易數/卦象/感情/事業/財運/健康/考試/失物/農曆/國曆/時辰/真太陽時/時辰校正.
   陽宅風水走 fengshui.skill (本 skill 不含); 單事隨機占卜走本 skill 的六爻/梅花.
 license: MIT
-compatibility: 需 python3 與 Node.js>=18/npm（Node 為硬性需求）。首次使用前先跑 bash scripts/setup.sh 安裝依賴；用 bash scripts/check_env.sh 檢查是否就緒。
+compatibility: 零安裝。只需系統 python3 與 Node.js>=18；依賴 (lunar_python 與 iztro) 已內嵌於 scripts/vendor 與 ziwei_full.bundle.mjs，不需 pip/npm/venv。用 bash scripts/check_env.sh 檢查。
 metadata:
-  version: 0.3.0
+  version: 0.4.0
   author: willywu (0524041)
   repository: https://github.com/0524041/fortune_master
 ---
@@ -17,16 +17,15 @@ metadata:
 一句話：**命＝排盤（八字＋紫微交叉）；事＝起卦（六爻／梅花，隨機）；合盤、擇日另走。**
 全域決策樹與交叉驗證 SOP 見 `references/workflow.md`（動手前先讀）。
 
-## 環境（首次使用，必做）
+## 環境（零安裝）
 
-安裝 skill／外掛**只會放檔案，不會自動裝依賴**。第一次使用前先跑一次：
+依賴已**內嵌**（`scripts/vendor/lunar_python` 純 Python ＋ `scripts/ziwei_full.bundle.mjs` 單一 JS），**不需 pip / npm / venv**。只要系統有：
 
-```bash
-bash scripts/check_env.sh   # 先檢查（唯讀，列出缺什麼）
-bash scripts/setup.sh       # 安裝：Python venv（lunar_python pin）+ Node 依賴（紫微 iztro/tsx）
-```
+- `python3`（八字/六爻/梅花/擇日）
+- `node` >= 18（紫微）
 
-硬性需求：`python3` 與 `node`(>=18)／`npm`。**缺 node 時 `setup.sh` 直接失敗**（紫微引擎必需）。完成後 `check_env.sh` 應顯示「環境就緒 ✅」。
+檢查：`bash scripts/check_env.sh` → 應顯示「環境就緒 ✅」。
+（`scripts/setup.sh` 只給**開發者**重建內嵌依賴與 bundle 用，一般使用者不需執行。）
 
 ## 收料（一次問 1-2 項）
 
@@ -52,7 +51,7 @@ bash scripts/setup.sh       # 安裝：Python venv（lunar_python pin）+ Node �
 ## 命令
 
 ```bash
-VENV=./scripts/.venv/bin/python        # 首次: bash scripts/setup.sh (venv 已含 lunar_python, 供八字/六爻/梅花/擇日共用)
+VENV=python3   # 零安裝: 依賴已內嵌, 直接用系統 python3; 紫微走 ziwei_full.sh (bundle)
 $VENV scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --at 2026-06-15   # 雙盤+交叉檢查
 $VENV scripts/cast.py --calendar lunar --date 1990-07-28 --time 06:30 --city 台北 --gender male  # 農曆出生 (閏月加 --leap)
 $VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026 --format json

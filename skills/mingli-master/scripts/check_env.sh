@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# 環境檢查 (唯讀，不安裝任何東西). 全部就緒 exit 0；否則列出缺項並 exit 1.
+# 環境檢查 (唯讀). 零安裝: 只需系統 python3 與 node>=18; 依賴已內嵌.
 # 用法: bash scripts/check_env.sh
 set -uo pipefail
 SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VENV_PY="${SKILL_DIR}/scripts/.venv/bin/python"
-TSX="${SKILL_DIR}/scripts/node_modules/.bin/tsx"
+VENDOR="${SKILL_DIR}/scripts/vendor"
+BUNDLE="${SKILL_DIR}/scripts/ziwei_full.bundle.mjs"
 fail=0
 pass() { printf '  ✅ %s\n' "$1"; }
 miss() { printf '  ❌ %s → %s\n' "$1" "$2"; fail=1; }
@@ -21,30 +21,25 @@ NODE_MAJOR="$(node -v 2>/dev/null | sed -E 's/^v([0-9]+).*/\1/')"
 if [ -n "${NODE_MAJOR}" ] && [ "${NODE_MAJOR}" -ge 18 ] 2>/dev/null; then
     pass "node $(node -v) (>=18)"
 else
-    miss "Node.js >=18" "安裝 Node.js https://nodejs.org (紫微引擎必需)"
+    miss "Node.js >=18" "安裝 Node.js https://nodejs.org"
 fi
 
-if command -v npm >/dev/null 2>&1; then
-    pass "npm ($(npm -v 2>/dev/null))"
+if command -v python3 >/dev/null 2>&1 \
+   && python3 -c "import sys; sys.path.insert(0,'${VENDOR}'); import lunar_python" >/dev/null 2>&1; then
+    pass "內嵌 lunar_python (scripts/vendor)"
 else
-    miss "npm" "隨 Node.js 安裝"
+    miss "內嵌 lunar_python" "缺 scripts/vendor/lunar_python（重抓 repo 或跑 setup.sh）"
 fi
 
-if [ -x "${VENV_PY}" ] && "${VENV_PY}" -c 'import lunar_python' >/dev/null 2>&1; then
-    pass "Python venv + lunar_python"
+if [ -f "${BUNDLE}" ]; then
+    pass "紫微 bundle ($(du -h "$BUNDLE" | cut -f1))"
 else
-    miss "Python venv / lunar_python" "跑 bash scripts/setup.sh"
-fi
-
-if [ -x "${TSX}" ]; then
-    pass "Node 依賴 (iztro / tsx)"
-else
-    miss "Node 依賴 iztro / tsx" "跑 bash scripts/setup.sh"
+    miss "紫微 bundle" "缺 scripts/ziwei_full.bundle.mjs（跑 setup.sh 重建）"
 fi
 
 if [ "${fail}" -eq 0 ]; then
-    echo "==> 環境就緒 ✅"
+    echo "==> 環境就緒 ✅（零安裝：無需 pip / npm / venv）"
 else
-    echo "==> 尚未就緒，請修上方項目（安裝: bash scripts/setup.sh）❌"
+    echo "==> 尚未就緒 ❌"
 fi
 exit "${fail}"

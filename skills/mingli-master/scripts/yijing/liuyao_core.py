@@ -13,8 +13,10 @@ from datetime import datetime
 from pathlib import Path
 import json
 import random
+import sys
 from typing import List, Dict, Any, Optional
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "vendor"))  # 內嵌 lunar_python (零安裝)
 from lunar_python import Lunar, Solar
 
 # ========== 基礎數據 ==========

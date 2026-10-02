@@ -1,0 +1,4 @@
+# Node 依賴由 scripts/setup.sh 的 npm ci 還原；package-lock.json 入版控
+node_modules/
+
+.venv/

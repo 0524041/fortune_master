@@ -1,0 +1,357 @@
+{
+  "input": {
+    "city": "台南",
+    "lon": 120.19,
+    "eot_min": -9.16,
+    "lon_corr_min": 0.76,
+    "total_corr_min": -8.4,
+    "input": "1992-03-15 14:00",
+    "true_solar": "1992-03-15 13:51"
+  },
+  "warn": "",
+  "gender": "female",
+  "pillars": [
+    {
+      "label": "年柱",
+      "gan": "壬",
+      "zhi": "申",
+      "shishen": "食神",
+      "shishen_zhi": [
+        "比肩",
+        "食神",
+        "偏印"
+      ],
+      "hidden": [
+        "庚",
+        "壬",
+        "戊"
+      ],
+      "hidden_shishen": [
+        "比肩",
+        "食神",
+        "偏印"
+      ],
+      "nayin": "剑锋金",
+      "dishi": "临官",
+      "xunkong": "戌亥"
+    },
+    {
+      "label": "月柱",
+      "gan": "癸",
+      "zhi": "卯",
+      "shishen": "伤官",
+      "shishen_zhi": [
+        "正财"
+      ],
+      "hidden": [
+        "乙"
+      ],
+      "hidden_shishen": [
+        "正财"
+      ],
+      "nayin": "金箔金",
+      "dishi": "胎",
+      "xunkong": "辰巳"
+    },
+    {
+      "label": "日柱",
+      "gan": "庚",
+      "zhi": "寅",
+      "shishen": "日主",
+      "shishen_zhi": [
+        "偏财",
+        "七杀",
+        "偏印"
+      ],
+      "hidden": [
+        "甲",
+        "丙",
+        "戊"
+      ],
+      "hidden_shishen": [
+        "偏财",
+        "七杀",
+        "偏印"
+      ],
+      "nayin": "松柏木",
+      "dishi": "绝",
+      "xunkong": "午未"
+    },
+    {
+      "label": "時柱",
+      "gan": "癸",
+      "zhi": "未",
+      "shishen": "伤官",
+      "shishen_zhi": [
+        "正印",
+        "正官",
+        "正财"
+      ],
+      "hidden": [
+        "己",
+        "丁",
+        "乙"
+      ],
+      "hidden_shishen": [
+        "正印",
+        "正官",
+        "正财"
+      ],
+      "nayin": "杨柳木",
+      "dishi": "冠带",
+      "xunkong": "申酉"
+    }
+  ],
+  "day_master": "庚金",
+  "wuxing_score": {
+    "木": 17,
+    "火": 6,
+    "土": 8,
+    "金": 16,
+    "水": 33
+  },
+  "day_strength": {
+    "score": -42,
+    "level": "身弱",
+    "xi": [
+      "比劫",
+      "印"
+    ],
+    "ji": [
+      "官殺",
+      "食傷",
+      "財"
+    ],
+    "rule": "同黨+印−官殺財食傷, 天干10/藏干6-3-1, ±5分界"
+  },
+  "geju": {
+    "name": "正財格",
+    "shishen": "正财",
+    "month_zhi": "卯",
+    "source": "本氣(不透)",
+    "evidence": "月令卯藏乙, 取本氣(不透)干乙為正财",
+    "breaking": []
+  },
+  "yongshen": {
+    "method": "扶抑為主(身強弱xi/ji), 調候為輔(窮通寶鑑表)",
+    "xi": [
+      "比劫",
+      "印"
+    ],
+    "ji": [
+      "官殺",
+      "食傷",
+      "財"
+    ],
+    "tiaohou": {
+      "primary": "丁",
+      "full": [
+        "丁",
+        "甲",
+        "庚",
+        "丙"
+      ],
+      "note": "專用丁火，借甲引丁，用庚劈甲；無丁用丙",
+      "source": "窮通寶鑑調候用神表",
+      "key": "庚卯"
+    },
+    "primary": "比劫"
+  },
+  "shensha": {
+    "found": [
+      {
+        "name": "天乙貴人",
+        "basis": "日干庚",
+        "target": [
+          "丑",
+          "未"
+        ],
+        "at": [
+          "時"
+        ]
+      },
+      {
+        "name": "祿神",
+        "basis": "日干庚",
+        "target": [
+          "申"
+        ],
+        "at": [
+          "年"
+        ]
+      },
+      {
+        "name": "驛馬",
+        "basis": "年支申",
+        "target": [
+          "寅"
+        ],
+        "at": [
+          "日"
+        ]
+      },
+      {
+        "name": "桃花",
+        "basis": "日支寅",
+        "target": [
+          "卯"
+        ],
+        "at": [
+          "月"
+        ]
+      },
+      {
+        "name": "驛馬",
+        "basis": "日支寅",
+        "target": [
+          "申"
+        ],
+        "at": [
+          "年"
+        ]
+      },
+      {
+        "name": "紅鸞",
+        "basis": "年支申",
+        "target": [
+          "未"
+        ],
+        "at": [
+          "時"
+        ]
+      },
+      {
+        "name": "寡宿",
+        "basis": "年支申",
+        "target": [
+          "未"
+        ],
+        "at": [
+          "時"
+        ]
+      }
+    ],
+    "note": "神煞為傳統參考, 三合派不主斷; at 指該支落於哪柱"
+  },
+  "extras": {
+    "taiyuan": {
+      "gan_zhi": "甲午",
+      "nayin": "沙中金"
+    },
+    "taixi": {
+      "gan_zhi": "乙亥",
+      "nayin": "山头火"
+    },
+    "minggong": {
+      "gan_zhi": "丁未",
+      "nayin": "天河水"
+    },
+    "shengong": {
+      "gan_zhi": "辛亥",
+      "nayin": "钗钏金"
+    }
+  },
+  "relations": [
+    "寅申六沖"
+  ],
+  "dayun": {
+    "direction": "逆",
+    "start_age": 4,
+    "start_years": 3,
+    "start_solar": "1995-07-05",
+    "base_jieqi": "惊蛰",
+    "rule": "起運數至節(非中氣), 3天=1年, 干支月柱順逆推",
+    "pillars": [
+      {
+        "step": 1,
+        "gan_zhi": "壬寅",
+        "age": "4-13",
+        "years": "1995-2004",
+        "start_age": 4,
+        "xunkong": "辰巳"
+      },
+      {
+        "step": 2,
+        "gan_zhi": "辛丑",
+        "age": "14-23",
+        "years": "2005-2014",
+        "start_age": 14,
+        "xunkong": "辰巳"
+      },
+      {
+        "step": 3,
+        "gan_zhi": "庚子",
+        "age": "24-33",
+        "years": "2015-2024",
+        "start_age": 24,
+        "xunkong": "辰巳"
+      },
+      {
+        "step": 4,
+        "gan_zhi": "己亥",
+        "age": "34-43",
+        "years": "2025-2034",
+        "start_age": 34,
+        "xunkong": "辰巳"
+      },
+      {
+        "step": 5,
+        "gan_zhi": "戊戌",
+        "age": "44-53",
+        "years": "2035-2044",
+        "start_age": 44,
+        "xunkong": "辰巳"
+      },
+      {
+        "step": 6,
+        "gan_zhi": "丁酉",
+        "age": "54-63",
+        "years": "2045-2054",
+        "start_age": 54,
+        "xunkong": "辰巳"
+      },
+      {
+        "step": 7,
+        "gan_zhi": "丙申",
+        "age": "64-73",
+        "years": "2055-2064",
+        "start_age": 64,
+        "xunkong": "辰巳"
+      },
+      {
+        "step": 8,
+        "gan_zhi": "乙未",
+        "age": "74-83",
+        "years": "2065-2074",
+        "start_age": 74,
+        "xunkong": "辰巳"
+      }
+    ]
+  },
+  "engine": "lunar_python+true_solar(EoT近似,誤差<1分)",
+  "verification": {
+    "checks": {
+      "true_solar_reversible": {
+        "ok": true,
+        "back_min": 0.6
+      },
+      "hour_branch_consistent": {
+        "ok": true,
+        "expected": "未",
+        "got": "未"
+      },
+      "dayun_jieqi_between": {
+        "ok": true,
+        "jie": "惊蛰",
+        "gap_days": 9.92
+      },
+      "nayin_table": {
+        "ok": true,
+        "bad": []
+      },
+      "all_pass": true
+    },
+    "warnings": [],
+    "all_pass": true
+  }
+}

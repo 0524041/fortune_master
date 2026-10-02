@@ -1,0 +1,11 @@
+# 執行環境（由 scripts/setup.sh 還原，不入版控）
+.venv/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node 依賴（由 npm ci 還原；package-lock.json 要入版控以確保可重現）
+node_modules/
+
+# OS
+.DS_Store

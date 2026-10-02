@@ -1,0 +1,5 @@
+【定盤】
+- 八字：bazi_pai.py 戊寅 甲寅 壬辰 庚戌，日主壬水
+- 紫微：ziwei_full.sh 命宮丙辰太陽旺，只認patterns[] required
+- 夫妻按 fuqi_stars 查表，要我跑 hepan_check.py 合盤，或走 zeri_pick.py 挑日子
+- 有疑才起 divine.py，JSON 直接抄

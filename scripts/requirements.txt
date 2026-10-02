@@ -1,0 +1,4 @@
+# 與六爻 skill 對齊版本 (節氣/干支一致才不污染交叉驗證). 升級須同步改 tests/test_env.py PINNED
+# 並重跑全套件 + 與 liuyao divine 輸出抽查比對.
+lunar_python==1.4.8
+pytest

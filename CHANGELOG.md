@@ -2,6 +2,11 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.2.1
+
+- README 補各 agent 的安裝設定（Claude Code 外掛／skill、OpenCode、Codex、Pi、Gemini CLI、其他 agentskills.io 工具），附驗證方法。
+- 驗證：`claude plugin validate`（marketplace 與 plugin 皆 passed）；`gemini skills list` 顯示 `mingli-master [Enabled]`；frontmatter 符合 OpenCode/Pi 限制（name 合規、description 286 字 ≤ 1024）。
+
 ## v0.2.0
 
 - 發佈包裝：加入 Claude Code 外掛市集（`.claude-plugin/marketplace.json`）與外掛 manifest（`skills/mingli-master/.claude-plugin/plugin.json`），同時相容 Agent Skills 開放標準與 OpenCode 等。

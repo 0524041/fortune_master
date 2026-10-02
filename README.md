@@ -14,42 +14,87 @@
 
 ## 安裝
 
-本 skill 同時是 **Claude Code 外掛**（透過 `.claude-plugin/`）與**標準 Agent Skill**（`SKILL.md`）。挑一種：
+本 skill 同時是 **Claude Code 外掛**（`.claude-plugin/`）與**標準 Agent Skill**（`SKILL.md`，符合 [agentskills.io](https://agentskills.io) 開放標準）。先 clone，再選你的 agent：
 
-### A. Claude Code 外掛（建議，可自動更新）
+```bash
+git clone git@github.com:0524041/fortune_master.git
+REPO="$PWD/fortune_master"
+```
 
-在 Claude Code 內：
+### 安裝依賴（所有 agent 都要，只需一次）
+
+```bash
+bash "$REPO/skills/mingli-master/scripts/setup.sh"
+```
+
+需要 `python3` 與 `node` (>=18)／`npm`。缺 node 時紫微不可用，其餘（八字/六爻/梅花/擇日）仍可跑。
+
+### Claude Code
+
+**外掛（建議，可自動更新）**——在 Claude Code 內：
 
 ```
 /plugin marketplace add 0524041/fortune_master
 /plugin install mingli-master@fortune-master
 ```
 
-安裝後 skill 以 `/mingli-master:...` 命名空間提供。
-
-### B. 當成一般 Agent Skill（Claude／OpenCode／Codex…）
-
-把 `skills/mingli-master/` 連到該工具的 skills 目錄即可（各工具路徑不同）：
+**或當個人／專案 skill**（不透過外掛）：
 
 ```bash
-REPO="$PWD/fortune_master"          # clone 後的位置
-# Claude Code / Claude 個人 skill
-ln -s "$REPO/skills/mingli-master" ~/.claude/skills/mingli-master
-# OpenCode
-ln -s "$REPO/skills/mingli-master" ~/.config/opencode/skills/mingli-master
-# Codex 及採 .agents/skills 慣例的工具
-ln -s "$REPO/skills/mingli-master" ~/.agents/skills/mingli-master
+ln -s "$REPO/skills/mingli-master" ~/.claude/skills/mingli-master      # 個人（所有專案）
+# 專案內：ln -s "$REPO/skills/mingli-master" .claude/skills/mingli-master
 ```
 
-> 有些工具也讀**專案內**的 `.claude/skills/` 或 `.agents/skills/`；把上面的連結放進你正在工作的 repo 即可。
-
-### 安裝依賴（兩種方式都要）
+### OpenCode
 
 ```bash
-bash skills/mingli-master/scripts/setup.sh
+ln -s "$REPO/skills/mingli-master" ~/.config/opencode/skills/mingli-master   # 全域
+# 專案內：.opencode/skills/mingli-master
 ```
 
-需要 `python3` 與 `node` (>=18)／`npm`。缺 node 時紫微不可用，其餘（八字/六爻/梅花/擇日）仍可跑。
+OpenCode 也會讀 `~/.claude/skills/` 與 `~/.agents/skills/` 這兩個相容別名。
+
+### Codex（OpenAI）
+
+```bash
+ln -s "$REPO/skills/mingli-master" ~/.agents/skills/mingli-master            # 使用者層
+# 專案內：.agents/skills/mingli-master（Codex 會由 CWD 往上掃到 repo 根）
+```
+
+Codex 支援 symlink；用 `$mingli-master` 或 `/skills` 呼叫。可選加 `agents/openai.yaml` 設定 UI 與是否允許自動觸發。
+
+### Pi
+
+```bash
+ln -s "$REPO/skills/mingli-master" ~/.agents/skills/mingli-master            # 或專案內 .agents/skills/
+# 或直接用旗標載入：pi --skill "$REPO/skills/mingli-master"
+```
+
+用 `/skill:mingli-master` 呼叫。
+
+### Gemini CLI
+
+```bash
+ln -s "$REPO/skills/mingli-master" ~/.gemini/skills/mingli-master            # 使用者層
+# 專案內：.gemini/skills/mingli-master
+```
+
+或直接安裝：
+
+```bash
+gemini skills install https://github.com/0524041/fortune_master.git --path skills/mingli-master --consent
+gemini skills list          # 確認列出 mingli-master
+```
+
+### 其他 Agent Skills 相容工具
+
+任何實作 [agentskills.io](https://agentskills.io) 的工具（Cursor、Goose、Roo Code、OpenHands…），只要把它指向 `skills/mingli-master/`，或連到該工具的 skills 目錄即可；多數也吃 `.agents/skills/`（專案）與 `~/.agents/skills/`（使用者）。
+
+### 驗證
+
+- **Claude 外掛**：`claude plugin validate .` 與 `claude plugin validate ./skills/mingli-master` → 皆 `Validation passed`。
+- **Gemini**：`gemini skills list` → 應列出 `mingli-master [Enabled]`。
+- **通則**：`SKILL.md` 的 `name` 須等於資料夾名並符合 `^[a-z0-9]+(-[a-z0-9]+)*$`；`description` ≤ 1024 字（本 skill 符合，286 字）。
 
 ## 使用
 
@@ -95,7 +140,11 @@ scripts/.venv/bin/python -m pytest -q
 
 ## 版本
 
-見 `VERSION` 與 git tag（語意化版號，如 `v0.1.0`）。Agent Skill 規格本身無 version 欄位，版本以 tag 管理。
+- 頂層 `VERSION` 檔與 **git tag**（語意化版號，如 `v0.2.1`）。
+- Skill 本身：`SKILL.md` 的 `metadata.version`（Agent Skills 規格無頂層 `version` 欄位，版本放 `metadata`）。
+- 外掛：`skills/mingli-master/.claude-plugin/plugin.json` 的 `version`。
+
+發新版：改 `VERSION` 與 `CHANGELOG.md`、同步上述版本欄位 → `git commit` → `git tag -a vX.Y.Z` → `git push --tags`。
 
 ## 授權
 

@@ -23,11 +23,14 @@ REPO="$PWD/fortune_master"
 
 ### 安裝依賴（所有 agent 都要，只需一次）
 
+> **安裝 skill／外掛只會放檔案，不會自動裝依賴**（Claude/Codex 外掛沒有 install-time 腳本；hooks 是 session 生命週期、非安裝）。第一次使用前**必須手動跑一次**：
+
 ```bash
-bash "$REPO/skills/mingli-master/scripts/setup.sh"
+bash "$REPO/skills/mingli-master/scripts/check_env.sh"   # 先檢查環境（唯讀，列出缺什麼）
+bash "$REPO/skills/mingli-master/scripts/setup.sh"       # 安裝依賴（冪等，可重跑）
 ```
 
-需要 `python3` 與 `node` (>=18)／`npm`。缺 node 時紫微不可用，其餘（八字/六爻/梅花/擇日）仍可跑。
+硬性需求：`python3` 與 `node` (>=18)／`npm`。**缺 node 時 `setup.sh` 直接失敗**（紫微引擎必需）。完成後 `check_env.sh` 應顯示「環境就緒 ✅」。
 
 ### Claude Code
 

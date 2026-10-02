@@ -5,9 +5,9 @@ description: |
   觸發: 算命/命盤/排盤/八字/紫微/斗數/格局/用神/調候/身強弱/大運/流年/流月/流日/小限/神煞/合盤/合婚/感情婚姻/擇日/入宅/開業/動土/起卦/卜卦/算卦/解卦/占卜/六爻/金錢卦/文王卦/易經/梅花易數/卦象/感情/事業/財運/健康/考試/失物/農曆/國曆/時辰/真太陽時/時辰校正.
   陽宅風水走 fengshui.skill (本 skill 不含); 單事隨機占卜走本 skill 的六爻/梅花.
 license: MIT
-compatibility: 需 python3 與 Node.js>=18/npm；首次執行 bash scripts/setup.sh 安裝依賴 (lunar_python 與 iztro)。缺 node 時紫微不可用，其餘（八字/六爻/梅花/擇日）仍可跑。
+compatibility: 需 python3 與 Node.js>=18/npm（Node 為硬性需求）。首次使用前先跑 bash scripts/setup.sh 安裝依賴；用 bash scripts/check_env.sh 檢查是否就緒。
 metadata:
-  version: 0.2.2
+  version: 0.3.0
   author: willywu (0524041)
   repository: https://github.com/0524041/fortune_master
 ---
@@ -17,12 +17,16 @@ metadata:
 一句話：**命＝排盤（八字＋紫微交叉）；事＝起卦（六爻／梅花，隨機）；合盤、擇日另走。**
 全域決策樹與交叉驗證 SOP 見 `references/workflow.md`（動手前先讀）。
 
-## 環境（首次使用）
+## 環境（首次使用，必做）
+
+安裝 skill／外掛**只會放檔案，不會自動裝依賴**。第一次使用前先跑一次：
 
 ```bash
-bash scripts/setup.sh   # 建 Python venv（lunar_python pin 版）+ npm install Node 依賴（紫微引擎）
+bash scripts/check_env.sh   # 先檢查（唯讀，列出缺什麼）
+bash scripts/setup.sh       # 安裝：Python venv（lunar_python pin）+ Node 依賴（紫微 iztro/tsx）
 ```
-需要 `python3` 與 `node`(>=18)／`npm`。**缺 node 時紫微不可用**，其餘（八字/六爻/梅花/擇日）仍可跑。
+
+硬性需求：`python3` 與 `node`(>=18)／`npm`。**缺 node 時 `setup.sh` 直接失敗**（紫微引擎必需）。完成後 `check_env.sh` 應顯示「環境就緒 ✅」。
 
 ## 收料（一次問 1-2 項）
 

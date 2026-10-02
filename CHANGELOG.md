@@ -2,6 +2,14 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.3.0
+
+- 新增 `scripts/check_env.sh`：唯讀環境檢查（python3 / Node.js>=18 / npm / venv+lunar_python / node_modules），列出缺項並回傳退出碼。
+- `scripts/setup.sh` 強化：硬性檢查 python3 與 Node.js>=18/npm（缺 node 直接失敗）；冪等（已裝則跳過）；結尾自動跑 `check_env.sh` 驗證。
+- `scripts/ziwei_full.sh`：缺 `node_modules` 時給明確指引（不自動安裝）。
+- SKILL.md / README 明示：**安裝外掛不會自動裝依賴**，首次使用前必須跑 `setup.sh`。
+- 測試：新增 `test_check_env_passes_when_set_up`（共 87 條）。
+
 ## v0.2.2
 
 - README 補 Codex 外掛安裝（Codex 讀 `.claude-plugin/marketplace.json`）與本地來源的肥大快取注意事項。

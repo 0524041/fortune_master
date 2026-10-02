@@ -109,3 +109,14 @@ def test_output_lint_clean_passes():
                         "--format", "json"],
                        capture_output=True, text=True)
     assert r.returncode == 0, r.stdout
+
+
+def test_check_env_passes_when_set_up():
+    """環境檢查: 已就緒的機器須 exit 0 並顯示『環境就緒』."""
+    import subprocess
+    r = subprocess.run(["bash", str(SKILL / "scripts" / "check_env.sh")],
+                       capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "環境就緒" in r.stdout
+    for tok in ("python3", "node", "npm", "lunar_python"):
+        assert tok in r.stdout, tok

@@ -1,38 +1,51 @@
 #!/usr/bin/env bash
-# 命理 skill 環境安裝：建立自帶虛擬環境並安裝 pin 版依賴 (八字/六爻/梅花/擇日共用)
-# 用法: bash scripts/setup.sh   (在 skill 根目錄或任意目錄執行皆可)
+# 命理 skill 環境安裝：建立自帶虛擬環境並安裝 pin 版依賴
+#   八字/六爻/梅花/擇日 共用 Python venv (lunar_python) + 紫微 Node 引擎 (iztro/tsx)
+# 需 python3 與 Node.js>=18/npm（硬性）。冪等：已安裝的項目會跳過。
+# 用法: bash scripts/setup.sh
 set -euo pipefail
 
 SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENV_DIR="${SKILL_DIR}/scripts/.venv"
 PYTHON_BIN="${VENV_DIR}/bin/python"
 
-echo "==> 建立虛擬環境: ${VENV_DIR}"
-if [ ! -d "${VENV_DIR}" ]; then
+echo "==> 檢查前置需求 (硬性)"
+command -v python3 >/dev/null 2>&1 || { echo "❌ 需要 python3，請先安裝。" >&2; exit 2; }
+NODE_MAJOR="$(node -v 2>/dev/null | sed -E 's/^v([0-9]+).*/\1/')"
+if [ -z "${NODE_MAJOR}" ] || [ "${NODE_MAJOR}" -lt 18 ] 2>/dev/null; then
+    echo "❌ 需要 Node.js >=18（紫微引擎必需）。請安裝後重跑：https://nodejs.org" >&2
+    exit 2
+fi
+command -v npm >/dev/null 2>&1 || { echo "❌ 需要 npm（隨 Node.js 安裝）。" >&2; exit 2; }
+echo "   python3 / node $(node -v) / npm $(npm -v) OK"
+
+echo "==> Python 環境"
+if [ ! -x "${PYTHON_BIN}" ]; then
+    echo "   建立虛擬環境: ${VENV_DIR}"
     python3 -m venv "${VENV_DIR}"
 fi
+if ! "${PYTHON_BIN}" -c 'import lunar_python' >/dev/null 2>&1; then
+    echo "   安裝依賴 (scripts/requirements.txt)"
+    "${PYTHON_BIN}" -m pip install --quiet --upgrade pip
+    "${PYTHON_BIN}" -m pip install --quiet -r "${SKILL_DIR}/scripts/requirements.txt"
+else
+    echo "   lunar_python 已存在，跳過"
+fi
 
-echo "==> 安裝依賴 (見 scripts/requirements.txt)"
-"${PYTHON_BIN}" -m pip install --quiet --upgrade pip
-"${PYTHON_BIN}" -m pip install --quiet -r "${SKILL_DIR}/scripts/requirements.txt"
-
-echo "==> 驗證安裝"
-"${PYTHON_BIN}" -c "import lunar_python; print('lunar_python OK')"
-"${PYTHON_BIN}" -m pytest --version >/dev/null && echo "pytest OK"
-
-echo "==> 安裝 Node 依賴 (紫微引擎 iztro / lunar-javascript / tsx)"
-if command -v npm >/dev/null 2>&1; then
+echo "==> Node 環境 (紫微引擎)"
+if [ ! -x "${SKILL_DIR}/scripts/node_modules/.bin/tsx" ]; then
     if [ -f "${SKILL_DIR}/scripts/package-lock.json" ]; then
         ( cd "${SKILL_DIR}/scripts" && npm ci --silent )
     else
         ( cd "${SKILL_DIR}/scripts" && npm install --silent )
     fi
-    echo "   node deps OK ($(node -v 2>/dev/null || echo 'node?'))"
 else
-    echo "   ⚠ 找不到 npm：紫微排盤 (ziwei_full.sh) 需要 Node.js + npm。"
-    echo "     請安裝 Node.js (>=18) 後重跑本腳本；八字/六爻/梅花/擇日不受影響。"
+    echo "   node 依賴已存在，跳過"
 fi
 
-echo "==> 完成。使用方式："
-echo "    ${VENV_DIR}/bin/python ${SKILL_DIR}/scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male   # 雙盤"
-echo "    ${VENV_DIR}/bin/python ${SKILL_DIR}/scripts/yijing/meihua.py --time \"2026-08-01 10:30\"                      # 梅花"
+echo "==> 驗證"
+bash "${SKILL_DIR}/scripts/check_env.sh"
+
+echo "==> 完成。試跑："
+echo "    ${PYTHON_BIN} ${SKILL_DIR}/scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male"
+echo "    ${SKILL_DIR}/scripts/ziwei_full.sh --date 1990-08-18 --hour 卯 --gender male"

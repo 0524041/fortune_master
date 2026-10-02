@@ -6,5 +6,5 @@
 
 - 运行时只用此快照，不再跨目錄 import。
 - 上游有更新時，手动同步一次 + 重跑 `tests/test_ziwei_full.py` (格局 pin 會抓住漂移)。
-- `horoscope.ts` 為 **mingli 自建**（非上游 5 檔之一）：包裝 iztro `astrolabe.horoscope()` 出運限六層，見 `references/methods/ziwei_geju.md` 運限節。
+- `horoscope.ts` 為 **mingli 自建**（非上游 5 檔之一）：包裝 iztro `astrolabe.horoscope()` 出運限六層，見 `references/ask-person/ziwei.md` 運限節。
 - 知識引用 (`TIANJI_QUOTES`/古籍/`heming-knowledge`) 仍指向原 repo，僅供 LLM 閱讀。

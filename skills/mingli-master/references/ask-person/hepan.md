@@ -172,4 +172,4 @@
 8. **“如果你娶个太太是七杀入命，那你差不多毁了一半了，很累啊，草木皆兵。”**
 
 
-<!-- 夫妻宮14星斷語表已落地 references/knowledge/fuqi_stars.md (STAR_IN_FUQI_GU 全量+四化斷語), 合盤第二步查表用。源文件: ziwei-doushu/lib/ziwei/heming-knowledge.ts -->
+<!-- 夫妻宮14星斷語表已落地 references/ask-person/fuqi_stars.md (STAR_IN_FUQI_GU 全量+四化斷語), 合盤第二步查表用。源文件: ziwei-doushu/lib/ziwei/heming-knowledge.ts -->

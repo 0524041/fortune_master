@@ -1,78 +1,39 @@
 ---
 name: mingli-master
 description: |
-  命理大師總控. 多流派多功能：八字、紫微斗數、易經六爻、梅花易數，含合盤、擇日、流年運限、神煞調候。排盤算數全走腳本(不心算)，多法交叉驗證後鐵口直斷。
+  命理大師：問人（八字＋紫微交叉）與問事（六爻＋梅花交叉）兩軸。排盤算數全走腳本(不心算)，知識按需載入，多法交叉後白話直說。
   觸發: 算命/命盤/排盤/八字/紫微/斗數/格局/用神/調候/身強弱/大運/流年/流月/流日/小限/神煞/合盤/合婚/感情婚姻/擇日/入宅/開業/動土/起卦/卜卦/算卦/解卦/占卜/六爻/金錢卦/文王卦/易經/梅花易數/卦象/感情/事業/財運/健康/考試/失物/農曆/國曆/時辰/真太陽時/時辰校正.
-  陽宅風水走 fengshui.skill (本 skill 不含); 單事隨機占卜走本 skill 的六爻/梅花.
+  陽宅風水走 fengshui.skill (本 skill 不含).
 license: MIT
 compatibility: 零安裝。只需系統 python3 與 Node.js>=18；依賴 (lunar_python 與 iztro) 已內嵌於 scripts/vendor 與 ziwei_full.bundle.mjs，不需 pip/npm/venv。用 bash scripts/check_env.sh 檢查。
 metadata:
-  version: 0.4.2
+  version: 0.5.0
   author: willywu (0524041)
   repository: https://github.com/0524041/fortune_master
 ---
 
-# 命理大師 (總控：排盤算數歸腳本，知識解讀歸 references，多法交叉驗證)
+# 命理大師
 
-一句話：**命＝排盤（八字＋紫微交叉）；事＝起卦（六爻／梅花，隨機）；合盤、擇日另走。**
-全域決策樹與交叉驗證 SOP 見 `references/workflow.md`（動手前先讀）。
+## 主軸（唯一分流：問人 or 問事）
+
+- **問人（命理）**：問「這個人的方向」——性格、格局、大運、流年、合婚、擇日。**以命盤為準**（八字＋紫微交叉）。
+- **問事（占卜）**：問「這件事的走向」——成敗、時機、細節、尋物、官司。**以卦象為準**（六爻＋梅花，隨機起卦、一事一卦、事畢卦止）。
+- **誤用擋門**：別拿命盤算「明天這檔漲不漲」（那是問事）；別拿一卦算「我一輩子賺多少」（那是問人）。
+- 分類不明先問一句：「你要看**一生的命**，還是**一件具體的事**？」
+
+## 分流（只讀你這一軸）
+
+| 使用者在問 | 入口 | 引擎 |
+|---|---|---|
+| 人：命、運、合婚、擇日 | `references/ask-person/_index.md` | 八字／紫微／合盤／擇日 |
+| 事：成敗、時機、尋物、官司 | `references/ask-event/_index.md` | 六爻／梅花 |
 
 ## 環境（零安裝）
 
-依賴已**內嵌**（`scripts/vendor/lunar_python` 純 Python ＋ `scripts/ziwei_full.bundle.mjs` 單一 JS），**不需 pip / npm / venv**。只要系統有：
+`bash scripts/check_env.sh` → 應顯示「環境就緒 ✅」。python3（八字／六爻／梅花／擇日）、node>=18（紫微）；依賴已內嵌，免 pip／npm／venv。
 
-- `python3`（八字/六爻/梅花/擇日）
-- `node` >= 18（紫微）
+## 強約束（常駐，只放不能忘的）
 
-檢查：`bash scripts/check_env.sh` → 應顯示「環境就緒 ✅」。
-（`scripts/setup.sh` 只給**開發者**重建內嵌依賴與 bundle 用，一般使用者不需執行。）
-
-## 收料（一次問 1-2 項）
-
-出生**年月日時分、性別、出生城市**（或經度）。**曆制（國曆／農曆，閏月）未確認前不排盤**——先問清，再跑（`scripts/*` 支援 `--calendar lunar [--leap]`）。問事起卦**時間預設系統現在**（現在問＝現在起卦）；只有使用者提供他**實際起卦的時刻**才用 `--time`。缺資料就標「未驗」，不腦補。
-
-## 路由表
-
-| 意圖 | 跑什麼 | 按需讀 |
-|---|---|---|
-| 算命／看命盤 | `scripts/cast.py`（一次出八字＋紫微＋初步交叉檢查） | `methods/bazi_geju.md`、`methods/ziwei_geju.md`、`schools/ni_mind.md` |
-| 八字細節 | `scripts/bazi_pai.py`（真太陽時＋四柱＋納音/長生/十神支/旬空＋胎元命宮身宮＋身強弱＋格局/用神/神煞＋大運＋校驗；`--year` 出流年＋12流月） | `methods/bazi_geju.md`；調候 `knowledge/tiaohou.md` |
-| 紫微細節 | `scripts/ziwei_full.sh`（十二宮＋全量格局＋本命/大限/流年四化；引擎內嵌 `scripts/vendor/ziwei/`） | `methods/ziwei_geju.md`；單星 `knowledge/star_detail.md`；流派 `schools/ni_mind.md` |
-| 流年運限 | `scripts/ziwei_full.sh --at YYYY-MM-DD`（大限/小限/流年/流月/流日/流時六層） | `methods/ziwei_geju.md` 運限節 |
-| 財運／財富 | 財帛＋田宅＋官祿＋財星用神（`cast.py`／`bazi_pai.py` 交叉） | `methods/caiyun.md`；輸出套 `knowledge/pan_output.md` |
-| 算事・六爻 | 排盤 `scripts/yijing/divine.py`（時間預設系統現在；`--time` 指定實際起卦時刻；`--coins`/`--random` 起卦） | **先讀 `yijing/questioning.md`**；解卦 `yijing/interpretation.md`、`yijing/yongshen.md`；卦辭 `data/hexagrams_64.json` |
-| 算事・梅花 | `scripts/yijing/meihua.py`（預設時間起卦＝系統現在；亦可 `--numbers`／`--random`） | **先讀 `yijing/questioning.md`**；`yijing/meihua.md` |
-| 合盤／合婚 | 各跑兩份排盤 → `scripts/hepan_check.py` | `methods/hepan_ni.md`；夫妻星 `knowledge/fuqi_stars.md` |
-| 擇日 | `scripts/zeri_pick.py`（通書→個人→紫微三層掃描） | `methods/zeri.md` |
-| 陽宅風水 | 轉 `fengshui.skill`（本 skill 不含） | — |
-
-> **起卦鐵則**：問題不明確先引導，勿急起卦（`yijing/questioning.md`）；一次只問一件事。**時間預設系統現在，不用問使用者**；只有他提供實際起卦時刻才用 `--time`。
-> **紫微流派**：南派（三合）為體、北派（四化）為用、飛星細節僅參考（`schools/ni_mind.md`）。
-
-## 命令
-
-```bash
-VENV=python3   # 零安裝: 依賴已內嵌, 直接用系統 python3; 紫微走 ziwei_full.sh (bundle)
-$VENV scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --at 2026-06-15   # 雙盤+交叉檢查
-$VENV scripts/cast.py --calendar lunar --date 1990-07-28 --time 06:30 --city 台北 --gender male  # 農曆出生 (閏月加 --leap)
-$VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026 --format json
-./scripts/ziwei_full.sh --date 1990-08-18 --hour 卯 --gender male --at 2026-06-15 --format json
-$VENV scripts/yijing/divine.py --random          # 六爻 (時間=系統現在; --time 指定實際起卦時刻)
-$VENV scripts/yijing/meihua.py                   # 梅花 (預設時間起卦=系統現在)
-$VENV scripts/hepan_check.py --a-bazi A.json --a-ziwei Az.json --b-bazi B.json --b-ziwei Bz.json --format json
-$VENV scripts/zeri_pick.py --matter 嫁娶 --from 2026-10-01 --to 2026-12-31 --bazi A.json --ziwei Az.json --top 10
-```
-
-## 交叉驗證（鐵口的前提）
-
-定盤 → 命內 → 環境 → 事占，四步見 `references/workflow.md` 與 `methods/fuyan.md`：
-兩盤時支一致、`verification.checks` 全過、`warnings` 為空 → 高置信；八字用神調候與紫微格局四化同向 → 加權。
-衝突一律寫「矛盾未解」，寧可少斷。
-
-## 紅線（準確性）
-
-1. 數字照抄 JSON（年份用 `years`、調候用 `yongshen.tiaohou`）；格局名／卦名用程式判定的，不自創。
-2. 校驗未過或有 `warnings` 即標低置信；兩盤時支不一致退回重定盤。
-3. 不確定明說。腔調見 `knowledge/voice.md`，對外用語邊界見 `knowledge/output_style.md`。
-4. 命盤／流年輸出套 `knowledge/pan_output.md`：**結論先行、每句掛依據、必給應期與動作**；禁巴納姆（講了跟沒講一樣）。財運題見 `methods/caiyun.md`。
-5. 免責（「不構成投資建議」）**只用在六爻／梅花起卦問投資**；命盤／流年題不挾帶。
+1. 算數歸 script，**不心算**；數字、格局名、卦名、卦辭爻辭**照抄程式輸出**，不編造、不自創。
+2. 收料**曆制（國曆／農曆閏月）未確認不排盤**；校驗未過或有 `warnings` 標低置信；問事**一事一問**、起卦時間預設現在。
+3. **輸出品質統一**見 `references/shared/output-quality.md`（先直答、白話、少反轉、禁巴納姆）；交叉驗證見 `references/shared/verification.md`。各分支不重複寫。

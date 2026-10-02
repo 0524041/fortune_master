@@ -101,8 +101,10 @@ BITS_TO_BAGUA = {v: k for k, v in BAGUA_BITS.items()}
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 HEXAGRAMS_FILE = DATA_DIR / "hexagrams_64.json"
+YAOCI_FILE = DATA_DIR / "yaoci_64.json"
 
 _hexagram_cache: Optional[Dict[str, Dict]] = None
+_yaoci_cache: Optional[Dict[str, Dict]] = None
 
 
 def _load_hexagrams() -> Dict[str, Dict]:
@@ -142,6 +144,47 @@ _TRAD_NAME_BY_NUM = {
 def get_hexagram(name: str) -> Optional[Dict]:
     """依卦名取得卦象知識 (卦辭/象傳/諸事/愛情/事業/財運/建議/詳解)"""
     return _load_hexagrams().get(name)
+
+
+# 卦序 -> 傳統卦名 (上卦+下卦)，與 LIUSHISI_GUA 對應
+_NAME_TO_NUM = {v: k for k, v in _TRAD_NAME_BY_NUM.items()}
+
+
+def _load_yaoci() -> Dict[str, Dict]:
+    """載入六十四卦爻辭庫，以卦序號與傳統卦名 (如 風天小畜)、單名 (小畜) 為索引。
+    底本：《周易正義》武英殿十三經注疏本（中文維基文庫轉寫，逐卦鎖定 oldid）。
+    """
+    global _yaoci_cache
+    if _yaoci_cache is None:
+        with open(YAOCI_FILE, 'r', encoding='utf-8') as f:
+            items = json.load(f)
+        _yaoci_cache = {}
+        for idx, h in enumerate(items):
+            num = h.get('number', idx + 1)
+            _yaoci_cache[str(num)] = h
+            _yaoci_cache[h['name']] = h            # 風天小畜
+            if h.get('short'):
+                _yaoci_cache[h['short']] = h        # 小畜
+    return _yaoci_cache
+
+
+def get_yaoci(gua_name: str) -> Optional[Dict]:
+    """依卦名取得該卦全部爻辭 (底本《周易正義》); 另附 edition / source_url。"""
+    return _load_yaoci().get(gua_name) or _load_yaoci().get(str(_NAME_TO_NUM.get(gua_name, '')))
+
+
+def get_yao_text(gua_name: str, position: int) -> Optional[Dict]:
+    """取某卦第 position 爻 (1=初爻..6=上爻) 的爻辭 {'pos','text'}; 無資料回 None。"""
+    entry = get_yaoci(gua_name)
+    if not entry or not (1 <= position <= 6):
+        return None
+    return entry['yao'][position - 1]
+
+
+def get_yong_text(gua_name: str) -> Optional[Dict]:
+    """取乾坤的用九/用六爻辭; 其他卦回 None。"""
+    entry = get_yaoci(gua_name)
+    return entry.get('yong') if entry else None
 
 
 # ========== 工具函數 ==========
@@ -509,6 +552,23 @@ class LiuYaoChart:
             lines.append(f"{ls:<4} {fs:<10} {ben_info:<8} {ben_line:<8} {','.join(ben_marks):<4} {bian_str}")
 
         lines.append("-" * 60)
+        lines.append("")
+
+        # 動爻爻辭（底本《周易正義》）: 供解卦引用，不心算、不編造
+        moving = [i for i, y in enumerate(self.yaos) if y['is_moving']]
+        lines.append("【動爻爻辭】")
+        if moving:
+            for i in moving:
+                yao_ci = get_yao_text(self.bengua_name, i + 1)
+                label = yao_ci['pos'] if yao_ci else f"第{i + 1}爻"
+                text = yao_ci['text'] if yao_ci else "（無爻辭資料）"
+                lines.append(f"第{i + 1}爻（{label}）：{text}")
+            if len(moving) == 6:
+                yong = get_yong_text(self.bengua_name)
+                if yong:
+                    lines.append(f"{yong['pos']}：{yong['text']}")
+        else:
+            lines.append("無動爻（靜卦：依月日旺衰、世應、用神推斷趨勢與應期，不以「無動爻」當作無訊號）")
         lines.append("")
 
         for label, gua_name in (("本卦", self.bengua_name), ("變卦", self.biangua_name)):

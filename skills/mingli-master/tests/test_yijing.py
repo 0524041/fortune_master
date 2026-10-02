@@ -84,3 +84,53 @@ def test_divine_defaults_to_now():
     d = run("divine.py", "--json")
     assert d.get("benguaming")
     assert d.get("time")
+
+
+def run_text(script, *args):
+    r = subprocess.run([VENV_PY, str(YJ / script), *args], capture_output=True, text=True)
+    assert r.returncode == 0, f"{script} failed: {r.stderr[-500:]}"
+    return r.stdout
+
+
+def test_yaoci_data_integrity():
+    """爻辭資料庫: 64卦各6爻, 乾坤附用九/用六, 抽查通行底本."""
+    import json
+    d = json.load(open(SKILL / "data" / "yaoci_64.json", encoding="utf-8"))
+    assert len(d) == 64
+    assert {e["number"] for e in d} == set(range(1, 65))
+    assert all(len(e["yao"]) == 6 for e in d)
+    assert {e["number"] for e in d if e.get("yong")} == {1, 2}
+    qian = next(e for e in d if e["number"] == 1)
+    assert qian["yao"][0]["text"].startswith("潛龍勿用")
+    assert "見龍在田" in qian["yao"][1]["text"]
+    assert qian["yong"]["pos"] == "用九"
+
+
+def test_liuyao_dongyao_yaoci():
+    """六爻盤面: 有動爻時附《周易正義》動爻爻辭 (0=老陽 3=老陰)."""
+    out = run_text("divine.py", "--coins", "0", "1", "2", "1", "3", "1",
+                   "--time", "2026-10-02 21:42")
+    assert "【動爻爻辭】" in out
+    assert "初九" in out and "悔亡。喪馬" in out      # 火澤睽初九
+    assert "六五" in out and "厥宗噬膚" in out        # 火澤睽六五
+
+
+def test_liuyao_static_gua_note():
+    """六爻靜卦: 無動爻須提示依月日旺衰/世應推斷, 不當作無訊號."""
+    out = run_text("divine.py", "--coins", "1", "1", "1", "1", "1", "1",
+                   "--time", "2026-10-02 21:42")
+    assert "無動爻" in out
+
+
+def test_meihua_includes_guaci_and_wuxing():
+    """梅花盤面: 附本/互/變卦辭象傳 + 互變五行疊加."""
+    out = run_text("meihua.py", "--numbers", "17", "23")
+    assert "卦辭：" in out and "象傳：" in out
+    assert "互卦疊加" in out and "變卦疊加" in out
+
+
+def test_meihua_json_ti_relations():
+    """梅花 JSON: 互卦/變卦對體的生剋已算好 (17 23 動4爻→用在上卦)."""
+    d = run("meihua.py", "--numbers", "17", "23", "--json")
+    assert d["biangua"]["ti_relation"] and d["hugua"]["ti_relation"]
+    assert d["biangua"]["side_gua"] == d["biangua"]["upper"]

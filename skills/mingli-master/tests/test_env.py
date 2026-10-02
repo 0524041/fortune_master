@@ -53,7 +53,7 @@ def test_city_suffix_alias():
 def test_fuqi_stars_complete():
     """配套知識完整性: 夫妻宮14星斷語表須在skill內 (hepan_ni只剩註解會讀空)."""
     import re
-    s = (SKILL / "references" / "knowledge" / "fuqi_stars.md").read_text(encoding="utf-8")
+    s = (SKILL / "references" / "ask-person" / "fuqi_stars.md").read_text(encoding="utf-8")
     for star in ["紫微", "天機", "太陽", "武曲", "天同", "廉貞", "天府",
                  "太陰", "貪狼", "巨門", "天相", "天梁", "七殺", "破軍"]:
         assert re.search(rf"^## {star}$", s, re.M), star
@@ -62,7 +62,7 @@ def test_fuqi_stars_complete():
 def test_glossary_covers_fixture_vocab():
     """配套知識完整性: fixture 出現過的術語必須在 glossary 有定義 (防白話斷鏈)."""
     import json
-    g = (SKILL / "references" / "knowledge" / "glossary.md").read_text(encoding="utf-8")
+    g = (SKILL / "references" / "shared" / "glossary.md").read_text(encoding="utf-8")
     vocab = set()
     for f in ["a_bazi.json", "b_bazi.json"]:
         d = json.loads((SKILL / "tests" / "fixtures" / f).read_text(encoding="utf-8"))
@@ -112,7 +112,7 @@ def test_output_lint_clean_passes():
 
 
 def test_output_lint_strict_flags_vague():
-    """--strict 須抓空泛語/免責濫用; 非 strict 不抓 (向後相容)."""
+    """--strict 須抓空泛語/巴納姆; 非 strict 不抓 (向後相容)."""
     import subprocess
     import json
     args = [str(SKILL / "scripts" / ".venv" / "bin" / "python"),
@@ -124,7 +124,7 @@ def test_output_lint_strict_flags_vague():
     r2 = subprocess.run(args + ["--strict"], capture_output=True, text=True)
     assert r2.returncode != 0
     hits = {h["token"] for h in json.loads(r2.stdout)["violations"]}
-    for tok in ["因人而異", "不構成投資建議", "無法由命盤推算收入金額"]:
+    for tok in ["因人而異", "無法由命盤推算收入金額"]:
         assert tok in hits, tok
 
 

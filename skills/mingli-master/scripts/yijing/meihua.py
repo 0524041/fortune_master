@@ -19,7 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "vendor"))  # 內嵌 lunar_python (零安裝)
-from liuyao_core import LIUSHISI_GUA, BAGUA  # noqa: E402
+from liuyao_core import LIUSHISI_GUA, BAGUA, get_hexagram  # noqa: E402
 from lunar_python import Solar  # noqa: E402
 
 DIZHI = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
@@ -99,11 +99,21 @@ def build(cast: dict) -> dict:
     else:
         ti, yong = lower, upper
     rel, luck = _relation(BAGUA[ti]['wuxing'], BAGUA[yong]['wuxing'])
+
+    # 互卦/變卦與體的生剋疊加 (動爻同側之卦 vs 體)
+    ti_wx = BAGUA[ti]['wuxing']
+    bian_side_gua = b_up if dong > 3 else b_low       # 變卦中「原用卦」變化後之卦
+    hu_side_gua = hu_up if dong > 3 else hu_low       # 互卦中與用同側之卦
+    bian_rel, bian_luck = _relation(ti_wx, BAGUA[bian_side_gua]['wuxing'])
+    hu_rel, hu_luck = _relation(ti_wx, BAGUA[hu_side_gua]['wuxing'])
+
     return {
         'method': cast['method'], 'inputs': cast['inputs'],
         'bengua': {'upper': upper, 'lower': lower, 'name': _gua_name(lower, upper)},
-        'hugua': {'upper': hu_up, 'lower': hu_low, 'name': _gua_name(hu_low, hu_up)},
-        'biangua': {'upper': b_up, 'lower': b_low, 'name': _gua_name(b_low, b_up)},
+        'hugua': {'upper': hu_up, 'lower': hu_low, 'name': _gua_name(hu_low, hu_up),
+                  'side_gua': hu_side_gua, 'ti_relation': hu_rel, 'ti_judge': hu_luck},
+        'biangua': {'upper': b_up, 'lower': b_low, 'name': _gua_name(b_low, b_up),
+                    'side_gua': bian_side_gua, 'ti_relation': bian_rel, 'ti_judge': bian_luck},
         'dong_yao': dong,
         'ti_yong': {'體': {'gua': ti, 'wuxing': BAGUA[ti]['wuxing']},
                     '用': {'gua': yong, 'wuxing': BAGUA[yong]['wuxing']},
@@ -112,16 +122,45 @@ def build(cast: dict) -> dict:
     }
 
 
+def _hex_knowledge(label: str, name: str, full: bool = False) -> list:
+    """卦辭/象傳/諸事(+建議/詳解); 取自 data/hexagrams_64.json，不編造。"""
+    h = get_hexagram(name)
+    if not h:
+        return []
+    rows = [f"【{label}：{name}】"]
+    fields = [("卦辭", "core_text"), ("象傳", "xiang_text"), ("諸事", "general")]
+    if full:
+        fields += [("建議", "advice"), ("詳解", "detailed_explanation")]
+    for k, field in fields:
+        v = h.get(field)
+        if v:
+            rows.append(f"{k}：{v}")
+    return rows
+
+
 def format_text(d: dict) -> str:
     ln = ''.join('▅▅▅▅▅' if x else '▅▅　▅▅' for x in d['lines'])
+    bg, hg, bgg = d['bengua'], d['hugua'], d['biangua']
+    ti, yong = d['ti_yong']['體'], d['ti_yong']['用']
+
+    def wx(gua):
+        return BAGUA[gua]['wuxing']
+
     out = [f"【梅花易數】{d['method']}",
            f"輸入: {d['inputs']}",
-           f"本卦: {d['bengua']['name']}（上{d['bengua']['upper']} 下{d['bengua']['lower']}）  動爻: 第{d['dong_yao']}爻",
-           f"互卦: {d['hugua']['name']}（上{d['hugua']['upper']} 下{d['hugua']['lower']}）",
-           f"變卦: {d['biangua']['name']}（上{d['biangua']['upper']} 下{d['biangua']['lower']}）",
-           f"體用: 體{d['ti_yong']['體']['gua']}({d['ti_yong']['體']['wuxing']}) / "
-           f"用{d['ti_yong']['用']['gua']}({d['ti_yong']['用']['wuxing']}) → {d['ti_yong']['relation']}（{d['ti_yong']['judge']}）",
+           f"本卦: {bg['name']}（上{bg['upper']} 下{bg['lower']}）  動爻: 第{d['dong_yao']}爻",
+           f"互卦: {hg['name']}（上{hg['upper']}({wx(hg['upper'])}) 下{hg['lower']}({wx(hg['lower'])})）",
+           f"變卦: {bgg['name']}（上{bgg['upper']}({wx(bgg['upper'])}) 下{bgg['lower']}({wx(bgg['lower'])})）",
+           f"體用: 體{ti['gua']}({ti['wuxing']}) / 用{yong['gua']}({yong['wuxing']}) → {d['ti_yong']['relation']}（{d['ti_yong']['judge']}）",
+           f"互卦疊加(過程): 互卦{hg['side_gua']}({wx(hg['side_gua'])}) 對體 → {hg['ti_relation']}（{hg['ti_judge']}）",
+           f"變卦疊加(結果): 變卦{bgg['side_gua']}({wx(bgg['side_gua'])}) 對體 → {bgg['ti_relation']}（{bgg['ti_judge']}）",
            f"爻象(初→上): {ln}"]
+    out.append("")
+    out += _hex_knowledge("本卦", bg['name'], full=True)
+    out.append("")
+    out += _hex_knowledge("互卦", hg['name'])
+    out.append("")
+    out += _hex_knowledge("變卦", bgg['name'])
     return '\n'.join(out)
 
 

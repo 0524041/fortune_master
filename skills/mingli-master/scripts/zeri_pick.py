@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """擇日確定性掃描. 三層過濾: 通書層(建除宜忌/月破歲破/神煞) → 個人層(八字日柱) → 紫微層(流日四化).
-曆法走 lunar_python, 規則走 references/methods/zeri.md. 不許 LLM 心算挑日子.
+曆法走 lunar_python, 規則走 references/ask-person/zeri.md. 不許 LLM 心算挑日子.
 用法:
   zeri_pick.py --matter 嫁娶 --from 2026-10-01 --to 2026-12-31 [--bazi A.json [--bazi-b B.json]]
                [--ziwei Az.json [--ziwei-b Bz.json]] [--top 10] [--format text|json|both]

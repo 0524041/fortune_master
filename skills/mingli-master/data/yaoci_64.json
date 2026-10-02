@@ -1,0 +1,2184 @@
+[
+ {
+  "number": 1,
+  "name": "乾為天",
+  "short": "乾",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F01%E4%B9%BE&oldid=2676007",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "潛龍勿用。"
+   },
+   {
+    "pos": "九二",
+    "text": "見龍在田，利見大人。"
+   },
+   {
+    "pos": "九三",
+    "text": "君子終日乾乾，夕惕若厲，無咎。"
+   },
+   {
+    "pos": "九四",
+    "text": "或躍在淵，無咎。"
+   },
+   {
+    "pos": "九五",
+    "text": "飛龍在天，利見大人。"
+   },
+   {
+    "pos": "上九",
+    "text": "亢龍有悔。"
+   }
+  ],
+  "yong": {
+   "pos": "用九",
+   "text": "見群龍，無首，吉。"
+  }
+ },
+ {
+  "number": 2,
+  "name": "坤為地",
+  "short": "坤",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F01%E5%9D%A4&oldid=2404938",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "履霜，堅冰至。"
+   },
+   {
+    "pos": "六二",
+    "text": "直方大，不習無不利。"
+   },
+   {
+    "pos": "六三",
+    "text": "含章可貞，或從王事，無成有終。"
+   },
+   {
+    "pos": "六四",
+    "text": "括囊，無咎無譽。"
+   },
+   {
+    "pos": "六五",
+    "text": "黃裳元吉。"
+   },
+   {
+    "pos": "上六",
+    "text": "龍戰於野，其血玄黃。"
+   }
+  ],
+  "yong": {
+   "pos": "用六",
+   "text": "利永貞。"
+  }
+ },
+ {
+  "number": 3,
+  "name": "水雷屯",
+  "short": "屯",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F01%E5%B1%AF&oldid=2689596",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "磐桓，利居貞，利建侯。"
+   },
+   {
+    "pos": "六二",
+    "text": "屯如邅如，乘馬班如，匪寇婚媾。女子貞不字，十年乃字。"
+   },
+   {
+    "pos": "六三",
+    "text": "即鹿無虞，惟入於林中。君子幾，不如舍，往吝。"
+   },
+   {
+    "pos": "六四",
+    "text": "乘馬班如，求婚媾，往吉，無不利。"
+   },
+   {
+    "pos": "九五",
+    "text": "屯其膏，小貞吉，大貞凶。"
+   },
+   {
+    "pos": "上六",
+    "text": "乘馬班如，泣血漣如。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 4,
+  "name": "山水蒙",
+  "short": "蒙",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F01%E8%92%99&oldid=2404940",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "發蒙，利用刑人，用說桎梏，以往吝。"
+   },
+   {
+    "pos": "九二",
+    "text": "包蒙吉，納婦吉，子克家。"
+   },
+   {
+    "pos": "六三",
+    "text": "勿用取女。見金夫，不有躬，無攸利。"
+   },
+   {
+    "pos": "六四",
+    "text": "困蒙，吝。"
+   },
+   {
+    "pos": "六五",
+    "text": "童蒙吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "擊蒙，不利為寇，利禦寇。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 5,
+  "name": "水天需",
+  "short": "需",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E9%9C%80&oldid=2404946",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "需於郊，利用恆，無咎。"
+   },
+   {
+    "pos": "九二",
+    "text": "需於沙，小有言，終吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "需於泥，致寇至。"
+   },
+   {
+    "pos": "六四",
+    "text": "需於血，出自穴。"
+   },
+   {
+    "pos": "九五",
+    "text": "需於酒食，貞吉。"
+   },
+   {
+    "pos": "上六",
+    "text": "入於穴，有不速之客三人來，敬之，終吉。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 6,
+  "name": "天水訟",
+  "short": "訟",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E8%A8%9F&oldid=2404945",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "不永所事，小有言，終吉。"
+   },
+   {
+    "pos": "九二",
+    "text": "不克訟，歸而逋其邑。人三百戶，無眚。"
+   },
+   {
+    "pos": "六三",
+    "text": "食舊德，貞厲，終吉。或從王事無成。"
+   },
+   {
+    "pos": "九四",
+    "text": "不克訟。復即命渝，安貞吉。"
+   },
+   {
+    "pos": "九五",
+    "text": "訟元吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "或錫之鞶帶，終朝三褫之。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 7,
+  "name": "地水師",
+  "short": "師",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E5%B8%AB&oldid=2404943",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "師出以律，否臧凶。"
+   },
+   {
+    "pos": "九二",
+    "text": "在師中，吉，無咎，王三錫命。"
+   },
+   {
+    "pos": "六三",
+    "text": "師或輿屍，凶。"
+   },
+   {
+    "pos": "六四",
+    "text": "師左次，無咎。"
+   },
+   {
+    "pos": "六五",
+    "text": "田有禽，利執言，無咎。長子帥師，弟子輿屍，貞凶。"
+   },
+   {
+    "pos": "上六",
+    "text": "大君有命，開國承家，小人勿用。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 8,
+  "name": "水地比",
+  "short": "比",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E6%AF%94&oldid=2404944",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "有孚比之，無咎。有孚盈缶，終來有它吉。"
+   },
+   {
+    "pos": "六二",
+    "text": "比之自內，貞吉。"
+   },
+   {
+    "pos": "六三",
+    "text": "比之匪人。"
+   },
+   {
+    "pos": "六四",
+    "text": "外比之，貞吉。"
+   },
+   {
+    "pos": "九五",
+    "text": "顯比。王用三驅，失前禽。邑人不誡，吉。"
+   },
+   {
+    "pos": "上六",
+    "text": "比之無首，凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 9,
+  "name": "風天小畜",
+  "short": "小畜",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E5%B0%8F%E7%95%9C&oldid=2404941",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "復自道，何其咎，吉。"
+   },
+   {
+    "pos": "九二",
+    "text": "牽復吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "輿說輻。夫妻反目。"
+   },
+   {
+    "pos": "六四",
+    "text": "有孚，血去惕出，無咎。"
+   },
+   {
+    "pos": "九五",
+    "text": "有孚攣如，富以其鄰。"
+   },
+   {
+    "pos": "上九",
+    "text": "既雨既處，尚德載，婦貞厲，月幾望，君子征凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 10,
+  "name": "天澤履",
+  "short": "履",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E5%B1%A5&oldid=2404942",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "素履往，無咎。"
+   },
+   {
+    "pos": "九二",
+    "text": "履道坦坦，幽人貞吉。"
+   },
+   {
+    "pos": "六三",
+    "text": "眇能視，跛能履。履虎尾，咥人凶。武人為於大君。"
+   },
+   {
+    "pos": "九四",
+    "text": "履虎尾，愬愬，終吉。"
+   },
+   {
+    "pos": "九五",
+    "text": "夬履，貞厲。"
+   },
+   {
+    "pos": "上九",
+    "text": "視履考祥，其旋元吉。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 11,
+  "name": "地天泰",
+  "short": "泰",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E6%B3%B0&oldid=2000742",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "拔茅茹，以其彙，征吉。"
+   },
+   {
+    "pos": "九二",
+    "text": "包荒，用馮河，不遐遺，朋亡。得尚於中行。"
+   },
+   {
+    "pos": "九三",
+    "text": "無平不陂，無往不復。艱貞無咎。勿恤其孚，於食有福。"
+   },
+   {
+    "pos": "六四",
+    "text": "翩翩，不富以其鄰。不戒以孚。"
+   },
+   {
+    "pos": "六五",
+    "text": "帝乙歸妹，以祉元吉。"
+   },
+   {
+    "pos": "上六",
+    "text": "城復於隍，勿用師。自邑告命，貞吝。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 12,
+  "name": "天地否",
+  "short": "否",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E5%90%A6&oldid=2633973",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "拔茅茹，以其彙，貞，吉亨。"
+   },
+   {
+    "pos": "六二",
+    "text": "包承，小人吉，大人否，亨。"
+   },
+   {
+    "pos": "六三",
+    "text": "包羞。"
+   },
+   {
+    "pos": "九四",
+    "text": "有命無咎。疇離祉。"
+   },
+   {
+    "pos": "九五",
+    "text": "休否，大人吉。其亡其亡，繫於苞桑。"
+   },
+   {
+    "pos": "上九",
+    "text": "傾否，先否後喜。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 13,
+  "name": "天火同人",
+  "short": "同人",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E5%90%8C%E4%BA%BA&oldid=2000752",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "同人於門，無咎。"
+   },
+   {
+    "pos": "六二",
+    "text": "同人於宗，吝。"
+   },
+   {
+    "pos": "九三",
+    "text": "伏戎於莽，升其高陵，三歲不興。"
+   },
+   {
+    "pos": "九四",
+    "text": "乘其墉，弗克攻，吉。"
+   },
+   {
+    "pos": "九五",
+    "text": "同人先號咷，而後笑，大師克相遇。"
+   },
+   {
+    "pos": "上九",
+    "text": "同人於郊，無悔。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 14,
+  "name": "火天大有",
+  "short": "大有",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E5%A4%A7%E6%9C%89&oldid=2386341",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "無交害。匪咎，艱則無咎。"
+   },
+   {
+    "pos": "九二",
+    "text": "大車以載，有攸往，無咎。"
+   },
+   {
+    "pos": "九三",
+    "text": "公用亨於天子，小人弗克。"
+   },
+   {
+    "pos": "九四",
+    "text": "匪其彭，無咎。"
+   },
+   {
+    "pos": "六五",
+    "text": "厥孚交如，威如，吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "自天祐之，吉無不利。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 15,
+  "name": "地山謙",
+  "short": "謙",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E8%AC%99&oldid=2000726",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "謙謙君子，用涉大川，吉。"
+   },
+   {
+    "pos": "六二",
+    "text": "鳴謙，貞吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "勞謙，君子有終吉。"
+   },
+   {
+    "pos": "六四",
+    "text": "無不利，撝謙。"
+   },
+   {
+    "pos": "六五",
+    "text": "不富以其鄰，利用侵伐，無不利。"
+   },
+   {
+    "pos": "上六",
+    "text": "鳴謙。利用行師征邑國。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 16,
+  "name": "雷地豫",
+  "short": "豫",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F02%E8%B1%AB&oldid=7904495",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "鳴豫，凶。"
+   },
+   {
+    "pos": "六二",
+    "text": "介於石，不終日，貞吉。"
+   },
+   {
+    "pos": "六三",
+    "text": "盱豫悔，遲有悔。"
+   },
+   {
+    "pos": "九四",
+    "text": "由豫，大有得。勿疑，朋盍簪。"
+   },
+   {
+    "pos": "六五",
+    "text": "貞疾，恆不死。"
+   },
+   {
+    "pos": "上六",
+    "text": "冥豫成，有渝無咎。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 17,
+  "name": "澤雷隨",
+  "short": "隨",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E9%9A%A8&oldid=2000746",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "官有渝，貞吉。出門交有功。"
+   },
+   {
+    "pos": "六二",
+    "text": "系小子，失丈夫。"
+   },
+   {
+    "pos": "六三",
+    "text": "系丈夫，失小子。隨有求得，利居貞。"
+   },
+   {
+    "pos": "九四",
+    "text": "隨有獲，貞兇。有孚在道以明，何咎？"
+   },
+   {
+    "pos": "九五",
+    "text": "孚於嘉，吉。"
+   },
+   {
+    "pos": "上六",
+    "text": "拘系之乃從。維之。王用亨於西山。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 18,
+  "name": "山風蠱",
+  "short": "蠱",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E8%A0%B1&oldid=2386435",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "幹父之蠱，有子，考無咎，厲終吉。"
+   },
+   {
+    "pos": "九二",
+    "text": "幹母之蠱，不可貞。"
+   },
+   {
+    "pos": "九三",
+    "text": "幹父之蠱，小有悔，無大咎。"
+   },
+   {
+    "pos": "六四",
+    "text": "裕父之蠱，往見吝。"
+   },
+   {
+    "pos": "六五",
+    "text": "幹父之蠱，用譽。"
+   },
+   {
+    "pos": "上九",
+    "text": "不事王侯，高尚其事。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 19,
+  "name": "地澤臨",
+  "short": "臨",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E8%87%A8&oldid=2692101",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "咸臨，貞吉。"
+   },
+   {
+    "pos": "九二",
+    "text": "咸臨，吉，無不利。"
+   },
+   {
+    "pos": "六三",
+    "text": "甘臨，無攸利。既憂之，無咎。"
+   },
+   {
+    "pos": "六四",
+    "text": "至臨，無咎。"
+   },
+   {
+    "pos": "六五",
+    "text": "知臨，大君之宜，吉。"
+   },
+   {
+    "pos": "上六",
+    "text": "敦臨，吉，無咎。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 20,
+  "name": "風地觀",
+  "short": "觀",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E8%A7%80&oldid=2000708",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "童觀，小人無咎，君子吝。"
+   },
+   {
+    "pos": "六二",
+    "text": "闚觀，利女貞。"
+   },
+   {
+    "pos": "六三",
+    "text": "觀我生進退。"
+   },
+   {
+    "pos": "六四",
+    "text": "觀國之光，利用賓於王。"
+   },
+   {
+    "pos": "九五",
+    "text": "觀我生，君子無咎。"
+   },
+   {
+    "pos": "上九",
+    "text": "觀其生，君子無咎。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 21,
+  "name": "火雷噬嗑",
+  "short": "噬嗑",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E5%99%AC%E5%97%91&oldid=2404948",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "屨校滅趾，無咎。"
+   },
+   {
+    "pos": "六二",
+    "text": "噬膚滅鼻，無咎。"
+   },
+   {
+    "pos": "六三",
+    "text": "噬臘肉，遇毒，小吝無咎。"
+   },
+   {
+    "pos": "九四",
+    "text": "噬乾胏，得金矢。利艱貞吉。"
+   },
+   {
+    "pos": "六五",
+    "text": "噬乾肉，得黃金，貞厲無咎。"
+   },
+   {
+    "pos": "上九",
+    "text": "何校滅耳，凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 22,
+  "name": "山火賁",
+  "short": "賁",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E8%B3%81&oldid=2404954",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "賁其趾，舍車而徒。"
+   },
+   {
+    "pos": "六二",
+    "text": "賁其須。"
+   },
+   {
+    "pos": "九三",
+    "text": "賁如濡如，永貞吉。"
+   },
+   {
+    "pos": "六四",
+    "text": "賁如皤如，白馬翰如。匪寇，婚媾。"
+   },
+   {
+    "pos": "六五",
+    "text": "賁於丘園，束帛戔戔。吝，終吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "白賁，無咎。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 23,
+  "name": "山地剝",
+  "short": "剝",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E5%89%9D&oldid=2404947",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "剝床以足，蔑貞凶。"
+   },
+   {
+    "pos": "六二",
+    "text": "剝床以辨，蔑貞凶。"
+   },
+   {
+    "pos": "六三",
+    "text": "剝之，無咎。"
+   },
+   {
+    "pos": "六四",
+    "text": "剝床以膚，凶。"
+   },
+   {
+    "pos": "六五",
+    "text": "貫魚，以宮人寵，無不利。"
+   },
+   {
+    "pos": "上九",
+    "text": "碩果不食，君子得輿，小人剝廬。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 24,
+  "name": "地雷復",
+  "short": "復",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E5%BE%A9&oldid=2404952",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "不遠復，無祗悔，元吉。"
+   },
+   {
+    "pos": "六二",
+    "text": "休復，吉。"
+   },
+   {
+    "pos": "六三",
+    "text": "頻復，厲無咎。"
+   },
+   {
+    "pos": "六四",
+    "text": "中行獨復。"
+   },
+   {
+    "pos": "六五",
+    "text": "敦復，無悔。"
+   },
+   {
+    "pos": "上六",
+    "text": "迷復，凶，有災眚。用行師，終有大敗。以其國君凶，至於十年不克征。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 25,
+  "name": "天雷無妄",
+  "short": "無妄",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E7%84%A1%E5%A6%84&oldid=2625764",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "無妄往，吉。"
+   },
+   {
+    "pos": "六二",
+    "text": "不耕獲，不菑畬，則利有攸往。"
+   },
+   {
+    "pos": "六三",
+    "text": "無妄之災，或系之牛。行人之得，邑人之災。"
+   },
+   {
+    "pos": "九四",
+    "text": "可貞，無咎。"
+   },
+   {
+    "pos": "九五",
+    "text": "無妄之疾，勿藥有喜。"
+   },
+   {
+    "pos": "上九",
+    "text": "無妄行，有眚，無攸利。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 26,
+  "name": "山天大畜",
+  "short": "大畜",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E5%A4%A7%E7%95%9C&oldid=2404950",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "有厲利巳。"
+   },
+   {
+    "pos": "九二",
+    "text": "輿說輹。"
+   },
+   {
+    "pos": "九三",
+    "text": "良馬逐，利艱貞。曰：閑輿衛，利有攸往。"
+   },
+   {
+    "pos": "六四",
+    "text": "童牛之牿，元吉。"
+   },
+   {
+    "pos": "六五",
+    "text": "豶豕之牙，吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "何天之衢，亨。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 27,
+  "name": "山雷頤",
+  "short": "頤",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E9%A0%A4&oldid=2692196",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "舍爾靈龜，觀我朵頤，凶。"
+   },
+   {
+    "pos": "六二",
+    "text": "顛頤，拂經於丘。頤，征凶。"
+   },
+   {
+    "pos": "六三",
+    "text": "拂頤，貞凶。十年勿用，無攸利。"
+   },
+   {
+    "pos": "六四",
+    "text": "顛頤，吉。虎視耽耽，其欲逐逐，無咎。"
+   },
+   {
+    "pos": "六五",
+    "text": "拂經，居貞，吉。不可涉大川。"
+   },
+   {
+    "pos": "上九",
+    "text": "由頤，厲吉，利涉大川。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 28,
+  "name": "澤風大過",
+  "short": "大過",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E5%A4%A7%E9%81%8E&oldid=2692227",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "藉用白茅，無咎。"
+   },
+   {
+    "pos": "九二",
+    "text": "枯楊生稊，老夫得其女妻，無不利。"
+   },
+   {
+    "pos": "九三",
+    "text": "棟橈，凶。"
+   },
+   {
+    "pos": "九四",
+    "text": "棟隆，吉。有它吝。"
+   },
+   {
+    "pos": "九五",
+    "text": "枯楊生華，老婦得其士夫，無咎無譽。"
+   },
+   {
+    "pos": "上六",
+    "text": "過涉滅頂，凶，無咎。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 29,
+  "name": "坎為水",
+  "short": "坎",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E5%9D%8E&oldid=2404949",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "「習坎」，入於坎窞，凶。"
+   },
+   {
+    "pos": "九二",
+    "text": "坎有險，求小得。"
+   },
+   {
+    "pos": "六三",
+    "text": "來之坎坎，險且枕，「入於坎窞」，勿用。"
+   },
+   {
+    "pos": "六四",
+    "text": "樽酒簋貳，用缶，納約自牖，終無咎。"
+   },
+   {
+    "pos": "九五",
+    "text": "坎不盈，祗既平，無咎。"
+   },
+   {
+    "pos": "上六",
+    "text": "系用徽纆，置於叢棘，三歲不得，凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 30,
+  "name": "離為火",
+  "short": "離",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F03%E9%9B%A2&oldid=2692302",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "履錯然，敬之，無咎。"
+   },
+   {
+    "pos": "六二",
+    "text": "黃離，元吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "日昃之離，不鼓缶而歌，則大耋之嗟，凶。"
+   },
+   {
+    "pos": "九四",
+    "text": "突如其來如，焚如，死如，棄如。"
+   },
+   {
+    "pos": "六五",
+    "text": "出涕沱若，戚嗟若，吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "王用出征，有嘉折首，獲匪其醜，無咎。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 31,
+  "name": "澤山咸",
+  "short": "咸",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E5%92%B8&oldid=2404957",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "咸其拇。"
+   },
+   {
+    "pos": "六二",
+    "text": "咸其腓，凶。居吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "咸其股，執其隨，往吝。"
+   },
+   {
+    "pos": "九四",
+    "text": "貞吉，悔亡。憧憧往來，朋從爾思。"
+   },
+   {
+    "pos": "九五",
+    "text": "咸其脢，無悔。"
+   },
+   {
+    "pos": "上六",
+    "text": "咸其輔、頰、舌。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 32,
+  "name": "雷風恆",
+  "short": "恒",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E6%81%92&oldid=2404960",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "浚恆，貞凶，無攸利。"
+   },
+   {
+    "pos": "九二",
+    "text": "悔亡。"
+   },
+   {
+    "pos": "九三",
+    "text": "不恆其德，或承之羞，貞吝。"
+   },
+   {
+    "pos": "九四",
+    "text": "田，無禽。"
+   },
+   {
+    "pos": "六五",
+    "text": "恆其德，貞。婦人吉，夫子凶。"
+   },
+   {
+    "pos": "上六",
+    "text": "振恆，凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 33,
+  "name": "天山遯",
+  "short": "遯",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E9%81%AF&oldid=2404968",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "遯尾，厲，勿用有攸往。"
+   },
+   {
+    "pos": "六二",
+    "text": "執之用黃牛之革，莫之勝說。"
+   },
+   {
+    "pos": "九三",
+    "text": "系遯，有疾厲，畜臣妾，吉。"
+   },
+   {
+    "pos": "九四",
+    "text": "好遯，君子吉，小人否。"
+   },
+   {
+    "pos": "九五",
+    "text": "嘉遯，貞吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "肥遯，無不利。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 34,
+  "name": "雷天大壯",
+  "short": "大壯",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E5%A4%A7%E5%A3%AF&oldid=2404958",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "壯於趾，征凶有孚。"
+   },
+   {
+    "pos": "九二",
+    "text": "貞吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "小人用壯，君子用罔，貞厲。羝羊觸藩，羸其角。"
+   },
+   {
+    "pos": "九四",
+    "text": "貞吉，悔亡。藩決不羸。壯於大輿之輹。"
+   },
+   {
+    "pos": "六五",
+    "text": "喪羊於易，無悔。"
+   },
+   {
+    "pos": "上六",
+    "text": "羝羊觸藩，不能退，不能遂。無攸利，艱則吉。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 35,
+  "name": "火地晉",
+  "short": "晉",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E6%99%89&oldid=2766694",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "晉如、摧如，貞吉。罔孚，裕，無咎。"
+   },
+   {
+    "pos": "六二",
+    "text": "晉如，愁如，貞吉。受茲介福，於其王母。"
+   },
+   {
+    "pos": "六三",
+    "text": "眾允，悔亡。"
+   },
+   {
+    "pos": "九四",
+    "text": "晉如鼫鼠，貞厲。"
+   },
+   {
+    "pos": "六五",
+    "text": "悔亡。失得勿恤，往，吉，無不利。"
+   },
+   {
+    "pos": "上九",
+    "text": "晉其角，維用伐邑。厲吉無咎，貞吝。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 36,
+  "name": "地火明夷",
+  "short": "明夷",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E6%98%8E%E5%A4%B7&oldid=2772387",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "明夷於飛，垂其翼。君子於行，三日不食。有攸往，主人有言。"
+   },
+   {
+    "pos": "六二",
+    "text": "明夷，夷於左股，用拯馬壯，吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "明夷於南狩，得其大首，不可疾貞。"
+   },
+   {
+    "pos": "六四",
+    "text": "入於左腹，獲明夷之心，於出門庭。"
+   },
+   {
+    "pos": "六五",
+    "text": "箕子之明夷，利貞。"
+   },
+   {
+    "pos": "上六",
+    "text": "不明晦，初登於天，後入於地。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 37,
+  "name": "風火家人",
+  "short": "家人",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E5%AE%B6%E4%BA%BA&oldid=2404959",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "閑有家，悔亡。"
+   },
+   {
+    "pos": "六二",
+    "text": "無攸遂，在中饋，貞吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "家人嗃嗃，悔厲，吉。婦子嘻嘻，終吝。"
+   },
+   {
+    "pos": "六四",
+    "text": "富家，大吉。"
+   },
+   {
+    "pos": "九五",
+    "text": "王假有家，勿恤，吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "有孚，威如，終吉。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 38,
+  "name": "火澤睽",
+  "short": "睽",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E7%9D%BD&oldid=2832235",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "悔亡。喪馬，勿逐，自復。見惡人，無咎。"
+   },
+   {
+    "pos": "九二",
+    "text": "遇主於巷，無咎。"
+   },
+   {
+    "pos": "六三",
+    "text": "見輿曳，其牛掣。其人天且劓，無初有終。"
+   },
+   {
+    "pos": "九四",
+    "text": "睽孤，遇元夫。交孚，厲，無咎。"
+   },
+   {
+    "pos": "六五",
+    "text": "悔亡。厥宗噬膚，往，何咎？"
+   },
+   {
+    "pos": "上九",
+    "text": "睽孤。見豕負塗，載鬼一車，先張之弧，後說之弧。匪寇婚媾，往，遇雨則吉。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 39,
+  "name": "水山蹇",
+  "short": "蹇",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E8%B9%87&oldid=2404967",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "往蹇，來譽。"
+   },
+   {
+    "pos": "六二",
+    "text": "王臣蹇蹇，匪躬之故。"
+   },
+   {
+    "pos": "九三",
+    "text": "往蹇，來反。"
+   },
+   {
+    "pos": "六四",
+    "text": "往蹇，來連。"
+   },
+   {
+    "pos": "九五",
+    "text": "大蹇，朋來。"
+   },
+   {
+    "pos": "上六",
+    "text": "往蹇來碩，吉。利見大人。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 40,
+  "name": "雷水解",
+  "short": "解",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E8%A7%A3&oldid=2404966",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "無咎。"
+   },
+   {
+    "pos": "九二",
+    "text": "田獲三狐，得黃矢，貞吉。"
+   },
+   {
+    "pos": "六三",
+    "text": "負且乘，致寇至，貞吝。"
+   },
+   {
+    "pos": "九四",
+    "text": "解而拇，朋至斯孚。"
+   },
+   {
+    "pos": "六五",
+    "text": "君子維有解，吉。有孚於小人。"
+   },
+   {
+    "pos": "上六",
+    "text": "公用射隼於高墉之上，獲之，無不利。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 41,
+  "name": "山澤損",
+  "short": "損",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E6%90%8D&oldid=2404961",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "巳事遄往，無咎，酌損之。"
+   },
+   {
+    "pos": "九二",
+    "text": "利貞，征凶。弗損，益之。"
+   },
+   {
+    "pos": "六三",
+    "text": "三人行則損一人，一人行則得其友。"
+   },
+   {
+    "pos": "六四",
+    "text": "損其疾，使遄有喜，無咎。"
+   },
+   {
+    "pos": "六五",
+    "text": "或益之，十朋之龜，弗克違，元吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "弗損，益之，無咎，貞吉，利有攸往。得臣無家。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 42,
+  "name": "風雷益",
+  "short": "益",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F04%E7%9B%8A&oldid=2404964",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "利用為大作，元吉，無咎。"
+   },
+   {
+    "pos": "六二",
+    "text": "或益之十朋之龜，弗克違，永貞吉。王用享於帝，吉。"
+   },
+   {
+    "pos": "六三",
+    "text": "益之，用凶事，無咎。有孚中行，告公用圭。"
+   },
+   {
+    "pos": "六四",
+    "text": "中行，告公從，利用為依遷國。"
+   },
+   {
+    "pos": "九五",
+    "text": "有孚惠心，勿問元吉。有孚，惠我德。"
+   },
+   {
+    "pos": "上九",
+    "text": "莫益之，或擊之，立心勿恆，凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 43,
+  "name": "澤天夬",
+  "short": "夬",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E5%A4%AC&oldid=2608165",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "壯於前趾，往不勝，為咎。"
+   },
+   {
+    "pos": "九二",
+    "text": "惕號，莫夜有戎，勿恤。"
+   },
+   {
+    "pos": "九三",
+    "text": "壯於頄，有凶。君子夬夬，獨行，遇雨若濡。有慍，無咎。"
+   },
+   {
+    "pos": "九四",
+    "text": "臀無膚，其行次且。牽羊悔亡，聞言不信。"
+   },
+   {
+    "pos": "九五",
+    "text": "莧陸夬夬，中行無咎。"
+   },
+   {
+    "pos": "上六",
+    "text": "無號，終有凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 44,
+  "name": "天風姤",
+  "short": "姤",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E5%A7%A4&oldid=2404972",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "繫於金柅，貞吉。有攸往，見凶。羸豕孚蹢躅。"
+   },
+   {
+    "pos": "九二",
+    "text": "包有魚，無咎，不利賓。"
+   },
+   {
+    "pos": "九三",
+    "text": "臀無膚，其行次且，厲，無大咎。"
+   },
+   {
+    "pos": "九四",
+    "text": "包無魚，起凶。"
+   },
+   {
+    "pos": "九五",
+    "text": "以杞包瓜，含章，有隕自天。"
+   },
+   {
+    "pos": "上九",
+    "text": "姤其角，吝，無咎。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 45,
+  "name": "澤地萃",
+  "short": "萃",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E8%90%83&oldid=2404976",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "有孚不終，乃亂乃萃。若號，一握為笑，勿恤，往無咎。"
+   },
+   {
+    "pos": "六二",
+    "text": "引吉無咎，孚乃利用禴。"
+   },
+   {
+    "pos": "六三",
+    "text": "萃如，嗟如，無攸利。往無咎，小吝。"
+   },
+   {
+    "pos": "九四",
+    "text": "大吉，無咎。"
+   },
+   {
+    "pos": "九五",
+    "text": "萃有位，無咎，匪孚。元永貞，悔亡。"
+   },
+   {
+    "pos": "上六",
+    "text": "齎咨涕洟，無咎。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 46,
+  "name": "地風升",
+  "short": "升",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E5%8D%87&oldid=2405458",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "允升，大吉。"
+   },
+   {
+    "pos": "九二",
+    "text": "孚乃利用禴，無咎。"
+   },
+   {
+    "pos": "九三",
+    "text": "升虛邑。"
+   },
+   {
+    "pos": "六四",
+    "text": "王用亨於岐山，吉，無咎。"
+   },
+   {
+    "pos": "六五",
+    "text": "貞吉，升階。"
+   },
+   {
+    "pos": "上六",
+    "text": "冥升，利於不息之貞。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 47,
+  "name": "澤水困",
+  "short": "困",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E5%9B%B0&oldid=2407153",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "臀困於株木，入於幽谷，三歲不覿。"
+   },
+   {
+    "pos": "九二",
+    "text": "困於酒食，朱紱方來，利用享祀。征凶，無咎。"
+   },
+   {
+    "pos": "六三",
+    "text": "困於石，據於蒺藜，入於其宮，不見其妻，凶。"
+   },
+   {
+    "pos": "九四",
+    "text": "來徐徐，困於金車。吝，有終。"
+   },
+   {
+    "pos": "九五",
+    "text": "劓刖，困於赤紱，乃徐有說，利用祭祀。"
+   },
+   {
+    "pos": "上六",
+    "text": "困於葛藟，於臲卼，曰動悔、有悔，征吉。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 48,
+  "name": "水風井",
+  "short": "井",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E4%BA%95&oldid=2407709",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "井泥不食，舊井無禽。"
+   },
+   {
+    "pos": "九二",
+    "text": "井穀射鮒，甕敝漏。"
+   },
+   {
+    "pos": "九三",
+    "text": "井渫不食，為我心惻，可用汲。王明，並受其福。"
+   },
+   {
+    "pos": "六四",
+    "text": "井甃，無咎。"
+   },
+   {
+    "pos": "九五",
+    "text": "井洌寒泉，食。"
+   },
+   {
+    "pos": "上六",
+    "text": "井收。勿幕有孚，元吉。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 49,
+  "name": "澤火革",
+  "short": "革",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E9%9D%A9&oldid=2407710",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "鞏用黃牛之革。"
+   },
+   {
+    "pos": "六二",
+    "text": "巳日乃革之，征吉，無咎。"
+   },
+   {
+    "pos": "九三",
+    "text": "征凶，貞厲。革言三就，有孚。"
+   },
+   {
+    "pos": "九四",
+    "text": "悔亡，有孚改命，吉。"
+   },
+   {
+    "pos": "九五",
+    "text": "大人虎變，未佔有孚。"
+   },
+   {
+    "pos": "上六",
+    "text": "君子豹變，小人革面。征凶，居貞吉。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 50,
+  "name": "火風鼎",
+  "short": "鼎",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E9%BC%8E&oldid=2608820",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "鼎顛趾，利出否，得妾以其子，無咎。"
+   },
+   {
+    "pos": "九二",
+    "text": "鼎有實，我仇有疾，不我能即，吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "鼎耳革，其行塞，雉膏不食。方雨虧悔，終吉。"
+   },
+   {
+    "pos": "九四",
+    "text": "鼎折足，覆公餗，其形渥，凶。"
+   },
+   {
+    "pos": "六五",
+    "text": "鼎黃耳金鉉，利貞。"
+   },
+   {
+    "pos": "上九",
+    "text": "鼎玉鉉，大吉，無不利。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 51,
+  "name": "震為雷",
+  "short": "震",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E9%9C%87&oldid=2404977",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "「震來虩虩」，後「笑言啞啞」，吉。"
+   },
+   {
+    "pos": "六二",
+    "text": "震來厲，億喪貝。躋於九陵，勿逐，七日得。"
+   },
+   {
+    "pos": "六三",
+    "text": "震蘇蘇，震行無眚。"
+   },
+   {
+    "pos": "九四",
+    "text": "震遂泥。"
+   },
+   {
+    "pos": "六五",
+    "text": "震往來厲，億無喪，有事。"
+   },
+   {
+    "pos": "上六",
+    "text": "震索索，視矍矍，征凶。震不於其躬，於其鄰，無咎。婚媾有言。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 52,
+  "name": "艮為山",
+  "short": "艮",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E8%89%AE&oldid=2409039",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "艮其趾，無咎，利永貞。"
+   },
+   {
+    "pos": "六二",
+    "text": "艮其腓，不拯其隨，其心不快。"
+   },
+   {
+    "pos": "九三",
+    "text": "艮其限，列其夤，厲薰心。"
+   },
+   {
+    "pos": "六四",
+    "text": "艮其身，無咎。"
+   },
+   {
+    "pos": "六五",
+    "text": "艮其輔，言有序，悔亡。"
+   },
+   {
+    "pos": "上九",
+    "text": "敦艮，吉。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 53,
+  "name": "風山漸",
+  "short": "漸",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E6%BC%B8&oldid=2665440",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "鴻漸於幹，小子厲，有言，無咎。"
+   },
+   {
+    "pos": "六二",
+    "text": "鴻漸於磐，飲食衎衎，吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "鴻漸於陸。夫征不復，婦孕不育，凶。利禦寇。"
+   },
+   {
+    "pos": "六四",
+    "text": "鴻漸於木。或得其桷，無咎。"
+   },
+   {
+    "pos": "九五",
+    "text": "鴻漸於陵。婦三歲不孕，終莫之勝，吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "鴻漸於陸。其羽可用為儀，吉。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 54,
+  "name": "雷澤歸妹",
+  "short": "歸妹",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F05%E6%AD%B8%E5%A6%B9&oldid=2404973",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "歸妹以娣，跛能履，征吉。"
+   },
+   {
+    "pos": "九二",
+    "text": "眇能視，利幽人之貞。"
+   },
+   {
+    "pos": "六三",
+    "text": "歸妹以須，反歸以娣。"
+   },
+   {
+    "pos": "九四",
+    "text": "歸妹愆期，遲歸有時。"
+   },
+   {
+    "pos": "六五",
+    "text": "帝乙歸妹，其君之袂，不如其娣之袂良。月幾望，吉。"
+   },
+   {
+    "pos": "上六",
+    "text": "女承筐，無實，士刲羊，無血，無攸利。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 55,
+  "name": "雷火豐",
+  "short": "豐",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F06%E8%B1%90&oldid=2608391",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "遇其配主，雖旬無咎，往有尚。"
+   },
+   {
+    "pos": "六二",
+    "text": "豐其蔀，日中見斗。往得疑疾，有孚發若，吉。"
+   },
+   {
+    "pos": "九三",
+    "text": "豐其沛，日中見沬。折其右肱，無咎。"
+   },
+   {
+    "pos": "九四",
+    "text": "豐其蔀，日中見斗。遇其夷主，吉。"
+   },
+   {
+    "pos": "六五",
+    "text": "來章有慶譽，吉。"
+   },
+   {
+    "pos": "上六",
+    "text": "豐其屋，蔀其家，闚其戶，闃其無人。三歲不覿，凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 56,
+  "name": "火山旅",
+  "short": "旅",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F06%E6%97%85&oldid=2404984",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "旅瑣瑣，斯其所取災。"
+   },
+   {
+    "pos": "六二",
+    "text": "旅即次，懷其資，得童僕貞。"
+   },
+   {
+    "pos": "九三",
+    "text": "旅焚其次，喪其童僕，貞厲。"
+   },
+   {
+    "pos": "九四",
+    "text": "旅於處，得其資斧，我心不快。"
+   },
+   {
+    "pos": "六五",
+    "text": "射雉一矢，亡。終以譽命。"
+   },
+   {
+    "pos": "上九",
+    "text": "鳥焚其巢，旅人先笑後號咷。喪牛於易，凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 57,
+  "name": "巽為風",
+  "short": "巽",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F06%E5%B7%BD&oldid=2635592",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "進退，利武人之貞。"
+   },
+   {
+    "pos": "九二",
+    "text": "巽在床下，用史巫紛若，吉，無咎。"
+   },
+   {
+    "pos": "九三",
+    "text": "頻巽，吝。"
+   },
+   {
+    "pos": "六四",
+    "text": "悔亡，田獲三品。"
+   },
+   {
+    "pos": "九五",
+    "text": "貞吉，悔亡，無不利。無初有終。先庚三日，後庚三日，吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "巽在床下，喪其資斧，貞凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 58,
+  "name": "兌為澤",
+  "short": "兌",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F06%E5%85%8C&oldid=2412226",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "和兌，吉。"
+   },
+   {
+    "pos": "九二",
+    "text": "孚兌，吉，悔亡。"
+   },
+   {
+    "pos": "六三",
+    "text": "來兌，凶。"
+   },
+   {
+    "pos": "九四",
+    "text": "商兌未寧，介疾有喜。"
+   },
+   {
+    "pos": "九五",
+    "text": "孚於剝，有厲。"
+   },
+   {
+    "pos": "上六",
+    "text": "引兌。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 59,
+  "name": "風水渙",
+  "short": "渙",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F06%E6%B8%99&oldid=2404987",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "用拯馬壯，吉。"
+   },
+   {
+    "pos": "九二",
+    "text": "渙奔其機，悔亡。"
+   },
+   {
+    "pos": "六三",
+    "text": "渙其躬，無悔。"
+   },
+   {
+    "pos": "六四",
+    "text": "渙其群，元吉。渙有丘，匪夷所思。"
+   },
+   {
+    "pos": "九五",
+    "text": "渙汗其大號。渙，王居無咎。"
+   },
+   {
+    "pos": "上九",
+    "text": "渙其血，去逖出，無咎。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 60,
+  "name": "水澤節",
+  "short": "節",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F06%E7%AF%80&oldid=2404988",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "不出戶庭，無咎。"
+   },
+   {
+    "pos": "九二",
+    "text": "不出門庭，凶。"
+   },
+   {
+    "pos": "六三",
+    "text": "不節若，則嗟若，無咎。"
+   },
+   {
+    "pos": "六四",
+    "text": "安節，亨。"
+   },
+   {
+    "pos": "九五",
+    "text": "甘節，吉。往有尚。"
+   },
+   {
+    "pos": "上六",
+    "text": "苦節，貞凶，悔亡。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 61,
+  "name": "風澤中孚",
+  "short": "中孚",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F06%E4%B8%AD%E5%AD%9A&oldid=2620549",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "虞吉，有它不燕。"
+   },
+   {
+    "pos": "九二",
+    "text": "鳴鶴在陰，其子和之。我有好爵，吾與爾靡之。"
+   },
+   {
+    "pos": "六三",
+    "text": "得敵，或鼓或罷，或泣或歌。"
+   },
+   {
+    "pos": "六四",
+    "text": "月幾望，馬匹亡，無咎。"
+   },
+   {
+    "pos": "九五",
+    "text": "有孚攣如，無咎。"
+   },
+   {
+    "pos": "上九",
+    "text": "翰音登於天，貞凶。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 62,
+  "name": "雷山小過",
+  "short": "小過",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F06%E5%B0%8F%E9%81%8E&oldid=2644981",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "飛鳥以凶。"
+   },
+   {
+    "pos": "六二",
+    "text": "過其祖，遇其妣，不及其君。遇其臣，無咎。"
+   },
+   {
+    "pos": "九三",
+    "text": "弗過防之，從或戕之，凶。"
+   },
+   {
+    "pos": "九四",
+    "text": "無咎，弗過遇之，往厲必戒，勿用永貞。"
+   },
+   {
+    "pos": "六五",
+    "text": "密雲不雨，自我西郊，公弋取彼在穴。"
+   },
+   {
+    "pos": "上六",
+    "text": "弗遇過之，飛鳥離之，凶，是謂災眚。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 63,
+  "name": "水火既濟",
+  "short": "既濟",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F06%E6%97%A2%E6%BF%9F&oldid=2404985",
+  "yao": [
+   {
+    "pos": "初九",
+    "text": "曳其輪，濡其尾，無咎。"
+   },
+   {
+    "pos": "六二",
+    "text": "婦喪其茀，勿逐，七日得。"
+   },
+   {
+    "pos": "九三",
+    "text": "高宗伐鬼方，三年克之，小人勿用。"
+   },
+   {
+    "pos": "六四",
+    "text": "繻有衣袽，終日戒。"
+   },
+   {
+    "pos": "九五",
+    "text": "東鄰殺牛，不如西鄰之禴祭，實受其福。"
+   },
+   {
+    "pos": "上六",
+    "text": "濡其首，厲。"
+   }
+  ],
+  "yong": null
+ },
+ {
+  "number": 64,
+  "name": "火水未濟",
+  "short": "未濟",
+  "edition": "《周易正義》武英殿十三經注疏本",
+  "source_url": "https://zh.wikisource.org/w/index.php?title=%E5%91%A8%E6%98%93%E6%AD%A3%E7%BE%A9%2F06%E6%9C%AA%E6%BF%9F&oldid=2414136",
+  "yao": [
+   {
+    "pos": "初六",
+    "text": "濡其尾，吝。"
+   },
+   {
+    "pos": "九二",
+    "text": "曳其輪，貞吉。"
+   },
+   {
+    "pos": "六三",
+    "text": "未濟，征凶。利涉大川。"
+   },
+   {
+    "pos": "九四",
+    "text": "貞吉，悔亡。震用伐鬼方，三年有賞於大國。"
+   },
+   {
+    "pos": "六五",
+    "text": "貞吉，無悔。君子之光，有孚，吉。"
+   },
+   {
+    "pos": "上九",
+    "text": "有孚於飲酒，無咎。濡其首，有孚，失是。"
+   }
+  ],
+  "yong": null
+ }
+]

@@ -80,7 +80,7 @@ CHONG = LIUCHONG
 
 
 def analyze_geju(pillars, day_gan):
-    """月令取格 (bazi_geju.md #2): 月支藏干透於年/月/時干者為格, 本氣優先; 不透取本氣."""
+    """月令取格 (ask-person/bazi.md #2): 月支藏干透於年/月/時干者為格, 本氣優先; 不透取本氣."""
     mz = pillars[1][1]
     hidden = HIDDEN[mz]
     tian = [pillars[0][0], pillars[1][0], pillars[3][0]]  # 年/月/時干 (不含日主)

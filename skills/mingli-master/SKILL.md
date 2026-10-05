@@ -7,7 +7,7 @@ description: |
 license: MIT
 compatibility: 零安裝。只需系統 python3 與 Node.js>=18；依賴 (lunar_python 與 iztro) 已內嵌於 scripts/vendor 與 ziwei_full.bundle.mjs，不需 pip/npm/venv。用 bash scripts/check_env.sh 檢查。
 metadata:
-  version: 0.7.0
+  version: 0.7.1
   author: willywu (0524041)
   repository: https://github.com/0524041/fortune_master
 ---

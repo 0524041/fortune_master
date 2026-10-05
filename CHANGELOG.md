@@ -2,6 +2,14 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.7.1
+
+- **問事軸：用神選定決策樹**（`yongshen.md` 首節）：領域明確→領域用神／領域不明但事體存在→世爻為用（自占吉凶以世爻為用）／完全無焦點→不起卦。古籍依據 5 源以上（世為己應為人／自占以世為用／世應論用神／用神不現尋伏神或再占）；紅線禁為填表編領域。
+- **問事軸：引導檢查點**（`liuyao.md` 第五節三道門，不過門不起卦）：用神選定句→澄清兩問（問不出轉世爻為用＋低置信並明示）→現實錨定料；`questioning.md` 可起卦標準同步，明事體缺領域可起（世爻為用）。
+- **問事軸：推理自檢＋說過程**：六爻自檢五段／梅花推理三段（agent 內部）；每條斷語附怎麼看出＋結尾邀核對（`liuyao.md` 二b、`meihua.md` 第七節）。
+- **問事軸：打架裁決**（`verification.md` 問事補充，本 skill 口徑）：問句漂移→分工（成敗聽六爻／大勢聽梅花；靜卦配變卦互補）→純度加權→同純度真矛盾以六爻為主。
+- 測試：文件守衛 4 條（決策樹／檢查點／梅花引導／裁決順序）。
+
 ## v0.7.0
 
 - **知識補血（Phase 1，research-first，禁硬猜）**：四域並行研究，每主張 ≥5 獨立來源一致才入庫（報告存 `.scratch/research/`）。新增資料表 `data/shishen_combo.json`（十神組合 7 條）、`data/congge.json`（從弱／從強／真假從＋行運）、`data/ziwei_combo.json`（六吉六煞／輔煞規則／夾宮名目／火貪五件套／疊忌／四化總義／三方權重）、`data/dizhi_xinghaipo.json`（三刑／六害／定性分工；六破備查待定）；新增說法檔 `shenqiang.md`／`shishen_combo.md`／`waige.md`／`suiyun.md`／`shensha_use.md`／`taimingshen.md`／`dizhi_relations.md`／`fusha.md`，`tiaohou.md` 加實戰四步。待定與未驗證（外格雜格／分宮細則／六破／胎息／火空則發）留 pending 區，不作斷語依據。

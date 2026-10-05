@@ -167,6 +167,36 @@ def test_output_lint_strict_notes_marked_lines():
     assert "可能" in {n["token"] for n in d.get("notes", [])}, d
 
 
+def test_yongshen_decision_tree():
+    """問事用神決策樹: 三條 fallback＋禁編領域＋古籍依據須在檔."""
+    s = (SKILL / "references" / "ask-event" / "yongshen.md").read_text(encoding="utf-8")
+    for tok in ["決策樹", "世爻為用", "完全無焦點", "不許為填表編領域",
+                "增刪卜易", "卜筮正宗", "世為己，應為人"]:
+        assert tok in s, tok
+
+
+def test_liuyao_checkpoints_and_explain():
+    """六爻引導檢查點三道門＋推理自檢＋說過程邀核對."""
+    s = (SKILL / "references" / "ask-event" / "liuyao.md").read_text(encoding="utf-8")
+    for tok in ["引導檢查點", "用神選定句", "澄清兩問", "現實錨定料",
+                "自檢五段", "怎麼看出", "我重看"]:
+        assert tok in s, tok
+
+
+def test_meihua_guide_and_explain():
+    """梅花引導與推理節."""
+    s = (SKILL / "references" / "ask-event" / "meihua.md").read_text(encoding="utf-8")
+    for tok in ["體用定位檢查", "推理三段", "說過程"]:
+        assert tok in s, tok
+
+
+def test_verification_conflict_order():
+    """打架裁決順序: 問句漂移→分工→純度加權→六爻為主."""
+    s = (SKILL / "references" / "shared" / "verification.md").read_text(encoding="utf-8")
+    for tok in ["打架裁決", "問句漂移", "成敗細節聽六爻", "純度加權", "以六爻為主"]:
+        assert tok in s, tok
+
+
 def test_check_env_passes_when_set_up():
     """環境檢查: 已就緒的機器須 exit 0 並顯示『環境就緒』."""
     import subprocess

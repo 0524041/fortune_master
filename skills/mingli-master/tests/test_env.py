@@ -78,6 +78,9 @@ def test_glossary_covers_fixture_vocab():
                   "流月", "流日", "流時", "小限", "流耀",
                   "神煞", "天乙貴人", "桃花", "驛馬", "華蓋", "將星",
                   "孤辰", "寡宿", "羊刃", "祿神", "文昌", "紅鸞", "天喜",
+                  # Phase 1 知識補血 (十神組合/從格/紫微輔煞/刑害)
+                  "從格", "專旺", "食傷制殺", "傷官見官", "官殺混雜",
+                  "夾宮", "疊忌", "六害", "三刑",
                   # 易經 (六爻/梅花)
                   "六爻", "六親", "六神", "世爻", "應爻", "動爻", "變卦", "互卦", "體用", "空亡", "入墓"])
     missing = [v for v in vocab if v not in g and v != "日主"]
@@ -126,6 +129,42 @@ def test_output_lint_strict_flags_vague():
     hits = {h["token"] for h in json.loads(r2.stdout)["violations"]}
     for tok in ["因人而異", "無法由命盤推算收入金額"]:
         assert tok in hits, tok
+
+
+def test_output_lint_strict_allows_marked_probability():
+    """Phase 2 置信制: 帶置信標記的或然判斷須放行 (strict exit 0、零違規);
+    無標記的模糊仍擋 (鎖 vague_sample 第 2 行的裸『可能』)."""
+    import subprocess
+    import json
+    lint = [str(SKILL / "scripts" / ".venv" / "bin" / "python"),
+            str(SKILL / "scripts" / "output_lint.py"),
+            "--format", "json"]
+    r = subprocess.run(lint + ["--text-file",
+                               str(SKILL / "tests" / "fixtures" / "confident_sample.txt"),
+                               "--strict"],
+                       capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout
+    assert json.loads(r.stdout)["violations"] == []
+    r2 = subprocess.run(lint + ["--text-file",
+                                str(SKILL / "tests" / "fixtures" / "vague_sample.txt"),
+                                "--strict"],
+                        capture_output=True, text=True)
+    assert r2.returncode != 0
+    assert "可能" in {h["token"] for h in json.loads(r2.stdout)["violations"]}
+
+
+def test_output_lint_strict_notes_marked_lines():
+    """Phase 2 可觀測性: 被標記豁免的行進 notes (不計違規、不影響 exit code)."""
+    import subprocess
+    import json
+    r = subprocess.run([str(SKILL / "scripts" / ".venv" / "bin" / "python"),
+                        str(SKILL / "scripts" / "output_lint.py"),
+                        "--text-file", str(SKILL / "tests" / "fixtures" / "confident_sample.txt"),
+                        "--format", "json", "--strict"],
+                       capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout
+    d = json.loads(r.stdout)
+    assert "可能" in {n["token"] for n in d.get("notes", [])}, d
 
 
 def test_check_env_passes_when_set_up():

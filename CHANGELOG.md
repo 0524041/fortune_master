@@ -2,6 +2,16 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.7.0
+
+- **知識補血（Phase 1，research-first，禁硬猜）**：四域並行研究，每主張 ≥5 獨立來源一致才入庫（報告存 `.scratch/research/`）。新增資料表 `data/shishen_combo.json`（十神組合 7 條）、`data/congge.json`（從弱／從強／真假從＋行運）、`data/ziwei_combo.json`（六吉六煞／輔煞規則／夾宮名目／火貪五件套／疊忌／四化總義／三方權重）、`data/dizhi_xinghaipo.json`（三刑／六害／定性分工；六破備查待定）；新增說法檔 `shenqiang.md`／`shishen_combo.md`／`waige.md`／`suiyun.md`／`shensha_use.md`／`taimingshen.md`／`dizhi_relations.md`／`fusha.md`，`tiaohou.md` 加實戰四步。待定與未驗證（外格雜格／分宮細則／六破／胎息／火空則發）留 pending 區，不作斷語依據。
+- **研究糾錯**：`ni_mind.md` 疾厄「子午流注」拆分為宮星＋化忌斷病位（子午流注另屬針灸模組）；合盤五步與流派口訣加出處性質註（後人整理、置信降一級）；`pan-reading.md` 定盤去倪氏 attribution。
+- **鬆綁表達（Phase 2）**：禁模糊 → 三級置信（高／中／低）＋看不準單句；`output_lint.py --strict` 改為無標記模糊才擋，帶標記或然記 `notes`；`SKILL.md`／`liuyao.md`／`output-quality.md`／`glossary.md` 同步。
+- **算法升級（Phase 3）**：八字加 `strength_classic` 三得標籤（得令／透干／通根／黨眾寡，與分數並陳）；`relations` 補三刑／自刑／六害（六破待定不入）；`cast.py` 加 `caiyun_semantic` 財運語義初判（同向／分歧／單邊／缺料＋進財窗／守財）；`caiyun.md`「矛盾未解」改為必須選邊＋理由＋置信標記。
+- **接線**：兩軸入口與 `bazi.md`／`ziwei.md`／`pan-reading.md` 引用新表新欄位；主軸八步與分流結構不變。
+- **未做（設計稿在 `.scratch/mingli-accuracy-spec.md` D19／D20）**：Phase 4 衝突解決矩陣、Phase 5 黃金回測集。
+- 測試：新增 lint 置信制 2 條、新資料表 4 條、三得標籤 2 條、刑害 1 條、財運語義 1 條（5 態）。
+
 ## v0.6.0
 
 - **命理融合主軸（問人）**：新增 `references/ask-person/pan-reading.md`——融合南派（三合）／北派（四化）／子平／倪海廈，八步主軸「**定盤→定調→定體用→量力量→定人事→追因果→定時間→交叉直答**」。取捨：**紫微定象、八字定勢；南派為主、北派四化為輔**；含 **三方四正速查**、十二宮意義、十神速查、四化讀法（生年→大限→流年；自化/來因宮僅參考）、各領域該答什麼、時間軸敘事（八字立春 vs 紫微正月初一）。`bazi.md`／`ziwei.md` 由「讀欄位」升級為「解讀思路」。

@@ -8,7 +8,7 @@
 - 只認 `required` 全滿足才成立；`bonus` 加分、`breaking` 有一即降級並明說，不硬撐大格。
 - 四化：本命年干固定 (`sihua.ts getSiHuaByStem`)；大限看宮干 (`getDaXianSiHua`)、流年看年干 (`getLiuNianSiHua`) 疊加。不主斷宮干自化/來因宮，那是 `feixing_ref` 參考。運限 (`--at`) 六層四化由 iztro `horoscope()` 產生，與 vendor 四化表逐年干互校（測試把關）。
 - 化忌必指宮位應事；夫妻必兼看福德；官祿喜權、財帛喜祿。
-- 單星套 `references/ask-person/star_detail.md`；合盤走 `references/ask-person/hepan.md` 五步；話術走 `references/ask-person/ni_mind.md`。
+- 單星套 `references/ask-person/star_detail.md`；輔煞夾宮四化讀 `fusha.md`（以 `data/ziwei_combo.json` 為準）；合盤走 `references/ask-person/hepan.md` 五步；話術走 `references/ask-person/ni_mind.md`。
 
 ## 運限 (`--at`)
 

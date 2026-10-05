@@ -236,3 +236,53 @@ def test_cast_twin_modes():
     none = run_cast("--date", "1990-08-18", "--time", "06:30", "--city", "台北", "--gender", "male",
                     "--twin-order", "2", "--twin-ziwei", "none")
     assert none["ziwei"]["ming"]["branch"] == "辰"
+
+
+def test_classic_strength_tags_a():
+    """Phase 3 三得標籤 A 盤手算真值: 乙卯日/申月失令, 透甲, 申藏壬卯藏乙通根, 黨寡 3:4."""
+    d = run_bazi_json("--date", "1990-08-18", "--time", "06:30", "--city", "台北",
+                      "--gender", "male")
+    sc = d["strength_classic"]
+    assert sc["deling"] is False
+    assert sc["tougan"] == ["甲"]
+    assert sc["tonggen"] == ["申:壬", "卯:乙"]
+    assert sc["dang"] == {"tong": 3, "yi": 4, "label": "黨寡"}
+    assert d["day_strength"]["level"] == "中和"  # 舊軌保留並陳
+
+
+def test_classic_strength_tags_delin_dangzhong():
+    """Phase 3 得令真值: 1987-06-06 丙/巳月得令, 透丁乙甲, 四支皆通根, 黨眾 6:1."""
+    d = run_bazi_json("--date", "1987-06-06", "--time", "12:00", "--city", "台北",
+                      "--gender", "male")
+    sc = d["strength_classic"]
+    assert sc["deling"] is True
+    assert sc["tougan"] == ["丁", "乙", "甲"]
+    assert sc["tonggen"] == ["卯:乙", "巳:丙", "戌:丁", "午:丁"]
+    assert sc["dang"]["label"] == "黨眾" and (sc["dang"]["tong"], sc["dang"]["yi"]) == (6, 1)
+
+
+def test_relations_xinghai():
+    """Phase 3 刑害真值: 1988-11-20 (戊辰癸亥己卯戊辰) 卯辰六害＋辰自刑；既有六合三合不動."""
+    d = run_bazi_json("--date", "1988-11-20", "--time", "08:00", "--city", "台北",
+                      "--gender", "male")
+    assert "卯辰六害" in d["relations"]
+    assert "辰自刑" in d["relations"]
+
+
+def test_caiyun_semantic_four_states():
+    """Phase 3 財運語義交叉四態 (手算鎖定):
+    1986-03-03 喜財＋祿入官禄=同向進財窗；1985-06-15 忌財＋祿忌同入福德=分歧(祿忌交馳)；
+    1987-06-06 喜財＋忌入田宅=分歧；1990-08-18 雙中性=缺料."""
+    cases = {
+        ("1986-03-03", "07:00"): ("同向", "進財窗"),
+        ("1991-02-15", "10:00"): ("同向", "守財"),
+        ("1985-06-15", "10:00"): ("分歧", "守財"),
+        ("1987-06-06", "12:00"): ("分歧", "守財"),
+        ("1990-08-18", "06:30"): ("缺料", None),
+    }
+    for (date, time), (verdict, kind) in cases.items():
+        d = run_cast("--date", date, "--time", time, "--city", "台北", "--gender", "male")
+        cy = d["caiyun_semantic"]
+        assert cy["verdict"] == verdict, (date, cy)
+        assert cy["kind"] == kind, (date, cy)
+        assert cy["reasons"], (date, cy)

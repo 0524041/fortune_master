@@ -75,3 +75,53 @@ def test_true_solar_agrees_across_tools():
     m = re.search(r"校正([-0-9.]+)分", zw["time_src"])
     assert m, zw["time_src"]
     assert abs(float(m.group(1)) - bz["input"]["total_corr_min"]) < 0.01
+
+
+def test_shishen_combo_verified():
+    """Phase 1: 十神組合 7 條須全 verified (≥5 源), 鍵齊全, 抽查真值."""
+    d = load("shishen_combo.json")
+    ids = {c["id"] for c in d["combos"]}
+    assert ids == {"shishang_zhisha", "shangguan_jianguan", "guanyin_xiangsheng",
+                   "caiguan_xiangsheng", "bijie_duocai", "shishang_shengcai",
+                   "guansha_hunza"}, ids
+    for c in d["combos"]:
+        assert c["status"] == "verified", c["id"]
+        assert c["source_count"] >= 5 and len(c["sources"]) >= c["source_count"], c["id"]
+        for k in ("conditions", "judge", "breakers", "yun"):
+            assert c[k], (c["id"], k)
+    by_id = {c["id"]: c for c in d["combos"]}
+    assert "殺成勢" in by_id["shishang_zhisha"]["conditions"][0]
+    assert "合官留殺" in by_id["guansha_hunza"]["judge"]
+
+
+def test_congge_verified():
+    """Phase 1: 從弱/從強/真假從須 verified (≥5 源); 外格雜格留 pending."""
+    d = load("congge.json")
+    for k in ("cong_ruo", "cong_qiang_zhuanwang", "zhenjia_xingyun"):
+        assert d[k]["status"] == "verified", k
+        assert d[k]["source_count"] >= 5 and len(d[k]["sources"]) >= 5, k
+    assert "透干" in d["cong_ruo"]["conditions"][0]
+    assert "官殺" in d["zhenjia_xingyun"]["disputes"][0]
+    assert d["pending"] and d["pending"][0]["id"] == "waige_zage"
+
+
+def test_ziwei_combo_verified():
+    """Phase 1: 六吉六煞名單齊全; 火貪五件套鍵齊全; 分宮細則留 pending."""
+    d = load("ziwei_combo.json")
+    assert len(d["fuxing"]["liu_ji"]) == 6 and "文昌" in d["fuxing"]["liu_ji"]
+    assert len(d["liu_sha"]) == 6 and "擎羊" in d["liu_sha"]
+    assert len(d["jia_gong"]["jijia"]) == 6 and len(d["jia_gong"]["xiongjia"]) == 5
+    tj = d["sha"]["huotan_wujiantao"]
+    assert "獨坐" in tj["condition"] and "限運引動" in tj["judge"]
+    pend = {p["id"] for p in d["pending"]}
+    assert {"B3-2", "B3-3", "B1-6"} <= pend, pend
+
+
+def test_dizhi_xinghaipo_verified():
+    """Phase 1: 六害 6 組、三刑 4 組 verified; 六破留 unverified 備查."""
+    d = load("dizhi_xinghaipo.json")
+    assert len(d["liu_hai"]["groups"]) == 6 and "子未" in d["liu_hai"]["groups"]
+    assert len(d["sanxing"]["groups"]) == 4
+    assert d["liu_hai"]["status"] == "verified" and d["sanxing"]["source_count"] >= 5
+    assert d["unverified"]["liu_po"]["status"].startswith("pending")
+    assert len(d["unverified"]["liu_po"]["groups"]) == 6

@@ -7,7 +7,7 @@ description: |
 license: MIT
 compatibility: 零安裝。只需系統 python3 與 Node.js>=18；依賴 (lunar_python 與 iztro) 已內嵌於 scripts/vendor 與 ziwei_full.bundle.mjs，不需 pip/npm/venv。用 bash scripts/check_env.sh 檢查。
 metadata:
-  version: 0.6.0
+  version: 0.7.0
   author: willywu (0524041)
   repository: https://github.com/0524041/fortune_master
 ---
@@ -53,5 +53,5 @@ metadata:
 
 1. 算數歸 script，**不心算**；數字、格局名、卦名、卦辭爻辭**照抄程式輸出**，不編造、不自創。
 2. 收料**曆制（國曆／農曆閏月）未確認不排盤**；校驗未過或有 `warnings` 標低置信；問事**一事一問**、起卦時間預設現在（心動即占；梅花以農曆時間起卦、六爻以月建日辰為背景，換算全走程式）。
-3. **輸出四條常駐**：① 先直答（第一句回答用戶問的那句）② 每句掛依據 ③ 能給應期就給 ④ 不講「可能／也許／大概／較像」、不寫「換誰都成立」的話；少反轉、少術語。完整規範見 `references/shared/output-quality.md`。
+3. **輸出四條常駐**：① 先直答（第一句回答用戶問的那句）② 每句掛依據 ③ 能給應期就給 ④ 或然判斷帶置信標記（高／中／低置信），無標記的「可能／也許／大概／較像」不寫、不寫「換誰都成立」的話；少反轉、少術語。完整規範見 `references/shared/output-quality.md`。
 4. **交叉要講清楚**：兩法同向＝明說可信度高；分歧＝說以哪邊為主與理由。見 `references/shared/verification.md`。取象題（會遇到什麼）要取具體畫面，不能只給氛圍。

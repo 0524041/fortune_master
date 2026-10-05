@@ -37,5 +37,7 @@ $VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender 
 ## 四、本軸檔案
 
 - 技法：`pan-reading.md`（**解盤主軸**）、`bazi.md`、`ziwei.md`、`caiyun.md`、`hepan.md`、`zeri.md`
-- 配套：`tiaohou.md`（調候用神）、`star_detail.md`（單星）、`fuqi_stars.md`（夫妻宮斷語）、`ni_mind.md`（流派立場：南派為體、北派四化為用）、`twins.md`（雙胞胎／多胞胎處理）
+- 八字進階：`shenqiang.md`（身強弱三得）、`shishen_combo.md`（十神組合）、`waige.md`（從格專旺）、`suiyun.md`（大運流年）、`shensha_use.md`（神煞三鎖）、`taimingshen.md`（胎命身）、`dizhi_relations.md`（刑害分工）
+- 紫微進階：`fusha.md`（輔煞夾宮四化）
+- 配套：`tiaohou.md`（調候用神＋實戰四步）、`star_detail.md`（單星）、`fuqi_stars.md`（夫妻宮斷語）、`ni_mind.md`（流派立場與口述整理降級標註）、`twins.md`（雙胞胎／多胞胎處理）
 - 範例：`examples/`（八字、合盤、擇日）

@@ -28,6 +28,10 @@ HIDDEN = _GZ["hidden"]          # 藏干 (本氣/中氣/餘氣)
 LIUHE = _GZ["liu_he"]
 LIUCHONG = _GZ["liu_chong"]
 SANHE = _GZ["san_he"]
+# Phase 3: 三刑/六害組別讀知識表 (data/dizhi_xinghaipo.json verified 區, 單一真相); 六破待定不入算法
+_DX = json.loads((DATA_DIR / "dizhi_xinghaipo.json").read_text(encoding="utf-8"))
+SANXING = _DX["sanxing"]["groups"]
+LIUHAI = _DX["liu_hai"]["groups"]
 
 def build_dayun(lunar, gender: str):
     """大運: 起運須數至「節」(非中氣), 3天折1年, 干支由月柱順逆推.
@@ -285,7 +289,56 @@ def relations(zhis):
     for grp in SANHE:
         if all(g in s for g in grp):
             out.append(f"{''.join(grp)}三合局")
+    # Phase 3: 三刑 (主流口徑)＋自刑＋六害；六破待定不入算法
+    for grp in SANXING:
+        if grp.endswith("自刑"):
+            for z in grp[:-2]:
+                if zhis.count(z) >= 2 and f"{z}自刑" not in out:
+                    out.append(f"{z}自刑")
+        elif all(g in s for g in grp):
+            out.append(f"{grp}三刑")
+    for pair in LIUHAI:
+        a, b = pair[0], pair[1]
+        if a in s and b in s:
+            out.append(f"{pair}六害")
     return out
+
+
+WANG_YUE = {"甲": ["寅", "卯"], "乙": ["寅", "卯"], "丙": ["巳", "午"], "丁": ["巳", "午"],
+            "戊": ["辰", "戌", "丑", "未"], "己": ["辰", "戌", "丑", "未"],
+            "庚": ["申", "酉"], "辛": ["申", "酉"], "壬": ["亥", "子"], "癸": ["亥", "子"]}
+
+
+def classic_tags(day_gan, pillar_data):
+    """Phase 3 正統三得標籤 (第二軌, 與 day_strength 分數並陳):
+    得令=月令當旺之氣；透干=年月時干之同黨(比劫/印)；通根=四支藏干之同黨；
+    黨眾寡=天干票(除日主)＋地支本氣票. 規則見 references/ask-person/shenqiang.md."""
+    me_wx = GAN_WX[day_gan]
+    mz = next(p["zhi"] for p in pillar_data if p["label"] == "月柱")
+    deling = mz in WANG_YUE[day_gan]
+
+    def tong(g):
+        return _rel(me_wx, GAN_WX[g]) in ("同", "生我")
+
+    tian = [(p["gan"]) for p in pillar_data if p["label"] != "日柱"]
+    tougan = [g for g in tian if tong(g)]
+    tonggen = []
+    for p in pillar_data:
+        for h in p["hidden"]:
+            if tong(h):
+                tonggen.append(f"{p['zhi']}:{h}")
+    tonggen = list(dict.fromkeys(tonggen))
+    tv, ti = sum(1 for g in tian if tong(g)), sum(1 for g in tian if not tong(g))
+    bv = sum(1 for p in pillar_data if tong(HIDDEN[p["zhi"]][0]))
+    tong_n, yi_n = tv + bv, (len(tian) - tv) + (len(pillar_data) - bv)
+    label = "黨眾" if tong_n > yi_n else ("黨寡" if tong_n < yi_n else "均勢")
+    return {"deling": deling, "deling_note": f"月令{mz}{'得令' if deling else '失令'}",
+            "tougan": tougan, "tonggen": tonggen,
+            "dang": {"tong": tong_n, "yi": yi_n, "label": label},
+            "summary": f"月令{mz}{'得令' if deling else '失令'}；"
+                       f"透干{''.join(tougan) if tougan else '無同黨'}；"
+                       f"通根{'、'.join(tonggen) if tonggen else '無'}；"
+                       f"{label}({tong_n}:{yi_n})"}
 
 def main():
     ap = argparse.ArgumentParser()
@@ -374,6 +427,7 @@ def main():
     }
     score = wuxing_score(pillars)
     strength = day_strength(pillars, day_gan)
+    classic = classic_tags(day_gan, pillar_data)
     geju = analyze_geju(pillars, day_gan)
     yongshen = analyze_yongshen(day_gan, pillars[1][1], strength)
     shensha = analyze_shensha(pillars, day_gan)
@@ -385,6 +439,7 @@ def main():
             "pillars": pillar_data,
             "day_master": f"{day_gan}{GAN_WX[day_gan]}",
             "wuxing_score": score, "day_strength": strength,
+            "strength_classic": classic,
             "geju": geju, "yongshen": yongshen, "shensha": shensha,
             "extras": extras,
             "relations": rel, "dayun": dayun,
@@ -415,6 +470,7 @@ def main():
         print(f"胎元{extras['taiyuan']['gan_zhi']} 胎息{extras['taixi']['gan_zhi']} 命宮{extras['minggong']['gan_zhi']} 身宮{extras['shengong']['gan_zhi']}")
         print(f"五行分: {score}  關係: {'、'.join(rel) if rel else '無明顯合沖'}")
         print(f"身強弱: {strength['level']}{strength['score']}分 喜{'+'.join(strength['xi'])} 忌{'+'.join(strength['ji'])}")
+        print(f"三得: {classic['summary']}")
         print(f"格局: {geju['name']} ({geju['evidence']})" +
               (f" 破格:{';'.join(geju['breaking'])}" if geju['breaking'] else ""))
         print(f"用神: 扶抑{'+'.join(yongshen['xi'])}為主" +

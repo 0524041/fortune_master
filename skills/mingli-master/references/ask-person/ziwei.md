@@ -14,6 +14,18 @@
 
 `--at YYYY-MM-DD` 出六層：大限→小限→流年→流月→流日→流時。每層欄位 `ganzhi/palace/branch/mutagen/palaces[]`（+ 流耀 `stars`，流年另有 `dec_star` 將前/歲前十二神）。
 
+**頂層 JSON 鍵一覽**（排盤輸出結構以此為準，不讀 `scripts/*.sh|*.mjs|*.ts` 原始碼）：
+
+| 鍵 | 內容 |
+|---|---|
+| `palaces` | 本命十二宮（含主星／四化／`patterns` 格局） |
+| `ming` | 命宮摘要（`branch`/`shen`/`wuju`/`summary`） |
+| `native_sihua`／`daxian_sihua`／`liunian_sihua` | 生年／大限／流年四化（`stemName`＋`transforms{祿,權,科,忌}`星名） |
+| `daxian` | 當前大限摘要；`currentDaXianIndex` 為其宮序 |
+| `horoscope` | `--at` 六層運限（`daxian`/`xiaoxian`/`liunian`/`liuyue`/`liuri`/`liushi`＋`divide` 分界＋`lunar`） |
+| `feixing_ref` | 飛星參考（不主斷） |
+| `warnings` | 警示（有值即標低置信；另見 `cast.py` 的 `cross_check`） |
+
 - `palaces[]` 是該層十二宮重排，`scope`=運限宮名、`native`=本命宮名、`branch`=地支；`index` 對應本命宮序。
 - **分界**：iztro 預設 `divide=normal`（正月初一）；`--horoscope-divide exact` 改立春。與八字（一律立春）在年初/年末會差一輪，近立春須看 `divide` 標示。
 - 流時由 `--at-time HH:MM`（預設 12:00 午時）決定；流時命宮不直接等於時支。

@@ -30,7 +30,7 @@ CN_NAMES = {"bazi_pai.py": "八字排盤程式", "ziwei_full.sh": "紫微排盤�
             "divine.py": "六爻起卦程式", "meihua.py": "梅花起卦程式",
             "liuren.py": "六壬排盤程式", "event_cast.py": "四式合盤程式",
             "qimen.py": "奇門排盤程式", "person_cast.py": "問人總盤程式",
-            "cast.py": "雙盤排盤程式", "fuqi_stars": "夫妻宮斷語表",
+            "cast.py": "雙盤排盤程式", "decade.py": "多年運總表程式", "fuqi_stars": "夫妻宮斷語表",
             "tiaohou.json": "調候用神表", "patterns[]": "格局判定結果"}
 
 

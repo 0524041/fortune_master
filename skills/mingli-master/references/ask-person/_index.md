@@ -18,6 +18,7 @@
 | 總覽：性格／格局／一生方向 | `scripts/person_cast.py`（一次出八字＋紫微＋六壬終身課＋奇門終身盤） | **主軸 `pan-reading.md`**＋`bazi.md`＋`ziwei.md`＋`ni_mind.md`＋**`aux-charts.md`** |
 | 總覽（輕量，不含輔助盤） | `scripts/cast.py`（只有八字＋紫微＋初步交叉） | `pan-reading.md` |
 | 八字細節／流年 | `scripts/bazi_pai.py`（`--year` 出流年＋12 流月） | `bazi.md`；調候 `tiaohou.md` |
+| 多年運／時間窗（前五年後五年） | `scripts/decade.py`（`--from A --to B`，一年一行：八字流年＋紫微運限） | `pan-reading.md` 步驟 7；**禁逐年迴圈呼叫引擎** |
 | 紫微細節／運限 | `scripts/ziwei_full.sh`（`--at YYYY-MM-DD` 出運限六層） | `ziwei.md`；單星 `star_detail.md` |
 | 財運／財富 | 財帛＋田宅＋官祿＋財星（雙盤交叉） | `caiyun.md` |
 | 合盤／合婚 | 兩人各排盤 → `scripts/hepan_check.py` | `hepan.md`＋`fuqi_stars.md` |
@@ -35,6 +36,7 @@ $VENV scripts/person_cast.py --date 1990-08-18 --time 06:30 --city 台北 --gend
 $VENV scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --at 2026-06-15  # 輕量：只有八字＋紫微
 $VENV scripts/cast.py --calendar lunar --date 1990-07-28 --time 06:30 --city 台北 --gender male  # 農曆（閏月加 --leap）
 $VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026 --format json
+$VENV scripts/decade.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --from 2021 --to 2030  # 多年運總表（禁逐年迴圈）
 ./scripts/ziwei_full.sh --date 1990-08-18 --hour 卯 --gender male --at 2026-06-15 --format json
 ```
 

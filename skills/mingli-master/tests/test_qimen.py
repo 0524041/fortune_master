@@ -104,3 +104,14 @@ def test_event_cast_four_plates():
     d = json.loads(r.stdout.split('===== JSON =====')[-1])
     assert {'liuyao', 'meihua', 'liuren', 'qimen', 'cross'} <= set(d)
     assert d['cross']['day_pillar_match'] is True
+
+
+def test_zhifu_zhonggong_no_crash():
+    """旬首落中五宮 (值符天禽5宮) 不得 KeyError: 值使寄坤二 (1998-01-05 15:52 回歸)。"""
+    from datetime import datetime
+    for dt in (datetime(1998, 1, 5, 15, 52), datetime(1998, 1, 5, 15, 0)):
+        for lt in (False, True):
+            d = qm.QiMenChart(dt, lifetime=lt).to_dict()
+            assert d['zhifu_gong'] == 5 and d['zhifu_star'] == '天禽'
+            assert d['zhishi_gate'] == '死'  # 中宮寄坤二之固定門
+            assert len(d['gong']) == 9

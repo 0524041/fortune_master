@@ -225,7 +225,8 @@ class QiMenChart:
         self.zhifu_yi = XUNSHOU_YI[self.xunshou]
         self.zhifu_gong = next(g for g, v in self.dipan.items() if v == self.zhifu_yi)
         self.zhifu_star = STAR_FIXED[self.zhifu_gong]
-        self.zhishi_gate = GATE_FIXED[self.zhifu_gong]
+        # 值使門: 旬首落中五宮時無固定門, 寄坤二 (與值使宮同例)
+        self.zhishi_gate = GATE_FIXED[2 if self.zhifu_gong == 5 else self.zhifu_gong]
         # 時干落宮 (甲用旬首儀)
         hour_gan = self.hour_gz[0]
         tg_yi = self.zhifu_yi if hour_gan == '甲' else hour_gan

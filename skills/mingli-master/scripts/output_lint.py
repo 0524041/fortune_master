@@ -13,7 +13,7 @@ import sys
 # 外洩 (預設檢查)
 RULES = [
     (re.compile(r"[A-Za-z_][\w-]*\.(py|sh|ts|mjs|js|md|json|txt)"), "英文檔名外洩"),
-    (re.compile(r"\b(divine|hepan_check|zeri_pick|bazi_pai|ziwei_full|time_correct|output_lint|toss_coins|liuyao_core|meihua|cast|fuqi_stars|star_detail|ni_mind|bazi_geju|ziwei_geju|hepan_ni|fuyan|glossary|voice|setup|tiaohou|horoscope)\b"), "內部名外洩"),
+    (re.compile(r"\b(divine|hepan_check|zeri_pick|bazi_pai|ziwei_full|time_correct|output_lint|toss_coins|liuyao_core|meihua|cast|liuren|liuren_core|event_cast|qimen|qimen_core|person_cast|fuqi_stars|star_detail|ni_mind|bazi_geju|ziwei_geju|hepan_ni|fuyan|glossary|voice|setup|tiaohou|horoscope)\b"), "內部名外洩"),
     (re.compile(r"patterns\[\]|JSON\.|->|=>|\.json\b.*[抄讀]|[抄讀].*\.json\b"), "程式符號外洩"),
     (re.compile(r"sk-?[A-Za-z0-9]{8,}|/Users/[\w./-]+|/tmp/[\w./-]+"), "本機路徑外洩"),
 ]
@@ -28,6 +28,8 @@ VAGUE_RULES = [
 CN_NAMES = {"bazi_pai.py": "八字排盤程式", "ziwei_full.sh": "紫微排盤程式",
             "hepan_check.py": "合盤比對程式", "zeri_pick.py": "擇日掃描程式",
             "divine.py": "六爻起卦程式", "meihua.py": "梅花起卦程式",
+            "liuren.py": "六壬排盤程式", "event_cast.py": "四式合盤程式",
+            "qimen.py": "奇門排盤程式", "person_cast.py": "問人總盤程式",
             "cast.py": "雙盤排盤程式", "fuqi_stars": "夫妻宮斷語表",
             "tiaohou.json": "調候用神表", "patterns[]": "格局判定結果"}
 

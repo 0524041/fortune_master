@@ -1,6 +1,6 @@
 # 問事（占卜）入口
 
-> 問「這件事的走向」都走這裡。**以卦象為準**：六爻＋梅花，隨機起卦、一事一卦、事畢卦止。
+> 問「這件事的走向」都走這裡。**以卦象/課象為準**：六爻＋梅花＋六壬，隨機起卦、一事一卦、事畢卦止。
 > 起卦前先讀 `questioning.md`；輸出怎麼說見 `references/shared/output-quality.md`。
 > 別拿一卦算「我一輩子賺多少」——那是問人（`references/ask-person/`）。
 
@@ -27,6 +27,10 @@
 |---|---|---|
 | 具體成敗、時間點、細節（面試／官司／病情） | **六爻** `scripts/yijing/divine.py` | `liuyao.md`＋`yongshen.md` |
 | 快速判方向大勢、觸機、象義 | **梅花** `scripts/yijing/meihua.py` | `meihua.md` |
+| 過程人事、方位、來意、人際牽連 | **六壬** `scripts/yijing/liuren.py` | `liuren.md` |
+| 方位、行動、時空調理、擇方 | **奇門遁甲** `scripts/yijing/qimen.py` | `qimen.md` |
+| 一生動態人事（問人輔助盤） | **六壬終身課** `liuren.py --lifetime` | `liuren.md` 第十節 |
+| 一次出門四盤（同刻互參） | **四式合盤** `scripts/yijing/event_cast.py` | `qimen.md`＋`liuren.md` 第七節＋`shared/verification.md` |
 | 兩者並用互參 | 同向＝信心高；分歧＝回現實錨定再判 | — |
 
 ## 四、流程
@@ -37,12 +41,17 @@
 VENV=python3   # 零安裝，依賴已內嵌
 $VENV scripts/yijing/divine.py --random          # 六爻（時間=系統現在；--time 指定實際起卦時刻）
 $VENV scripts/yijing/meihua.py                    # 梅花（預設時間起卦=系統現在；亦可 --numbers／--random）
+$VENV scripts/yijing/liuren.py                    # 六壬（月將加時；--birth/--gender 可選入年命）
+$VENV scripts/yijing/event_cast.py --format text  # 四式合盤（六爻+梅花+六壬+奇門 同刻）
 ```
 
 ## 五、本軸檔案
 
-- `principles.md`：**易經原理與原書要訣**（繫辭、京房納甲、火珠林、增刪卜易、卜筮正宗、梅花《體用總訣》、倪海廈金錢卦）
-- `questioning.md`：起卦前引導（適不適合起卦、怎麼問、六爻 vs 梅花）
+- `principles.md`：**易經原理與原書要訣**（繫辭、京房納甲、火珠林、增刪卜易、卜筮正宗、梅花《體用總訣》、倪海廈金錢卦、大六壬三式源流）
+- `questioning.md`：起卦前引導（適不適合起卦、怎麼問、六爻 vs 梅花 vs 六壬）
 - `liuyao.md`：六爻解讀流程＋盤面欄位意義＋各領域該回答什麼
 - `yongshen.md`：用神對照表＋六親／六神含義＋斷卦要點
 - `meihua.md`：梅花讀盤（本／互／變、體用生剋、盤面欄位）
+- `liuren.md`：六壬讀課（四課三傳、十二天將、類神、課體、三十六課體、四式綜合閱讀、矛盾裁決、終身課）
+- `liuren-classics.md`：六壬古籍要訣（讀課邏輯鏈、干我支彼、旺相死囚休、神將內外戰、十二天將旺衰斷、十二月將主事、三十六課體、應期法、取象派、**流派衝突與取捨**）
+- `qimen.md`：奇門讀局（拆補法起局、四盤結構、九宮象意、用神取法、八門九星八神、吉凶格局、**方位行動指引**）

@@ -7,7 +7,8 @@
 `mingli-master` 是「命理大師總控」skill：
 
 - **算命**：八字 ＋ 紫微斗數（**南派三合為體、北派四化為用**），雙盤交叉驗證。
-- **算事（占卜）**：易經六爻、梅花易數（隨機起卦，起卦前先引導問題）。
+- **算事（占卜）**：易經六爻、梅花易數、大六壬、奇門遁甲（三式其二）＋四式合盤（隨機起卦，起卦前先引導問題）。
+- **問人輔助盤**：主盤（八字＋紫微）可加**六壬終身課**與**奇門終身盤**（補一生動態人事／方位行動，權重低、不翻轉主盤）。
 - **合盤／合婚**、**擇日**。
 - 排盤算數全走腳本（**不心算**），知識與解讀放 `references/`，共用表放 `data/`。
 - 陽宅風水不在此 skill（走 `fengshui` skill）。
@@ -25,7 +26,7 @@ REPO="$PWD/fortune_master"
 
 依賴**已內嵌在 repo**（`scripts/vendor/lunar_python` 純 Python ＋ `scripts/ziwei_full.bundle.mjs` 單一 JS），**不需 pip / npm / venv**。只要系統有：
 
-- `python3`（八字/六爻/梅花/擇日）
+- `python3`（八字/六爻/梅花/六壬/擇日）
 - `node` (>=18)（紫微）
 
 檢查：
@@ -130,9 +131,15 @@ $V skills/mingli-master/scripts/cast.py --date 1990-08-18 --time 06:30 --city �
 $V skills/mingli-master/scripts/cast.py --calendar lunar --date 1990-07-28 --time 06:30 --city 台北 --gender male
 # 運限
 skills/mingli-master/scripts/ziwei_full.sh --date 1990-08-18 --hour 卯 --gender male --at 2026-06-15
-# 六爻／梅花
+# 六爻／梅花／六壬／奇門
 $V skills/mingli-master/scripts/yijing/divine.py --random --time "2026-08-01 10:30"
 $V skills/mingli-master/scripts/yijing/meihua.py --time "2026-08-01 10:30"
+$V skills/mingli-master/scripts/yijing/liuren.py --time "2026-08-01 10:30" --birth 1990 --gender 女
+$V skills/mingli-master/scripts/yijing/qimen.py --time "2026-08-01 10:30"
+# 四式合盤（六爻＋梅花＋六壬＋奇門 同刻）
+$V skills/mingli-master/scripts/yijing/event_cast.py --time "2026-08-01 10:30" --coins 1 2 3 1 0 2 --numbers 17 23
+# 問人總盤（八字＋紫微主盤 ＋ 六壬終身課 ＋ 奇門終身盤）
+$V skills/mingli-master/scripts/person_cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026
 ```
 
 ## 結構

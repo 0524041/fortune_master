@@ -16,6 +16,7 @@
 | 問什麼 | 跑什麼 | 讀什麼 |
 |---|---|---|
 | 總覽：性格／格局／一生方向 | `scripts/cast.py`（一次出八字＋紫微＋初步交叉） | **主軸 `pan-reading.md`**＋`bazi.md`＋`ziwei.md`＋`ni_mind.md` |
+| 總覽＋輔助盤（一生動態/方位） | `scripts/person_cast.py`（主盤＋六壬終身課＋奇門終身盤） | `pan-reading.md`＋**`aux-charts.md`** |
 | 八字細節／流年 | `scripts/bazi_pai.py`（`--year` 出流年＋12 流月） | `bazi.md`；調候 `tiaohou.md` |
 | 紫微細節／運限 | `scripts/ziwei_full.sh`（`--at YYYY-MM-DD` 出運限六層） | `ziwei.md`；單星 `star_detail.md` |
 | 財運／財富 | 財帛＋田宅＋官祿＋財星（雙盤交叉） | `caiyun.md` |
@@ -29,6 +30,7 @@
 ```bash
 VENV=python3   # 零安裝，依賴已內嵌
 $VENV scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --at 2026-06-15
+$VENV scripts/person_cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026  # 主盤＋六壬/奇門輔助盤
 $VENV scripts/cast.py --calendar lunar --date 1990-07-28 --time 06:30 --city 台北 --gender male  # 農曆（閏月加 --leap）
 $VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026 --format json
 ./scripts/ziwei_full.sh --date 1990-08-18 --hour 卯 --gender male --at 2026-06-15 --format json
@@ -37,6 +39,7 @@ $VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender 
 ## 四、本軸檔案
 
 - 技法：`pan-reading.md`（**解盤主軸**）、`bazi.md`、`ziwei.md`、`caiyun.md`、`hepan.md`、`zeri.md`
+- **輔助盤：`aux-charts.md`（六壬終身課＋奇門終身盤；主盤為骨幹、輔助補維度、不翻轉）**
 - 八字進階：`shenqiang.md`（身強弱三得）、`shishen_combo.md`（十神組合）、`waige.md`（從格專旺）、`suiyun.md`（大運流年）、`shensha_use.md`（神煞三鎖）、`taimingshen.md`（胎命身）、`dizhi_relations.md`（刑害分工）
 - 紫微進階：`fusha.md`（輔煞夾宮四化）
 - 配套：`tiaohou.md`（調候用神＋實戰四步）、`star_detail.md`（單星）、`fuqi_stars.md`（夫妻宮斷語）、`ni_mind.md`（流派立場與口述整理降級標註）、`twins.md`（雙胞胎／多胞胎處理）

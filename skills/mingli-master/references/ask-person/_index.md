@@ -15,8 +15,8 @@
 
 | 問什麼 | 跑什麼 | 讀什麼 |
 |---|---|---|
-| 總覽：性格／格局／一生方向 | `scripts/cast.py`（一次出八字＋紫微＋初步交叉） | **主軸 `pan-reading.md`**＋`bazi.md`＋`ziwei.md`＋`ni_mind.md` |
-| 總覽＋輔助盤（一生動態/方位） | `scripts/person_cast.py`（主盤＋六壬終身課＋奇門終身盤） | `pan-reading.md`＋**`aux-charts.md`** |
+| 總覽：性格／格局／一生方向 | `scripts/person_cast.py`（一次出八字＋紫微＋六壬終身課＋奇門終身盤） | **主軸 `pan-reading.md`**＋`bazi.md`＋`ziwei.md`＋`ni_mind.md`＋**`aux-charts.md`** |
+| 總覽（輕量，不含輔助盤） | `scripts/cast.py`（只有八字＋紫微＋初步交叉） | `pan-reading.md` |
 | 八字細節／流年 | `scripts/bazi_pai.py`（`--year` 出流年＋12 流月） | `bazi.md`；調候 `tiaohou.md` |
 | 紫微細節／運限 | `scripts/ziwei_full.sh`（`--at YYYY-MM-DD` 出運限六層） | `ziwei.md`；單星 `star_detail.md` |
 | 財運／財富 | 財帛＋田宅＋官祿＋財星（雙盤交叉） | `caiyun.md` |
@@ -25,12 +25,14 @@
 
 ## 三、流程
 
-收料（含曆制）→ 排盤 → 讀對應知識 → 雙盤交叉（`shared/verification.md`）→ 白話綜合輸出。
+收料（含曆制）→ 排盤（總覽一律 `person_cast.py`，含輔助盤）→ 讀對應知識 → 主盤×輔助盤交叉（`aux-charts.md`＋`shared/verification.md`）→ 白話綜合輸出。
+
+> 只有使用者明確說「不用輔助盤」或只需要單一細節（流月、單星、合盤、擇日），才改用 `cast.py`／`bazi_pai.py`／`ziwei_full.sh` 等單一腳本。
 
 ```bash
 VENV=python3   # 零安裝，依賴已內嵌
-$VENV scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --at 2026-06-15
-$VENV scripts/person_cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026  # 主盤＋六壬/奇門輔助盤
+$VENV scripts/person_cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --at 2026-06-15  # 總覽預設：主盤＋六壬/奇門輔助盤
+$VENV scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --at 2026-06-15  # 輕量：只有八字＋紫微
 $VENV scripts/cast.py --calendar lunar --date 1990-07-28 --time 06:30 --city 台北 --gender male  # 農曆（閏月加 --leap）
 $VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026 --format json
 ./scripts/ziwei_full.sh --date 1990-08-18 --hour 卯 --gender male --at 2026-06-15 --format json

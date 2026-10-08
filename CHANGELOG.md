@@ -2,6 +2,12 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.8.3
+
+- **輸出語氣放寬**：`references/shared/output-quality.md` 改版——規範只管口徑統一（先直答／結論掛依據可集中／應期／給方向），不再限制格式；或然判斷不必逐句標置信，中高把握直接肯定講，只有**低把握或孤證才說明不確定原因**；開放自然語氣「可能／也許」；新增「預設段落敘事、條列只給清單」排版節。同步對齊 `SKILL.md` 常駐條款與 `liuyao`／`liuren`／`qimen`／`meihua`／`caiyun`／`glossary`／`pan-reading`／`aux-charts`。
+- **檢查程式**：`scripts/output_lint.py` 自然語氣（可能／也許／或許／大概／恐怕）改為 `--strict` 只記「提示」、不計違規；仍擋真空泛語（因人而異…）與推託語。
+- 測試：`test_env.py` 對應調整（`allows_natural_hedges`／`notes_natural_hedges`）；全套 **143 條**通過。
+
 ## v0.8.2
 
 - **修奇門旬首落中宮 crash**（`KeyError: 5`）：旬首儀落中五宮時值符為天禽，中宮無固定八門，值使改寄坤二（死門，與值使宮同例）。58,440 時刻 × 時盤/終身盤掃描全過（含 13,002 例落中宮）。

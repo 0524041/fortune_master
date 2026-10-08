@@ -2,8 +2,8 @@
 """對外輸出檢查: 擋英文檔名/函數名/程式符號外洩. 過程紀律 (禁心算/只認JSON) 是對內的不准見客.
 用法: output_lint.py --text-file out.txt [--format text|json] [--strict]   # 有違規 exit 1
 --strict 另驗「空泛語/巴納姆」(講了跟沒講一樣), 開發抽查用.
-置信制 (Phase 2): 帶置信標記的或然判斷放行 (記 notes 不計違規); 無標記的模糊仍擋.
-中文名對照/置信判準見 references/shared/output-quality.md.
+自然語氣 (Phase 3): 可能/也許/大概等可用, --strict 只記「提示」不計違規; 真正擋的是空泛語與推託語.
+判準 (換誰都成立=空泛) 見 references/shared/output-quality.md.
 """
 import argparse
 import json
@@ -18,10 +18,14 @@ RULES = [
     (re.compile(r"sk-?[A-Za-z0-9]{8,}|/Users/[\w./-]+|/tmp/[\w./-]+"), "本機路徑外洩"),
 ]
 
-# 空泛/巴納姆 (--strict 才檢查; 判準見 references/shared/output-quality.md 反巴納姆禁令)
+# 自然語氣 (--strict 只記提示, 不計違規): 可用, 提醒確認是否已說明不確定原因.
+HEDGE_RULES = [
+    (re.compile(r"(可能|也許|或許|大概|恐怕)"), "自然語氣(提示)"),
+]
+
+# 空泛/巴納姆 (--strict 才檢查, 計違規): 判準「換誰都成立」見 references/shared/output-quality.md
 VAGUE_RULES = [
-    (re.compile(r"(可能|也許|或許|大概|恐怕)"), "模糊斷語(voice 禁)"),
-    (re.compile(r"(因人而異|因情況而異|視情況而定|見仁見智|每個人不同)"), "空泛語(巴納姆)"),
+    (re.compile(r"(因人而異|因個人而異|因情況而異|視情況而定|視狀況而定|見仁見智|每個人不同)"), "空泛語(巴納姆)"),
     (re.compile(r"(無法|不能|難以)(由命盤)?(推算|預測|判斷)[^。！？\n]{0,12}(金額|收入|數字|報酬|標的)"), "推託語(以斷語取代)"),
 ]
 
@@ -34,25 +38,24 @@ CN_NAMES = {"bazi_pai.py": "八字排盤程式", "ziwei_full.sh": "紫微排盤�
             "tiaohou.json": "調候用神表", "patterns[]": "格局判定結果"}
 
 
-# 置信標記 (Phase 2): 同行出現即視為「有標記的或然判斷」, 模糊規則放行.
-CONF_MARKER = re.compile(r"(高置信|中置信|低置信|置信|把握|看不準|可信度)")
-
-
 def _scan(text, strict=False):
-    """回 (violations, notes). notes: 被標記豁免的模糊行, 只供觀測, 不影響 exit code."""
+    """回 (violations, notes). notes: 自然語氣提示, 只供觀測, 不影響 exit code."""
     hits, notes = [], []
-    rules = RULES + VAGUE_RULES if strict else RULES
-    vague_ids = {id(rx) for rx, _ in VAGUE_RULES}
     for i, line in enumerate(text.splitlines(), 1):
-        marked = bool(CONF_MARKER.search(line))
-        for rx, rule in rules:
+        for rx, rule in RULES:
             for m in rx.finditer(line):
-                hit = {"line": i, "token": m.group(0), "rule": rule,
-                       "text": line.strip()[:60]}
-                if strict and marked and id(rx) in vague_ids:
-                    notes.append(hit)
-                else:
-                    hits.append(hit)
+                hits.append({"line": i, "token": m.group(0), "rule": rule,
+                             "text": line.strip()[:60]})
+        if not strict:
+            continue
+        for rx, rule in VAGUE_RULES:
+            for m in rx.finditer(line):
+                hits.append({"line": i, "token": m.group(0), "rule": rule,
+                             "text": line.strip()[:60]})
+        for rx, rule in HEDGE_RULES:
+            for m in rx.finditer(line):
+                notes.append({"line": i, "token": m.group(0), "rule": rule,
+                              "text": line.strip()[:60]})
     return hits, notes
 
 
@@ -75,7 +78,7 @@ def main():
         for h in hits:
             print(f"L{h['line']} [{h['rule']}] {h['token']}")
         for n in notes:
-            print(f"L{n['line']} [提示:有標記或然] {n['token']}")
+            print(f"L{n['line']} [提示:自然語氣，確認已說明不確定原因] {n['token']}")
         print(f"共{len(hits)}處" if hits else "乾淨")
     sys.exit(1 if hits else 0)
 

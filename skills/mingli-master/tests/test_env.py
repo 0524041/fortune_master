@@ -131,9 +131,9 @@ def test_output_lint_strict_flags_vague():
         assert tok in hits, tok
 
 
-def test_output_lint_strict_allows_marked_probability():
-    """Phase 2 置信制: 帶置信標記的或然判斷須放行 (strict exit 0、零違規);
-    無標記的模糊仍擋 (鎖 vague_sample 第 2 行的裸『可能』)."""
+def test_output_lint_strict_allows_natural_hedges():
+    """Phase 3 語氣放寬: 可能/也許 等自然語氣放行 (strict exit 0、零違規);
+    真空泛語仍擋 (鎖 vague_sample 的『因人而異』)."""
     import subprocess
     import json
     lint = [str(SKILL / "scripts" / ".venv" / "bin" / "python"),
@@ -150,11 +150,11 @@ def test_output_lint_strict_allows_marked_probability():
                                 "--strict"],
                         capture_output=True, text=True)
     assert r2.returncode != 0
-    assert "可能" in {h["token"] for h in json.loads(r2.stdout)["violations"]}
+    assert "因人而異" in {h["token"] for h in json.loads(r2.stdout)["violations"]}
 
 
-def test_output_lint_strict_notes_marked_lines():
-    """Phase 2 可觀測性: 被標記豁免的行進 notes (不計違規、不影響 exit code)."""
+def test_output_lint_strict_notes_natural_hedges():
+    """Phase 3 可觀測性: 自然語氣進 notes (提示、不計違規、不影響 exit code)."""
     import subprocess
     import json
     r = subprocess.run([str(SKILL / "scripts" / ".venv" / "bin" / "python"),

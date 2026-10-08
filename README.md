@@ -179,9 +179,9 @@ skills/mingli-master/scripts/.venv/bin/python -m pytest tests/ -q
 
 ## 版本
 
-目前版本：**v0.10.0**（三處同步：`VERSION`＋git tag、`SKILL.md` metadata、`plugin.json`）。
+目前版本：**v0.10.1**（三處同步：`VERSION`＋git tag、`SKILL.md` metadata、`plugin.json`）。
 
-- 頂層 `VERSION` 檔與 **git tag**（語意化版號，如 `v0.10.0`）。
+- 頂層 `VERSION` 檔與 **git tag**（語意化版號，如 `v0.10.1`）。
 - Skill 本身：`SKILL.md` 的 `metadata.version`（Agent Skills 規格無頂層 `version` 欄位，版本放 `metadata`）。
 - 外掛：`skills/mingli-master/.claude-plugin/plugin.json` 的 `version`（Claude Code 外掛 manifest；`marketplace.json` 為市集目錄）。
 

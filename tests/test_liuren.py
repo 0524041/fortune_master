@@ -144,10 +144,10 @@ def test_wangxiang_month():
 
 
 def test_cli_text_clean():
-    """文字輸出不得外洩程式符號 (走 output_lint 規則)。"""
+    """文字輸出不得外洩程式符號 (檔名/路徑; 規則見 output-quality.md 五)."""
+    import re
     out = subprocess.run([PY, str(YJ / "liuren.py"), "--time", "2026-10-07 10:30"],
                          capture_output=True, text=True).stdout
     assert "【大六壬】" in out and "【三傳】" in out
-    r = subprocess.run([PY, str(SKILL / "scripts" / "output_lint.py"), "--text-file", "/dev/stdin"],
-                       input=out, capture_output=True, text=True)
-    assert r.returncode == 0, r.stdout + r.stderr
+    assert not re.search(r"[A-Za-z_][\w-]*\.(py|sh|ts|mjs|js|md|json|txt)", out), "英文檔名外洩"
+    assert not re.search(r"/Users/|/tmp/", out), "本機路徑外洩"

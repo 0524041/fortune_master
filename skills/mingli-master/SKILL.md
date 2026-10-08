@@ -6,7 +6,7 @@ description: |
 license: MIT
 compatibility: 零安裝。只需系統 python3 與 Node.js>=18；依賴 (lunar_python 與 iztro) 已內嵌於 scripts/vendor 與 ziwei_full.bundle.mjs，不需 pip/npm/venv。用 bash scripts/check_env.sh 檢查。
 metadata:
-  version: 0.10.0
+  version: 0.10.1
   author: willywu (0524041)
   repository: https://github.com/0524041/fortune_master
 ---
@@ -89,6 +89,6 @@ python3 scripts/zongpan.py cache show --name 小王                   # 讀回�
 
 1. 算數歸 script，**不心算**；數字、格局名、卦名、卦辭爻辭**照抄程式輸出**，不編造、不自創；**不翻引擎原始碼找答案**（`scripts/*.sh|*.mjs|*.ts` 實作一律不讀；`*.py` 只准看 `--help` 參數），輸出結構以 `references/` 為準，看不懂先查文件。**引擎調用一律用 txt/md 分層輸出（summary＋子命令），JSON 旗標不存在於規範**。
 2. 收料**曆制（國曆／農曆閏月）未確認不排盤**；校驗未過或有 `warnings` 標低置信；問事**一事一問**、起卦時間預設現在（心動即占；梅花以農曆時間起卦、六爻以月建日辰為背景、六壬以月將加占時，換算全走程式）。六壬年命（本命／行年）為**選填佐證**，不強制、不當命盤用。
-3. **輸出四條常駐**：① 先直答（第一句回答用戶問的那句）② 重要結論掛依據（不必逐句）③ 能給應期就給 ④ 白話、少術語、少反轉；不確定時**說明原因**（不必逐句標置信，中高把握直接肯定講），不寫「換誰都成立」的話。格式自由（段落敘事為主，條列給清單）。完整規範見 `references/shared/output-quality.md`。
+3. **輸出四條常駐**：① 先直答（第一句回答用戶問的那句）② 重要結論掛依據（不必逐句）③ 能給應期就給 ④ 白話、少術語、少反轉；不確定時**說明原因**（不必逐句標置信，中高把握直接肯定講）。**每次輸出前必讀 `references/shared/output-quality.md`**（版面表格化、回答要有總結、比喻用法、反空泛、規則限制）。
 4. **交叉要講清楚**：多法（六爻／梅花／六壬／奇門）同向＝明說可信度高；分歧＝說以哪邊為主與理由。見 `references/shared/verification.md` 與 `references/ask-event/liuren.md`。取象題（會遇到什麼）要取具體畫面，不能只給氛圍。
 5. **問人總覽一律含輔助盤**：性格／格局／十年運／大運流年題跑 `scripts/person_cast.py`（八字＋紫微＋六壬終身課＋奇門終身盤），讀法見 `references/ask-person/aux-charts.md`（主盤為準、輔助補維度、不翻轉）。只有單一細節（流月、單星、合盤、擇日）才用單一腳本。

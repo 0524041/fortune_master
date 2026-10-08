@@ -2,6 +2,21 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.10.0
+
+- **引擎分層輸出（問人問事）**：輸出全轉 txt/md，JSON 退居隱藏除錯旗標（不在文件描述、測試不依賴）。分層＝必讀摘要（Layer 0）＋子命令按需細節（Layer 1）。
+- **新增問人總盤入口** `scripts/zongpan.py`：`summary`（必讀摘要 ≤3.2KB，含基本輸入首行/八字/大運/紫微/財官象/格局/大限/財語義/六壬/奇門/警示）、`bazi [--year]`、`ziwei [--palaces …] [--patterns]`、`yun year/decade`、`aux liuren/qimen`、`cache list/show`。
+- **`person_cast.py`** 新增 `--format md` 必讀摘要（預設）；`--format text/json` 保留相容。
+- **問事 `event_cast.py` 重構**：預設 summary（六爻＋梅花各一行結論）；`--only` 單式全文、`--with liuren qimen` 按用途追加；舊 `--format json|text|both` 保留相容。
+- **四式輸出修復**：六爻/梅花移除與「建議」重複的「詳解」欄（六爻 6.2K→3.9K、梅花 3K→2.1K）；`--format md` 精簡格式；奇門修正簡繁錯字「時乾→時干」（`han.py` 領域例外）。
+- **四式 CLI 統一** `--format text|md|json`（問事系舊 `--text/--json/--both` 轉隱藏相容）；`event_cast.py --with/--only` 引導式取式。
+- **本機快取**：`zongpan.py summary --save <名> --relation <關係>` 存 `.cache/`（僅留存本機；`.cache/` 不入版控）。互動引導與免責說明見 `references/shared/interaction.md`。
+- **知識文件**：新增 `ask-person/zongpan-spec.md`（總盤結構說明書：必讀逐行解義＋細節路由＋問項取用表）、`ask-event/event-summary-spec.md`（四式摘要逐行解義＋追加引導＋交叉口徑）、`shared/interaction.md`（分流/收料/快取/續問 SOP）；`SKILL.md` 新增「引擎調用」章節（只描述 txt/md 分層）。
+- **非六問議題引導**：十二宮全覆蓋對照＋歸宮三步（先歸宮→空宮借對宮→真歸不進去回問聚焦），見 spec 七之二。
+- **測試搬移**：`skills/mingli-master/tests/` → `tests/`（repo 根）；SKILL 路徑改指 repo 下 `skills/mingli-master`。
+- **測試**：新增 `tests/test_zongpan.py`（11 條摘要/子命令/快取關鍵行斷言）＋ `test_qimen` 追加 summary/`--with` 契約；全套 178 條。（斷言以關鍵行為主，不依賴 stdout JSON 鍵。）
+- **版本同步**：`VERSION`＋`SKILL.md metadata.version`＋`plugin.json`（0.8.3 落後補齊）三處對齊 0.10.0。
+
 ## v0.9.1
 
 - **時辰宜忌上文字輸出**：`tongshu_day.py` 每個時辰列**該時辰宜/忌**（`getTimeYi/getTimeJi`）；`zeri_pick.py --hours` 的吉時行附宜/忌。

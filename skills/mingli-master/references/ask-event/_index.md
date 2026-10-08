@@ -21,28 +21,32 @@
 - 起卦用**當地的當下時鐘**，不做真太陽時校正（真太陽時是八字排盤用的）。使用者若提供他**實際起卦的時刻**，才用 `--time`。
 - **依據優先序**（原理純粹度）：**心動（前提）＞ 手搖銅錢（六爻首選）＞ 外應／報數（梅花最靈）＞ 當下時間（通用、客觀、不可造假）**。
 
-## 三、選法
+## 三、選法（預設 1-2 式，按需追加）
 
-| 需求 | 用 | 讀 |
+> 問事預設跑**六爻＋梅花**（易經為主、一成一象互補）；六壬/奇門依用途引導追加；四式全展開只留給交叉題。
+> 逐行解義見 `event-summary-spec.md`；追加引導與交叉口徑同該檔。
+
+| 需求 | 用（子命令） | 讀 |
 |---|---|---|
-| 具體成敗、時間點、細節（面試／官司／病情） | **六爻** `scripts/yijing/divine.py` | `liuyao.md`＋`yongshen.md` |
-| 快速判方向大勢、觸機、象義 | **梅花** `scripts/yijing/meihua.py` | `meihua.md` |
-| 過程人事、方位、來意、人際牽連 | **六壬** `scripts/yijing/liuren.py` | `liuren.md` |
-| 方位、行動、時空調理、擇方 | **奇門遁甲** `scripts/yijing/qimen.py` | `qimen.md` |
-| 一生動態人事（問人輔助盤） | **六壬終身課** `liuren.py --lifetime` | `liuren.md` 第十節 |
-| 一次出門四盤（同刻互參） | **四式合盤** `scripts/yijing/event_cast.py` | `qimen.md`＋`liuren.md` 第七節＋`shared/verification.md` |
-| 兩者並用互參 | 同向＝信心高；分歧＝回現實錨定再判 | — |
+| 必讀摘要（四式各一行） | `event_cast.py`（預設） | `event-summary-spec.md` |
+| 具體成敗、時間點、細節（面試／官司／病情） | `--only liuyao`（六爻） | `liuyao.md`＋`yongshen.md` |
+| 快速判方向大勢、觸機、象義 | `--only meihua`（梅花） | `meihua.md` |
+| 過程人事、方位、來意、人際牽連 | `--with liuren`（六壬追加） | `liuren.md` |
+| 方位、行動、時空調理、擇方 | `--with qimen`（奇門追加） | `qimen.md` |
+| 交叉題／使用者要求四式 | `--with liuren qimen` 或 `--only liuyao meihua liuren qimen` | `qimen.md`＋`liuren.md` 第七節＋`shared/verification.md` |
+| 一生動態人事（問人輔助盤） | `zongpan.py aux liuren`（六壬終身課） | `liuren.md` 第十節 |
+
+同向＝信心高；分歧＝回現實錨定再判（裁決口徑見 `event-summary-spec.md` §三）。
 
 ## 四、流程
 
-引導聚焦（`questioning.md`）→ 起卦 → 取用神／體用 → 讀盤面（卦辭、動爻爻辭照抄）→ 交叉 → 白話直答。
+引導聚焦（`questioning.md`）→ 起卦（預設現在）→ summary 四式一行 → 按需 `--only/--with` 取細節 → 取用神／體用 → 讀盤面（卦辭、動爻爻辭照抄）→ 交叉 → 白話直答。
 
 ```bash
 VENV=python3   # 零安裝，依賴已內嵌
-$VENV scripts/yijing/divine.py --random          # 六爻（時間=系統現在；--time 指定實際起卦時刻）
-$VENV scripts/yijing/meihua.py                    # 梅花（預設時間起卦=系統現在；亦可 --numbers／--random）
-$VENV scripts/yijing/liuren.py                    # 六壬（月將加時；--birth/--gender 可選入年命）
-$VENV scripts/yijing/event_cast.py --format text  # 四式合盤（六爻+梅花+六壬+奇門 同刻）
+$VENV scripts/yijing/event_cast.py --coins 1 2 2 3 1 2 --numbers 7 8   # summary（六爻+梅花；--time 指定實際起卦時刻）
+$VENV scripts/yijing/event_cast.py --only liuyao …                     # 六爻全文
+$VENV scripts/yijing/event_cast.py --with liuren qimen …               # 追加過程/方位
 ```
 
 ## 五、本軸檔案

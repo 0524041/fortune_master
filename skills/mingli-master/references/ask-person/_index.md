@@ -11,37 +11,43 @@
 - **雙胞胎／多胞胎**：先問同性別或龍鳳胎、排行、時間差——見 `twins.md`（借宮立極／時辰遞推／北派同盤／八字時柱進位）。
 - 缺資料標「未驗」，不腦補。
 
-## 二、怎麼選（依問題）
+## 二、怎麼選（依問題）— zongpan 分層入口
 
-| 問什麼 | 跑什麼 | 讀什麼 |
-|---|---|---|
-| 總覽：性格／格局／一生方向 | `scripts/person_cast.py`（一次出八字＋紫微＋六壬終身課＋奇門終身盤） | **主軸 `pan-reading.md`**＋`bazi.md`＋`ziwei.md`＋`ni_mind.md`＋**`aux-charts.md`** |
-| 總覽（輕量，不含輔助盤） | `scripts/cast.py`（只有八字＋紫微＋初步交叉） | `pan-reading.md` |
-| 八字細節／流年 | `scripts/bazi_pai.py`（`--year` 出流年＋12 流月） | `bazi.md`；調候 `tiaohou.md` |
-| 多年運／時間窗（前五年後五年） | `scripts/decade.py`（`--from A --to B`，一年一行：八字流年＋紫微運限） | `pan-reading.md` 步驟 7；**禁逐年迴圈呼叫引擎** |
-| 紫微細節／運限 | `scripts/ziwei_full.sh`（`--at YYYY-MM-DD` 出運限六層） | `ziwei.md`；單星 `star_detail.md` |
-| 財運／財富 | 財帛＋田宅＋官祿＋財星（雙盤交叉） | `caiyun.md` |
-| 合盤／合婚 | 兩人各排盤 → `scripts/hepan_check.py` | `hepan.md`＋`fuqi_stars.md` |
-| 擇日（嫁娶／入宅／開業／動土） | `scripts/zeri_pick.py`（`--hours` 出吉時） | `zeri.md` |
-| 單日黃曆全資訊／吉時 | `scripts/tongshu_day.py`（日層＋十二時辰＋可選八字/奇門） | `zeri.md` 第七節 |
+> 引擎一律走**分層**：先 `summary`（必讀摘要，含基本輸入），再按問題補細節。輸出全為 txt/md。
+> 逐行解義見 `zongpan-spec.md`；互動與快取見 `references/shared/interaction.md`。
+> 參數說明：`--date --time --city --gender` 四項所有子命令共用；`--calendar lunar --leap` 農曆；雙胞胎見 `twins.md`。
+
+| 問什麼 | 先跑（消費） | 按需補（參數→結果） | 讀什麼 |
+|---|---|---|---|
+| 總覽：性格／格局／一生方向 | `zongpan.py summary`（3K：輸入/八字/大運/紫微/財官象/格局/大限/財語義/六壬/奇門/警示） | 不夠再 `ziwei --palaces 命宮,遷移,福德`（一宮一行） | **主軸 `pan-reading.md`**＋`bazi.md`＋`ziwei.md`＋**`zongpan-spec.md`**＋`aux-charts.md` |
+| 八字細節／身強弱／用神 | `summary` | `bazi`（四柱藏干十神＋五行分＋三得＋用忌調候＋神煞合沖） | `bazi.md`＋`shenqiang.md`；調候 `tiaohou.md` |
+| 流年／流月 | `summary` | `bazi --year 2029`（流年干支＋12流月十神） | `bazi.md` §0＋`suiyun.md` |
+| 十年運／時間窗 | `summary` | `yun decade --from 2026 --to 2031`（一年一行總表）；`yun year 2029`（單年塊：八字歲運＋紫微運限；`--full` 加流月/流耀） | `suiyun.md`＋`pan-reading.md` §七 |
+| 紫微細節／單宮 | `summary` | `ziwei --palaces 財帛,田宅,官祿,福德`（逗號列宮，只出該宮）；`ziwei --patterns`（格局真假：required/bonus/breaking） | `ziwei.md`＋`star_detail.md`＋`fusha.md` |
+| 財運 | `summary`（財語義行） | `ziwei --palaces 財帛,田宅,官祿,福德` | `caiyun.md`（來源→守財→應期） |
+| 合盤／合婚 | 兩人各 `summary`＋`ziwei` | 合盤比對（`hepan_check` 流程） | `hepan.md`＋`fuqi_stars.md` |
+| 輔助盤：過程／方位 | `summary`（六壬/奇門各一行） | `aux liuren [--at-year 2029]`（終身課全文）；`aux qimen`（九宮＋大限每宮9年＋方位） | `aux-charts.md`＋`liuren.md` §十＋`qimen.md` |
+| 擇日（嫁娶／入宅／開業／動土） | 本人 `summary`（取八字） | 擇日掃描（`zeri_pick` 流程，`--hours` 出吉時） | `zeri.md` |
+| 單日黃曆／吉時 | — | 通書單日（`tongshu_day` 流程） | `zeri.md` 第七節 |
+
+單一細節題（流月、單星、合盤、擇日）可直接跑對應子命令，不必先 summary；總覽題一律 summary 起手。
 
 ## 三、流程
 
-收料（含曆制）→ 排盤（總覽一律 `person_cast.py`，含輔助盤）→ 讀對應知識 → 主盤×輔助盤交叉（`aux-charts.md`＋`shared/verification.md`）→ 白話綜合輸出。
-
-> 只有使用者明確說「不用輔助盤」或只需要單一細節（流月、單星、合盤、擇日），才改用 `cast.py`／`bazi_pai.py`／`ziwei_full.sh` 等單一腳本。
+收料（含曆制）→ `zongpan summary`（核對首行輸入）→ 判問項→按需子命令→讀對應知識 → 主盤×輔助盤交叉（`aux-charts.md`＋`shared/verification.md`）→ 白話綜合輸出。
 
 ```bash
 VENV=python3   # 零安裝，依賴已內嵌
-$VENV scripts/person_cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --at 2026-06-15  # 總覽預設：主盤＋六壬/奇門輔助盤
-$VENV scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --at 2026-06-15  # 輕量：只有八字＋紫微
-$VENV scripts/cast.py --calendar lunar --date 1990-07-28 --time 06:30 --city 台北 --gender male  # 農曆（閏月加 --leap）
-$VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026 --format json
-$VENV scripts/decade.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --from 2021 --to 2030  # 多年運總表（禁逐年迴圈）
-./scripts/ziwei_full.sh --date 1990-08-18 --hour 卯 --gender male --at 2026-06-15 --format json
-$VENV scripts/zeri_pick.py --matter 入宅 --from 2026-10-01 --to 2026-12-31 --bazi a.json --hours --qimen  # 擇日＋吉時
-$VENV scripts/tongshu_day.py --date 2026-10-08 --bazi a.json --qimen  # 單日黃曆全資訊
+$VENV scripts/zongpan.py summary --date 1998-01-05 --time 15:57 --city 台南 --gender male --at 2026-10-08 --year 2026
+$VENV scripts/zongpan.py bazi --date … --time … --city … --gender male --year 2029
+$VENV scripts/zongpan.py ziwei --date … --time … --city … --gender male --palaces 財帛,田宅,官祿,福德
+$VENV scripts/zongpan.py yun year 2029 --date … [--full]
+$VENV scripts/zongpan.py yun decade --from 2026 --to 2031 --date …
+$VENV scripts/zongpan.py aux liuren --date … [--at-year 2029]
+$VENV scripts/zongpan.py aux qimen --date …
 ```
+
+底層排盤程式（summary 內部會用、除錯才直接跑）：雙盤排盤程式、八字排盤程式、紫微排盤程式、多年運程式。正常流程一律走 zongpan 子命令。
 
 ## 四、本軸檔案
 

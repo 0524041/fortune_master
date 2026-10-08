@@ -10,16 +10,24 @@ Layer 1 按需細節：
   zongpan.py yun decade --from 2026 --to 2031 ...    # 多年運總表（一年一行）
   zongpan.py aux liuren ... [--at-year 2029]         # 六壬終身課
   zongpan.py aux qimen ...                           # 奇門終身盤
+本機快取（僅留存本機，LLM 需先向使用者說明）：
+  zongpan.py summary ... --save 小王 --relation 朋友  # 存摘要＋基本資訊到 .cache/
+  zongpan.py cache list                              # 列出已存
+  zongpan.py cache show --name 小王                   # 讀回
 
 輸出全為 txt/md；細節項目按需取，不必全跑。讀法見 references/ask-person/zongpan-spec.md。
 """
 import argparse
+import hashlib
+import json
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 DIR = Path(__file__).resolve().parent
 PY = sys.executable
+CACHE_DIR = Path.cwd() / '.cache'
 
 
 def run(cmd, **kw):
@@ -28,6 +36,27 @@ def run(cmd, **kw):
         print(r.stderr.strip(), file=sys.stderr)
         sys.exit(r.returncode)
     return r.stdout
+
+
+def cache_key(name: str) -> str:
+    return hashlib.sha1(name.encode('utf-8')).hexdigest()[:16]
+
+
+def cache_save(name: str, relation: str, input_info: dict, summary: str):
+    """存本機快取 (.cache/<key>.json)：僅留存本機，不上傳。"""
+    CACHE_DIR.mkdir(exist_ok=True)
+    path = CACHE_DIR / f"{cache_key(name)}.json"
+    data = {"name": name, "relation": relation, "input": input_info,
+            "summary": summary, "saved_at": datetime.now().strftime('%Y-%m-%d %H:%M')}
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+    return path
+
+
+def cache_load(name: str):
+    path = CACHE_DIR / f"{cache_key(name)}.json"
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding='utf-8'))
 
 
 def common(p):
@@ -62,6 +91,14 @@ def main():
     common(p_sum)
     p_sum.add_argument('--year', type=int, default=None)
     p_sum.add_argument('--at', default=None)
+    p_sum.add_argument('--save', default=None, metavar='NAME', help='存本機快取 (使用者姓名/代稱)')
+    p_sum.add_argument('--relation', default='', help='與問事者關係 (本人/朋友/家人...)')
+
+    p_cache = sub.add_parser('cache', help='本機快取：list 列出 / show 讀回')
+    csub = p_cache.add_subparsers(dest='cache_cmd', required=True)
+    csub.add_parser('list', help='列出已存快取')
+    p_cshow = csub.add_parser('show', help='讀回指定快取')
+    p_cshow.add_argument('--name', required=True)
 
     p_bz = sub.add_parser('bazi', help='八字原局＋大運；--year 加流年＋12流月')
     common(p_bz)
@@ -102,7 +139,31 @@ def main():
             cmd += ['--year', str(a.year)]
         if a.at:
             cmd += ['--at', a.at]
-        print(run(cmd), end='')
+        text = run(cmd)
+        print(text, end='')
+        if a.save:
+            input_info = {'date': a.date, 'time': a.time, 'city': a.city or '',
+                          'gender': a.gender, 'calendar': a.calendar, 'leap': a.leap}
+            path = cache_save(a.save, a.relation, input_info, text)
+            print(f"\n（已存本機快取：{a.save}／{a.relation or '未填關係'}；僅留存本機）", file=sys.stderr)
+
+    elif a.cmd == 'cache':
+        if a.cache_cmd == 'list':
+            if not CACHE_DIR.exists():
+                print('（快取空）')
+            else:
+                for f in sorted(CACHE_DIR.glob('*.json')):
+                    try:
+                        d = json.loads(f.read_text(encoding='utf-8'))
+                        print(f"{d.get('name', '?')}\t{d.get('relation', '')}\t{d.get('input', {}).get('date', '')}\t{d.get('saved_at', '')}")
+                    except (json.JSONDecodeError, OSError):
+                        continue
+        else:  # show
+            d = cache_load(a.name)
+            if not d:
+                print(f'（查無快取：{a.name}）', file=sys.stderr)
+                sys.exit(1)
+            print(d['summary'])
 
     elif a.cmd == 'bazi':
         cmd = [PY, str(DIR / 'bazi_pai.py'), '--date', a.date, '--time', a.time,

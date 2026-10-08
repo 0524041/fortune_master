@@ -2,6 +2,12 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.9.1
+
+- **時辰宜忌上文字輸出**：`tongshu_day.py` 每個時辰列**該時辰宜/忌**（`getTimeYi/getTimeJi`）；`zeri_pick.py --hours` 的吉時行附宜/忌。
+- **新增 `zeri_pick.py --hour-detail`**：文字輸出印候選日**全部 12 時辰**（含否決理由與宜/忌；隱含 `--hours`）。
+- 文件 `zeri.md` 第七節同步；測試 +4（`test_tongshu_day` 文字宜忌、`test_zeri_pick` 吉時宜忌/`--hour-detail`）。
+
 ## v0.9.0
 
 - **統一簡繁層** `scripts/han.py`（**單一真相**）：內嵌 `scripts/vendor/opencc`（opencc-python-reimplemented，Apache-2.0，純 Python，~1.2M），維持零安裝。方向 **簡→繁**，於**引擎輸出邊界先轉再比對/輸出**；`data/*.json` 規則表同步繁化。移除散落各處的手寫字表（`zeri_pick` 的 `SIMP2TRAD`、`hepan_check` 的繁簡雙套星名、`twin_adjust`/`cast` 的簡體宮名比對）。附領域例外修正（`丑/斗/凶/占/灶/啟/沖/床/干` 等 opencc 歧義）。

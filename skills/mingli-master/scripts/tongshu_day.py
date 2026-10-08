@@ -108,6 +108,7 @@ def main():
                     more = f"(+{len(q['geju']) - 4})" if len(q["geju"]) > 4 else ""
                     line += f" 格{'、'.join(q['geju'][:4])}{more}"
             print(line)
+            print(f"    宜: {'、'.join(h['yi']) or '無'}｜忌: {'、'.join(h['ji']) or '無'}")
         v = out["verification"]
         print(f"驗證: {'通過' if v['all_pass'] else '未過'}"
               + (f"｜⚠ {'; '.join(v['warnings'])}" if v["warnings"] else ""))

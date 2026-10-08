@@ -197,6 +197,27 @@ def test_top_hour_pinned():
     assert day["top_hours"][0]["name"] == "未時" and day["top_hours"][0]["score"] == 3
 
 
+def test_hours_text_has_yi_ji():
+    """文字 --hours: 吉時行附宜/忌."""
+    cmd = [VENV_PY, str(SCRIPT), "--matter", "入宅", "--from", "2026-10-13", "--to", "2026-10-13",
+           "--bazi", str(FIX / "a_bazi.json"), "--hours"]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    assert "▸吉時" in r.stdout and "宜:" in r.stdout and "忌:" in r.stdout
+
+
+def test_hour_detail_lists_twelve():
+    """--hour-detail: 候選日列全部 12 時辰 (含否決理由); 隱含 --hours."""
+    cmd = [VENV_PY, str(SCRIPT), "--matter", "入宅", "--from", "2026-10-13", "--to", "2026-10-13",
+           "--bazi", str(FIX / "a_bazi.json"), "--hour-detail"]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    for name in ("子時", "丑時", "寅時", "卯時", "辰時", "巳時",
+                 "午時", "未時", "申時", "酉時", "戌時", "亥時"):
+        assert name in r.stdout, name
+    assert "否決:" in r.stdout and "宜:" in r.stdout
+
+
 def test_verification_keys():
     d = run_zeri()
     v = d["verification"]

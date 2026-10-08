@@ -61,6 +61,15 @@ def test_qimen_layer_and_verification():
     assert any("寒露" in w for w in v["warnings"])
 
 
+def test_text_has_hour_yi_ji():
+    """文字輸出每時辰附宜/忌 (2026-10-08 子時宜含作灶)."""
+    r = subprocess.run([VENV_PY, str(SCRIPT), "--date", "2026-10-08"],
+                       capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    assert "宜:" in r.stdout and "忌:" in r.stdout
+    assert "作灶" in r.stdout
+
+
 def test_no_simplified_leak():
     """全輸出繁體 (統一簡繁層)."""
     out = run("--date", "2026-10-08", "--bazi", str(FIX / "a_bazi.json"), "--qimen")

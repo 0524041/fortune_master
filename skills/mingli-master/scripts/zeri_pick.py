@@ -246,11 +246,13 @@ def main():
     ap.add_argument("--ziwei-b", default=None)
     ap.add_argument("--hours", action="store_true", help="候選日加掃 12 時辰, 出吉時")
     ap.add_argument("--hour-top", type=int, default=3, help="每日列前 N 吉時")
+    ap.add_argument("--hour-detail", action="store_true", help="文字輸出印候選日全部 12 時辰 (含否決理由與宜/忌; 隱含 --hours)")
     ap.add_argument("--qimen", action="store_true", help="吉時附時家奇門簡表 (方位行動)")
     ap.add_argument("--top", type=int, default=10)
     ap.add_argument("--format", default="text", choices=["text", "json", "both"])
     a = ap.parse_args()
 
+    want_hours = a.hours or a.hour_detail
     d0 = datetime.strptime(a.date_from, "%Y-%m-%d")
     d1 = datetime.strptime(a.date_to, "%Y-%m-%d")
     bazis = [("甲", load(a.bazi))] if a.bazi else []
@@ -288,7 +290,7 @@ def main():
         if veto:
             info["status"] = "vetoed"
             info["veto"] = veto
-        elif a.hours:
+        elif want_hours:
             info["hours"], info["top_hours"] = score_hours(
                 dt, a.matter, bazis, ziweis, a.hour_top, a.qimen)
         days.append(info)
@@ -300,7 +302,7 @@ def main():
            "days": days, "top": cands[:a.top],
            "summary": {"scanned": len(days), "vetoed": len(days) - len(cands),
                        "candidates": len(cands)},
-           "verification": verify(days, a.matter, bazis, ziweis, a.hours),
+           "verification": verify(days, a.matter, bazis, ziweis, want_hours),
            "engine": "zeri_pick v2 (tongshu_core + zeri.md)"}
 
     if a.format in ("text", "both"):
@@ -309,11 +311,21 @@ def main():
             print(f"{t['date']} {t['ganzhi']}{t['jianchu']} {t['huangdao']} {t['score']}分")
             for p in t["plus"][:6]:
                 print(f"  + {p}")
-            for h in t.get("top_hours", []):
-                line = f"  ▸吉時 {h['name']} {h['range']} {h['ganzhi']} {h['huangdao_name']}{h['huangdao_luck']} {h['score']}分"
-                if h.get("qimen"):
-                    line += f"｜奇門{h['qimen']['ju']} 值使{h['qimen']['zhishi']}"
-                print(line)
+            if a.hour_detail:
+                for h in t.get("hours", []):
+                    mark = "○" if h["status"] == "candidate" else "✕"
+                    print(f"  {mark}{h['name']} {h['range']} {h['ganzhi']} "
+                          f"{h['huangdao_name']}{h['huangdao_luck']} {h['score']}分"
+                          f"｜宜: {'、'.join(h['yi']) or '無'}｜忌: {'、'.join(h['ji']) or '無'}")
+                    if h["veto"]:
+                        print(f"      否決: {'; '.join(h['veto'])}")
+            else:
+                for h in t.get("top_hours", []):
+                    line = f"  ▸吉時 {h['name']} {h['range']} {h['ganzhi']} {h['huangdao_name']}{h['huangdao_luck']} {h['score']}分"
+                    if h.get("qimen"):
+                        line += f"｜奇門{h['qimen']['ju']} 值使{h['qimen']['zhishi']}"
+                    print(line)
+                    print(f"      宜: {'、'.join(h['yi']) or '無'}｜忌: {'、'.join(h['ji']) or '無'}")
         vetoed = [d for d in days if d["status"] == "vetoed"]
         if vetoed:
             print(f"-- 否決{len(vetoed)}天 (前5) --")

@@ -48,9 +48,33 @@ metadata:
 
 `bash scripts/check_env.sh` → 應顯示「環境就緒 ✅」。python3（八字／六爻／梅花／六壬／擇日）、node>=18（紫微）；依賴已內嵌，免 pip／npm／venv。
 
+## 引擎調用（分層：必讀摘要＋按需細節）
+
+> 輸出全為 txt/md；分層規則與逐行解義見 `references/ask-person/zongpan-spec.md`（問人）與 `references/ask-event/event-summary-spec.md`（問事）。
+> 續問同盤只補細節，不重排；互動流程與快取見 `references/shared/interaction.md`。
+
+```bash
+# 問人：總盤程式（zongpan）— 先跑必讀摘要，再按問題取細節
+python3 scripts/zongpan.py summary --date 1998-01-05 --time 15:57 --city 台南 --gender male
+python3 scripts/zongpan.py bazi --date … [--year 2029]           # 原局；加年給流年+12流月
+python3 scripts/zongpan.py ziwei --date … [--palaces 財帛,田宅,官祿,福德] [--patterns]
+python3 scripts/zongpan.py yun year 2029 --date … [--full]
+python3 scripts/zongpan.py yun decade --from 2026 --to 2031 --date …
+python3 scripts/zongpan.py aux liuren --date … [--at-year 2029]
+python3 scripts/zongpan.py aux qimen --date …
+
+# 問事：事件程式（event summary 必讀；--only／--with 按需）
+python3 scripts/yijing/event_cast.py --time "2026-10-08 14:30" --coins 1 2 2 3 1 2 --numbers 7 8
+python3 scripts/yijing/event_cast.py --only liuyao …            # 單式全文
+python3 scripts/yijing/event_cast.py --with liuren qimen …      # 追加過程/方位
+```
+
+- 單年塊五類條列：八字歲運、紫微運限、宮位細節（按問項取宮）、輔助、流月（`--full` 才給）。
+- 問事預設六爻＋梅花；過程人事加六壬、方位行動加奇門（引導見 `event-summary-spec.md`）。
+
 ## 強約束（常駐，只放不能忘的）
 
-1. 算數歸 script，**不心算**；數字、格局名、卦名、卦辭爻辭**照抄程式輸出**，不編造、不自創；**不翻引擎原始碼找答案**（`scripts/*.sh|*.mjs|*.ts` 實作一律不讀；`*.py` 只准看 `--help` 參數），輸出結構以 `references/` 為準，看不懂先查文件。
+1. 算數歸 script，**不心算**；數字、格局名、卦名、卦辭爻辭**照抄程式輸出**，不編造、不自創；**不翻引擎原始碼找答案**（`scripts/*.sh|*.mjs|*.ts` 實作一律不讀；`*.py` 只准看 `--help` 參數），輸出結構以 `references/` 為準，看不懂先查文件。**引擎調用一律用 txt/md 分層輸出（summary＋子命令），JSON 旗標不存在於規範**。
 2. 收料**曆制（國曆／農曆閏月）未確認不排盤**；校驗未過或有 `warnings` 標低置信；問事**一事一問**、起卦時間預設現在（心動即占；梅花以農曆時間起卦、六爻以月建日辰為背景、六壬以月將加占時，換算全走程式）。六壬年命（本命／行年）為**選填佐證**，不強制、不當命盤用。
 3. **輸出四條常駐**：① 先直答（第一句回答用戶問的那句）② 重要結論掛依據（不必逐句）③ 能給應期就給 ④ 白話、少術語、少反轉；不確定時**說明原因**（不必逐句標置信，中高把握直接肯定講），不寫「換誰都成立」的話。格式自由（段落敘事為主，條列給清單）。完整規範見 `references/shared/output-quality.md`。
 4. **交叉要講清楚**：多法（六爻／梅花／六壬／奇門）同向＝明說可信度高；分歧＝說以哪邊為主與理由。見 `references/shared/verification.md` 與 `references/ask-event/liuren.md`。取象題（會遇到什麼）要取具體畫面，不能只給氛圍。

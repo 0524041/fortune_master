@@ -2,7 +2,7 @@
 import subprocess
 from pathlib import Path
 
-SKILL = Path(__file__).resolve().parent.parent
+SKILL = Path(__file__).resolve().parent.parent / "skills" / "mingli-master"
 VENV_PY = SKILL / "scripts" / ".venv" / "bin" / "python"
 PINNED = "1.4.8"
 
@@ -65,7 +65,7 @@ def test_glossary_covers_fixture_vocab():
     g = (SKILL / "references" / "shared" / "glossary.md").read_text(encoding="utf-8")
     vocab = set()
     for f in ["a_bazi.json", "b_bazi.json"]:
-        d = json.loads((SKILL / "tests" / "fixtures" / f).read_text(encoding="utf-8"))
+        d = json.loads((Path(__file__).resolve().parent / "fixtures" / f).read_text(encoding="utf-8"))
         for p in d["pillars"]:
             vocab.add(p["shishen"])
         vocab.update(d["day_strength"]["xi"] + d["day_strength"]["ji"])
@@ -92,7 +92,7 @@ def test_output_lint_flags_leaks():
     import subprocess
     r = subprocess.run([str(SKILL / "scripts" / ".venv" / "bin" / "python"),
                         str(SKILL / "scripts" / "output_lint.py"),
-                        "--text-file", str(SKILL / "tests" / "fixtures" / "bad_sample.txt"),
+                        "--text-file", str(Path(__file__).resolve().parent / "fixtures" / "bad_sample.txt"),
                         "--format", "json"],
                        capture_output=True, text=True)
     assert r.returncode != 0
@@ -108,7 +108,7 @@ def test_output_lint_clean_passes():
     import subprocess
     r = subprocess.run([str(SKILL / "scripts" / ".venv" / "bin" / "python"),
                         str(SKILL / "scripts" / "output_lint.py"),
-                        "--text-file", str(SKILL / "tests" / "fixtures" / "clean_sample.txt"),
+                        "--text-file", str(Path(__file__).resolve().parent / "fixtures" / "clean_sample.txt"),
                         "--format", "json"],
                        capture_output=True, text=True)
     assert r.returncode == 0, r.stdout
@@ -120,7 +120,7 @@ def test_output_lint_strict_flags_vague():
     import json
     args = [str(SKILL / "scripts" / ".venv" / "bin" / "python"),
             str(SKILL / "scripts" / "output_lint.py"),
-            "--text-file", str(SKILL / "tests" / "fixtures" / "vague_sample.txt"),
+            "--text-file", str(Path(__file__).resolve().parent / "fixtures" / "vague_sample.txt"),
             "--format", "json"]
     r = subprocess.run(args, capture_output=True, text=True)
     assert r.returncode == 0, r.stdout           # 非 strict: 無外洩 -> 乾淨
@@ -140,13 +140,13 @@ def test_output_lint_strict_allows_natural_hedges():
             str(SKILL / "scripts" / "output_lint.py"),
             "--format", "json"]
     r = subprocess.run(lint + ["--text-file",
-                               str(SKILL / "tests" / "fixtures" / "confident_sample.txt"),
+                               str(Path(__file__).resolve().parent / "fixtures" / "confident_sample.txt"),
                                "--strict"],
                        capture_output=True, text=True)
     assert r.returncode == 0, r.stdout
     assert json.loads(r.stdout)["violations"] == []
     r2 = subprocess.run(lint + ["--text-file",
-                                str(SKILL / "tests" / "fixtures" / "vague_sample.txt"),
+                                str(Path(__file__).resolve().parent / "fixtures" / "vague_sample.txt"),
                                 "--strict"],
                         capture_output=True, text=True)
     assert r2.returncode != 0
@@ -159,7 +159,7 @@ def test_output_lint_strict_notes_natural_hedges():
     import json
     r = subprocess.run([str(SKILL / "scripts" / ".venv" / "bin" / "python"),
                         str(SKILL / "scripts" / "output_lint.py"),
-                        "--text-file", str(SKILL / "tests" / "fixtures" / "confident_sample.txt"),
+                        "--text-file", str(Path(__file__).resolve().parent / "fixtures" / "confident_sample.txt"),
                         "--format", "json", "--strict"],
                        capture_output=True, text=True)
     assert r.returncode == 0, r.stdout

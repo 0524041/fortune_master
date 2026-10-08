@@ -3,9 +3,9 @@ import json
 import subprocess
 from pathlib import Path
 
-SKILL = Path(__file__).resolve().parent.parent
+SKILL = Path(__file__).resolve().parent.parent / "skills" / "mingli-master"
 SCRIPT = SKILL / "scripts" / "tongshu_day.py"
-FIX = SKILL / "tests" / "fixtures"
+FIX = Path(__file__).resolve().parent / "fixtures"
 VENV_PY = str(SKILL / "scripts" / ".venv" / "bin" / "python")
 
 

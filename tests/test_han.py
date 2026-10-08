@@ -4,7 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-SKILL = Path(__file__).resolve().parent.parent
+SKILL = Path(__file__).resolve().parent.parent / "skills" / "mingli-master"
 HAN = SKILL / "scripts" / "han.py"
 sys.path.insert(0, str(SKILL / "scripts"))
 import han  # noqa: E402

@@ -3,9 +3,9 @@ import json
 import subprocess
 from pathlib import Path
 
-SKILL = Path(__file__).resolve().parent.parent
+SKILL = Path(__file__).resolve().parent.parent / "skills" / "mingli-master"
 SCRIPT = SKILL / "scripts" / "decade.py"
-VENV_PY = str(Path(__file__).resolve().parent.parent / "scripts" / ".venv" / "bin" / "python")
+VENV_PY = str(Path(__file__).resolve().parent.parent / "skills" / "mingli-master" / "scripts" / ".venv" / "bin" / "python")
 
 
 def run_decade(*extra, fmt="json"):

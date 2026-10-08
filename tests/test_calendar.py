@@ -3,7 +3,7 @@ import json
 import subprocess
 from pathlib import Path
 
-SKILL = Path(__file__).resolve().parent.parent
+SKILL = Path(__file__).resolve().parent.parent / "skills" / "mingli-master"
 VENV_PY = str(SKILL / "scripts" / ".venv" / "bin" / "python")
 SH = SKILL / "scripts" / "ziwei_full.sh"
 

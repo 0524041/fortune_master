@@ -3,9 +3,9 @@ import json
 import subprocess
 from pathlib import Path
 
-SKILL = Path(__file__).resolve().parent.parent
+SKILL = Path(__file__).resolve().parent.parent / "skills" / "mingli-master"
 SCRIPT = SKILL / "scripts" / "bazi_pai.py"
-VENV_PY = str(Path(__file__).resolve().parent.parent / "scripts" / ".venv" / "bin" / "python")
+VENV_PY = str(Path(__file__).resolve().parent.parent / "skills" / "mingli-master" / "scripts" / ".venv" / "bin" / "python")
 # 本地 venv 不存在時先跑 bash scripts/setup.sh
 
 

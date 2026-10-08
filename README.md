@@ -148,26 +148,25 @@ $V skills/mingli-master/scripts/person_cast.py --date 1990-08-18 --time 06:30 --
 fortune_master/
 ├─ .claude-plugin/marketplace.json   # Claude Code 外掛市集目錄（列出本 repo 的外掛）
 ├─ README.md  LICENSE  CHANGELOG.md  VERSION  .gitignore
+├─ tests/                              # 回歸測試（repo 層）
 └─ skills/
    └─ mingli-master/                 # 既是 Agent Skill，也是 Claude 外掛
       ├─ .claude-plugin/plugin.json  # 外掛 manifest（name/version/license）
       ├─ SKILL.md                    # skill 入口（name/description/license/compatibility/metadata）
       ├─ references/                 # 知識與 SOP（按需讀）：schools/methods/knowledge/yijing/examples
       ├─ data/                       # 結構化表（干支/四化/神煞/調候/擇日規則/64卦/城市）
-      ├─ scripts/                    # 排盤：bazi_pai.py, ziwei_full.sh(+bundle), yijing/, hepan_check.py, zeri_pick.py, tongshu_day.py, cast.py
-      │  ├─ han.py                   # 統一簡繁層（簡→繁, 單一真相）
-      │  ├─ vendor/lunar_python/     # 內嵌曆法庫（純 Python, MIT）→ 免 venv/pip
-      │  ├─ vendor/opencc/           # 內嵌簡繁庫（純 Python, Apache-2.0）→ 免 pip
-      │  └─ ziwei_full.bundle.mjs    # 內嵌紫微引擎（esbuild 打包 iztro, MIT）→ 免 npm
-      └─ tests/                      # 回歸測試
+      └─ scripts/                    # 排盤：bazi_pai.py, ziwei_full.sh(+bundle), yijing/, hepan_check.py, zeri_pick.py, tongshu_day.py, cast.py
+         ├─ han.py                   # 統一簡繁層（簡→繁, 單一真相）
+         ├─ vendor/lunar_python/     # 內嵌曆法庫（純 Python, MIT）→ 免 venv/pip
+         ├─ vendor/opencc/           # 內嵌簡繁庫（純 Python, Apache-2.0）→ 免 pip
+         └─ ziwei_full.bundle.mjs    # 內嵌紫微引擎（esbuild 打包 iztro, MIT）→ 免 npm
 ```
 
 ## 測試
 
 ```bash
-cd skills/mingli-master
-bash scripts/setup.sh              # 首次
-scripts/.venv/bin/python -m pytest -q
+bash skills/mingli-master/scripts/setup.sh              # 首次（建立本地 venv）
+skills/mingli-master/scripts/.venv/bin/python -m pytest tests/ -q
 ```
 
 ## 版本

@@ -4,10 +4,10 @@ import json
 import subprocess
 from pathlib import Path
 
-SKILL = Path(__file__).resolve().parent.parent
+SKILL = Path(__file__).resolve().parent.parent / "skills" / "mingli-master"
 SCRIPT = SKILL / "scripts" / "zeri_pick.py"
-FIX = SKILL / "tests" / "fixtures"
-VENV_PY = str(Path(__file__).resolve().parent.parent / "scripts" / ".venv" / "bin" / "python")
+FIX = Path(__file__).resolve().parent / "fixtures"
+VENV_PY = str(Path(__file__).resolve().parent.parent / "skills" / "mingli-master" / "scripts" / ".venv" / "bin" / "python")
 # 本地 venv 不存在時先跑 bash scripts/setup.sh
 
 

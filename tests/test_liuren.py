@@ -7,7 +7,7 @@ import json
 import subprocess
 from pathlib import Path
 
-SKILL = Path(__file__).resolve().parent.parent
+SKILL = Path(__file__).resolve().parent.parent / "skills" / "mingli-master"
 YJ = SKILL / "scripts" / "yijing"
 PY = "python3"
 
@@ -16,7 +16,7 @@ sys.path.insert(0, str(YJ))
 sys.path.insert(0, str(SKILL / "scripts" / "vendor"))
 import liuren_core as lr  # noqa: E402
 
-REF = json.loads((SKILL / "tests" / "fixtures" / "liuren_reference.json").read_text(encoding="utf-8"))
+REF = json.loads((Path(__file__).resolve().parent / "fixtures" / "liuren_reference.json").read_text(encoding="utf-8"))
 PAN = ['巳', '午', '未', '申', '辰', '卯', '酉', '戌', '寅', '丑', '子', '亥']
 
 

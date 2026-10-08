@@ -72,6 +72,19 @@ python3 scripts/yijing/event_cast.py --with liuren qimen …      # 追加過程
 - 單年塊五類條列：八字歲運、紫微運限、宮位細節（按問項取宮）、輔助、流月（`--full` 才給）。
 - 問事預設六爻＋梅花；過程人事加六壬、方位行動加奇門（引導見 `event-summary-spec.md`）。
 
+### 快取（本機留存）
+
+```bash
+python3 scripts/zongpan.py summary … --save 小王 --relation 朋友   # 存摘要＋基本資訊
+python3 scripts/zongpan.py cache list                              # 列出已存
+python3 scripts/zongpan.py cache show --name 小王                   # 讀回（續問不重排）
+```
+
+- 存檔位置 `.cache/`（本機工作目錄，不入版控、不上傳）。
+- **引導義務**：詢問姓名前先說明「這些資料只留在你這台機器上，不會上傳」（免責）；使用者不願給名字就用代稱（「朋友」「A 君」），不強求。
+- **續問規則**：同一人續問 → 讀快取（`cache show`）後只補細節子命令，不重跑 summary；換人／換事 → 重排。
+- 完整互動流程見 `references/shared/interaction.md`。
+
 ## 強約束（常駐，只放不能忘的）
 
 1. 算數歸 script，**不心算**；數字、格局名、卦名、卦辭爻辭**照抄程式輸出**，不編造、不自創；**不翻引擎原始碼找答案**（`scripts/*.sh|*.mjs|*.ts` 實作一律不讀；`*.py` 只准看 `--help` 參數），輸出結構以 `references/` 為準，看不懂先查文件。**引擎調用一律用 txt/md 分層輸出（summary＋子命令），JSON 旗標不存在於規範**。

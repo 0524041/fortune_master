@@ -120,26 +120,34 @@ gemini skills list          # 確認列出 mingli-master
 
 ## 使用
 
-完整說明見 [`skills/mingli-master/SKILL.md`](skills/mingli-master/SKILL.md)。常用：
+完整說明見 [`skills/mingli-master/SKILL.md`](skills/mingli-master/SKILL.md)。常用（分層：先必讀摘要，再按問題取細節；輸出全為文字）：
 
 ```bash
 V=python3   # 零安裝: 依賴已內嵌; 紫微走 ziwei_full.sh (bundle)
 
-# 雙盤（八字＋紫微）＋交叉檢查
-$V skills/mingli-master/scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male
-# 農曆出生（閏月加 --leap）
-$V skills/mingli-master/scripts/cast.py --calendar lunar --date 1990-07-28 --time 06:30 --city 台北 --gender male
-# 運限
-skills/mingli-master/scripts/ziwei_full.sh --date 1990-08-18 --hour 卯 --gender male --at 2026-06-15
-# 六爻／梅花／六壬／奇門
-$V skills/mingli-master/scripts/yijing/divine.py --random --time "2026-08-01 10:30"
-$V skills/mingli-master/scripts/yijing/meihua.py --time "2026-08-01 10:30"
-$V skills/mingli-master/scripts/yijing/liuren.py --time "2026-08-01 10:30" --birth 1990 --gender 女
-$V skills/mingli-master/scripts/yijing/qimen.py --time "2026-08-01 10:30"
-# 四式合盤（六爻＋梅花＋六壬＋奇門 同刻）
-$V skills/mingli-master/scripts/yijing/event_cast.py --time "2026-08-01 10:30" --coins 1 2 3 1 0 2 --numbers 17 23
-# 問人總盤（八字＋紫微主盤 ＋ 六壬終身課 ＋ 奇門終身盤）
-$V skills/mingli-master/scripts/person_cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026
+# 問人：必讀摘要（含基本輸入＋八字/大運/紫微/財官象/格局/大限/財語義/六壬/奇門/警示）
+$V skills/mingli-master/scripts/zongpan.py summary --date 1998-01-05 --time 15:57 --city 台南 --gender male --year 2026
+# 問人：按需細節
+$V skills/mingli-master/scripts/zongpan.py bazi  --date … --time … --city … --gender male --year 2029   # 原局＋流年流月
+$V skills/mingli-master/scripts/zongpan.py ziwei --date … --time … --city … --gender male --palaces 財帛,田宅,官祿,福德
+$V skills/mingli-master/scripts/zongpan.py yun year 2029 --date … ; zongpan.py yun decade --from 2026 --to 2031 --date …
+$V skills/mingli-master/scripts/zongpan.py aux liuren --date … ; zongpan.py aux qimen --date …
+# 問人：本機快取（僅留存本機；續問不重排）
+$V skills/mingli-master/scripts/zongpan.py summary … --save 小王 --relation 朋友
+$V skills/mingli-master/scripts/zongpan.py cache list / cache show --name 小王
+
+# 問事：預設摘要（六爻＋梅花各一行結論；--time 指定實際起卦時刻，預設系統現在）
+$V skills/mingli-master/scripts/yijing/event_cast.py --coins 1 2 2 3 1 2 --numbers 7 8
+$V skills/mingli-master/scripts/yijing/event_cast.py --only liuyao …            # 單式全文
+$V skills/mingli-master/scripts/yijing/event_cast.py --with liuren qimen …      # 追加過程/方位
+```
+
+底層排盤程式（正常流程不必直接跑；除錯用）：
+
+```bash
+$V skills/mingli-master/scripts/cast.py --date 1990-08-18 --time 06:30 --city 台北 --gender male   # 雙盤
+$V skills/mingli-master/scripts/bazi_pai.py --date … --gender male --format text                    # 八字
+skills/mingli-master/scripts/ziwei_full.sh --date … --time … --gender male --format text            # 紫微
 ```
 
 ## 結構
@@ -155,7 +163,7 @@ fortune_master/
       ├─ SKILL.md                    # skill 入口（name/description/license/compatibility/metadata）
       ├─ references/                 # 知識與 SOP（按需讀）：schools/methods/knowledge/yijing/examples
       ├─ data/                       # 結構化表（干支/四化/神煞/調候/擇日規則/64卦/城市）
-      └─ scripts/                    # 排盤：bazi_pai.py, ziwei_full.sh(+bundle), yijing/, hepan_check.py, zeri_pick.py, tongshu_day.py, cast.py
+      └─ scripts/                    # 排盤：zongpan.py (問人分層入口), bazi_pai.py, ziwei_full.sh(+bundle), yijing/ (含 event_cast.py 問事入口), hepan_check.py, zeri_pick.py, tongshu_day.py, cast.py
          ├─ han.py                   # 統一簡繁層（簡→繁, 單一真相）
          ├─ vendor/lunar_python/     # 內嵌曆法庫（純 Python, MIT）→ 免 venv/pip
          ├─ vendor/opencc/           # 內嵌簡繁庫（純 Python, Apache-2.0）→ 免 pip
@@ -171,9 +179,11 @@ skills/mingli-master/scripts/.venv/bin/python -m pytest tests/ -q
 
 ## 版本
 
-- 頂層 `VERSION` 檔與 **git tag**（語意化版號，如 `v0.2.1`）。
+目前版本：**v0.10.0**（三處同步：`VERSION`＋git tag、`SKILL.md` metadata、`plugin.json`）。
+
+- 頂層 `VERSION` 檔與 **git tag**（語意化版號，如 `v0.10.0`）。
 - Skill 本身：`SKILL.md` 的 `metadata.version`（Agent Skills 規格無頂層 `version` 欄位，版本放 `metadata`）。
-- 外掛：`skills/mingli-master/.claude-plugin/plugin.json` 的 `version`。
+- 外掛：`skills/mingli-master/.claude-plugin/plugin.json` 的 `version`（Claude Code 外掛 manifest；`marketplace.json` 為市集目錄）。
 
 發新版：改 `VERSION` 與 `CHANGELOG.md`、同步上述版本欄位 → `git commit` → `git tag -a vX.Y.Z` → `git push --tags`。
 

@@ -59,6 +59,34 @@ def cache_load(name: str):
     return json.loads(path.read_text(encoding='utf-8'))
 
 
+def print_year_block(y: int, a):
+    """單年塊（yun year 與 yun decade 共用）：八字歲運／紫微運限；--full 加流月流耀。"""
+    bz = run([PY, str(DIR / 'bazi_pai.py'), '--date', a.date, '--time', a.time,
+              '--gender', a.gender, *loc_args(a), '--year', str(y), '--format', 'text'])
+    print(f"## {y} 年")
+    for ln in bz.splitlines():
+        if ln.startswith('流年'):
+            head = ln if getattr(a, 'full', False) else ln.split('):')[0] + ')'
+            print(f"- 八字歲運：{head}")
+    zw = run([str(DIR / 'ziwei_full.sh'), '--date', a.date, '--time', a.time,
+              '--gender', a.gender, *loc_args(a), '--at', f'{y}-06-01', '--format', 'text'])
+    grab = False
+    for line in zw.splitlines():
+        if line.startswith('【運限】'):
+            grab = True
+            print(f"  {line.strip()}")
+            continue
+        elif line.startswith('【') and grab:
+            break
+        if not grab or not line.strip():
+            continue
+        if '流耀' in line and not getattr(a, 'full', False):
+            continue
+        if line.strip().startswith(('小限', '流月', '流日', '流時', '流年將前')) and not getattr(a, 'full', False):
+            continue
+        print(f"- 紫微運限：{line.strip()}")
+
+
 def common(p):
     p.add_argument('--date', required=True)
     p.add_argument('--time', default='12:00')
@@ -200,41 +228,17 @@ def main():
 
     elif a.cmd == 'yun':
         if a.yun_cmd == 'decade':
+            # 總表導覽 + 每年塊（與單年同豐富；程式內迴圈, 非 LLM 逐年呼叫）
             cmd = [PY, str(DIR / 'decade.py'), '--date', a.date, '--time', a.time,
                    '--gender', a.gender, *loc_args(a),
                    '--from', str(a.yfrom), '--to', str(a.yto), '--format', 'text']
             print(run(cmd), end='')
+            print()
+            for y in range(a.yfrom, a.yto + 1):
+                print_year_block(y, a)
         else:  # year
-            y = a.year or __import__('datetime').datetime.now().year
-            # 八字側：該年干支＋12流月（--full 才展開流月）
-            bz = run([PY, str(DIR / 'bazi_pai.py'), '--date', a.date, '--time', a.time,
-                      '--gender', a.gender, *loc_args(a), '--year', str(y), '--format', 'text'])
-            print(f"## {y} 年")
-            for ln in bz.splitlines():
-                if ln.startswith('流年'):
-                    if a.full:
-                        print(f"- 八字歲運：{ln}")
-                    else:
-                        head = ln.split('):')[0] + ')'
-                        print(f"- 八字歲運：{head}")
-            # 紫微側：該年運限（取年中）；--full 才含小限以下與流耀
-            zw = run([str(DIR / 'ziwei_full.sh'), '--date', a.date, '--time', a.time,
-                      '--gender', a.gender, *loc_args(a), '--at', f'{y}-06-01', '--format', 'text'])
-            grab = False
-            for line in zw.splitlines():
-                if line.startswith('【運限】'):
-                    grab = True
-                    print(f"- 紫微運限：{line.strip()}")
-                    continue
-                elif line.startswith('【') and grab:
-                    break
-                if not grab or not line.strip():
-                    continue
-                if '流耀' in line and not a.full:
-                    continue
-                if line.strip().startswith(('小限', '流月', '流日', '流時', '流年將前')) and not a.full:
-                    continue
-                print(f"- 紫微運限：{line.strip()}")
+            y = a.year or datetime.now().year
+            print_year_block(y, a)
 
     elif a.cmd == 'aux':
         if a.aux_cmd == 'liuren':

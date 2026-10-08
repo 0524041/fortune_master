@@ -19,6 +19,8 @@ from pathlib import Path
 
 DIR = Path(__file__).resolve().parent
 PY = sys.executable  # 與 cast.py 同: 用當前 Python (腳本自帶 vendor, 免 venv)
+sys.path.insert(0, str(DIR))
+from han import s2t_deep  # noqa: E402  # 統一簡繁層
 
 
 def run_json(cmd):
@@ -73,10 +75,10 @@ def main():
         b = run_json([PY, str(DIR / "bazi_pai.py"), "--date", a.date, "--time", a.time,
                       "--gender", a.gender, "--format", "json", *loc, *cal,
                       "--year", str(y)])
-        z = run_json([str(DIR / "ziwei_full.sh"), "--date", a.date, "--time", a.time,
-                      "--gender", a.gender, *loc, *cal,
-                      "--liunian", str(y), "--at", f"{y}-{a.at_md}",
-                      "--horoscope-divide", a.divide, "--format", "json"])
+        z = s2t_deep(run_json([str(DIR / "ziwei_full.sh"), "--date", a.date, "--time", a.time,
+                               "--gender", a.gender, *loc, *cal,
+                               "--liunian", str(y), "--at", f"{y}-{a.at_md}",
+                               "--horoscope-divide", a.divide, "--format", "json"]))
         dy = covering_dayun(b["dayun"]["pillars"], y)
         rows.append({
             "year": y,

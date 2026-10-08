@@ -2,6 +2,19 @@
 
 本 repo 版本以 git tag 標記（語意化版號）。
 
+## v0.9.0
+
+- **統一簡繁層** `scripts/han.py`（**單一真相**）：內嵌 `scripts/vendor/opencc`（opencc-python-reimplemented，Apache-2.0，純 Python，~1.2M），維持零安裝。方向 **簡→繁**，於**引擎輸出邊界先轉再比對/輸出**；`data/*.json` 規則表同步繁化。移除散落各處的手寫字表（`zeri_pick` 的 `SIMP2TRAD`、`hepan_check` 的繁簡雙套星名、`twin_adjust`/`cast` 的簡體宮名比對）。附領域例外修正（`丑/斗/凶/占/灶/啟/沖/床/干` 等 opencc 歧義）。
+  - 引擎來源：`lunar_python`（八字/擇日）與 `iztro`（紫微）皆吐簡體，一律經 `han`；`ziwei_full.sh` 以 `han.py --filter`（JSON-aware：只轉值、keys 不動）過濾。
+  - 測試：`test_han.py`（8 條）；`han.simplified_leaks` 只掃字串值。
+- **擇日大改版 v2**（`scripts/zeri_pick.py`）：
+  - 新增 **時辰吉時層**（`--hours`）：通書時宜/時忌、時黃道黑道、**時支沖命主生年或日柱否決**、時支六合半三合、時干五合/剋、流時干四化；`--hour-top N`、`--qimen`（時家奇門簡表）。解決「問入厝吉時只能猜」。
+  - 日層輸出補齊黃曆欄位（納音/建除/宿/九星/方位吉神/空亡/沖煞/彭祖/胎神/太歲/月相/六曜/節日）＋ **`verification` 區塊**（checks/warnings/all_pass）。
+  - 個人層/紫微層改用 `tongshu_core.personal_relations`；規則仍讀 `data/zeri_rules.json`。
+- **新增通書核心** `scripts/tongshu_core.py`（日層＋十二時辰層＋個人關係事實，純事實不評分）與 **單日黃曆 CLI** `scripts/tongshu_day.py`（`--date`、`--bazi`、`--qimen`、`--format`）。
+- 文件：`zeri.md` 增第七（四層與吉時）、八（輸出與統一簡繁）節；`_index.md` 補 `zeri --hours`／`tongshu_day`；`SKILL.md` 觸發詞補 吉時/黃道吉日/黃曆/通書。
+- 測試：全套 **162 條**（新增 `test_han` 8、`test_tongshu_day` 5、擇日吉時/驗證 5）。
+
 ## v0.8.3
 
 - **輸出語氣放寬**：`references/shared/output-quality.md` 改版——規範只管口徑統一（先直答／結論掛依據可集中／應期／給方向），不再限制格式；或然判斷不必逐句標置信，中高把握直接肯定講，只有**低把握或孤證才說明不確定原因**；開放自然語氣「可能／也許」；新增「預設段落敘事、條列只給清單」排版節。同步對齊 `SKILL.md` 常駐條款與 `liuyao`／`liuren`／`qimen`／`meihua`／`caiyun`／`glossary`／`pan-reading`／`aux-charts`。

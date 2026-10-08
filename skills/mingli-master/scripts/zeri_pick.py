@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""擇日確定性掃描. 三層過濾: 通書層(建除宜忌/月破歲破/神煞) → 個人層(八字日柱) → 紫微層(流日四化).
-曆法走 lunar_python, 規則走 references/ask-person/zeri.md. 不許 LLM 心算挑日子.
+"""擇日確定性掃描 v2. 四層: 通書日層 → 個人八字日層 → 紫微日層 → (可選)時辰吉時層.
+
+曆法走 tongshu_core (內嵌 lunar_python), 規則走 data/zeri_rules.json + references/ask-person/zeri.md.
+簡繁統一由 han 層處理 (tongshu_core 已轉繁), 本檔不再自帶字表. 不許 LLM 心算挑日子/時辰.
+
 用法:
-  zeri_pick.py --matter 嫁娶 --from 2026-10-01 --to 2026-12-31 [--bazi A.json [--bazi-b B.json]]
-               [--ziwei Az.json [--ziwei-b Bz.json]] [--top 10] [--format text|json|both]
+  zeri_pick.py --matter 入宅 --from 2026-10-01 --to 2026-12-31
+               [--bazi A.json [--bazi-b B.json]] [--ziwei Az.json [--ziwei-b Bz.json]]
+               [--hours [--hour-top 3] [--qimen]] [--top 10] [--format text|json|both]
 """
 import argparse
 import json
@@ -11,11 +15,13 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent / "vendor"))  # 內嵌 lunar_python (零安裝)
-from lunar_python import Solar
+DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(DIR))
+from tongshu_core import (day_facts, hours_of_day, personal_relations,  # noqa: E402
+                          simplified_leaks, qimen_brief, CHONG)
+from han import norm_palace, s2t_deep  # noqa: E402
 
-DATA = Path(__file__).resolve().parent.parent / "data"
-_ZH = json.loads((DATA / "ganzhi.json").read_text(encoding="utf-8"))
+DATA = DIR.parent / "data"
 _SI = json.loads((DATA / "sihua.json").read_text(encoding="utf-8"))
 _ZR = json.loads((DATA / "zeri_rules.json").read_text(encoding="utf-8"))
 
@@ -28,61 +34,24 @@ EVIL = _ZR["evil"]
 SHOUSI = {int(k): v for k, v in _ZR["shousi"].items()}
 MING_FU_QIAN = set(_ZR["ziwei_day"]["ji_penalty_in"])
 CAI_GUAN = set(_ZR["ziwei_day"]["lu_quan_bonus_in"])
-CHONG = _ZH["liu_chong"]
-WUXING_KE = _ZH["wu_xing_ke"]
-LIUHE = _ZH["liu_he"]
-TIANGAN_HE = _ZH["tian_gan_he"]
-GAN_WX = _ZH["gan_wuxing"]
-SANHE = _ZH["san_he"]
 SI_HUA = _SI["table"]
 
 
 def load(p):
     with open(p, encoding="utf-8") as f:
-        return json.load(f)
+        return s2t_deep(json.load(f))  # 統一簡繁層: 引擎輸出 (八字/紫微) 轉繁
 
 
-# 簡轉繁 (lunar_python 吐簡體, 規則表繁體. 漏一個就是靜默失效.)
-SIMP2TRAD = str.maketrans({
-    "开": "開", "闭": "閉", "门": "門", "迁": "遷", "财": "財", "杀": "殺",
-    "冲": "沖", "贵": "貴", "马": "馬", "鸡": "雞", "龙": "龍", "仓": "倉",
-    "寿": "壽", "发": "發", "丰": "豐", "丽": "麗", "宝": "寶", "显": "顯",
-    "镇": "鎮", "钟": "鐘", "长": "長", "阴": "陰", "阳": "陽", "际": "際",
-    "泽": "澤", "满": "滿", "达": "達", "运": "運", "远": "遠", "迟": "遲",
-    "惊": "驚", "罗": "羅", "败": "敗", "废": "廢", "兽": "獸", "画": "畫",
-    "钩": "鉤", "绞": "絞", "络": "絡", "续": "續", "绝": "絕", "缠": "纏",
-    "计": "計", "时": "時", "晓": "曉", "鸣": "鳴", "吠": "吠", "圣": "聖",
-    "临": "臨", "监": "監", "鉴": "鑒", "钦": "欽", "饿": "餓", "饱": "飽",
-    "贪": "貪", "贞": "貞", "禄": "祿", "机": "機", "辅": "輔", "庄": "莊",
-    "凤": "鳳", "鸾": "鸞", "咸": "咸", "乔": "喬", "汤": "湯", "沟": "溝",
-    "汉": "漢", "泽": "澤", "洁": "潔", "洪": "洪", "浊": "濁", "浏": "瀏",
-})
-
-
-def tr(text):
-    return text.translate(SIMP2TRAD)
-
-
-def tr_list(items):
-    return [tr(x) for x in items]
-
-
+# ── 日層 ──────────────────────────────────────────────────────────
 def day_info(dt):
-    l = Solar.fromYmdHms(dt.year, dt.month, dt.day, 12, 0, 0).getLunar()
-    return {"date": dt.strftime("%Y-%m-%d"),
-            "ganzhi": tr(l.getDayInGanZhiExact()),
-            "gan": tr(l.getDayGanExact()), "zhi": tr(l.getDayZhiExact()),
-            "month_zhi": tr(l.getMonthZhi()), "year_zhi": tr(l.getYearZhi()),
-            "lunar_month": l.getMonth(),
-            "jianchu": tr(l.getZhiXing()),
-            "huangdao": tr(l.getDayTianShen()) + tr(l.getDayTianShenLuck()),
-            "huangdao_good": l.getDayTianShenLuck() == "吉",
-            "yi": tr_list(l.getDayYi()), "ji": tr_list(l.getDayJi()),
-            "jishen": tr_list(l.getDayJiShen()), "xiongsha": tr_list(l.getDayXiongSha())}
+    d = day_facts(dt)
+    d.update({"status": "candidate", "score": 0, "plus": [], "veto": [],
+              "tongshu": 0, "personal": 0, "ziwei_pt": 0})
+    return d
 
 
 def check_abs(day):
-    """L1 絕對否決 (全年任何事項): 月破/歲破/受死/建除破日. 回否決理由 list."""
+    """L1 絕對否決 (全年任何事項): 月破/歲破/受死/建除破日."""
     veto = []
     if CHONG.get(day["zhi"]) == day["month_zhi"]:
         veto.append(f"月破(日支{day['zhi']}沖月建{day['month_zhi']})")
@@ -96,8 +65,7 @@ def check_abs(day):
 
 
 def check_matter(day, matter):
-    """L1 事項層: 建除宜忌/通書宜忌否決/加分 + 黃道 + 吉神 + 凶煞否決.
-    回 (score, plus[], veto[])."""
+    """L1 事項層: 建除宜忌/通書宜忌否決/加分 + 黃道 + 吉神 + 凶煞否決. 回 (score, plus, veto)."""
     jc = JIANCHU[matter]
     score, plus, veto = 0, [], []
     j = day["jianchu"]
@@ -119,8 +87,7 @@ def check_matter(day, matter):
         plus.append("通書宜含+1")
     score += 1 if day["huangdao_good"] else -1
     plus.append(f"黃道{day['huangdao']}{'+1' if day['huangdao_good'] else '-1'}")
-    lucky_hits = [g for g in LUCKY[matter]
-                  if any(g in s for s in day["jishen"])]
+    lucky_hits = [g for g in LUCKY[matter] if any(g in s for s in day["jishen"])]
     for g in lucky_hits[:2]:
         score += 1
         plus.append(f"吉神{g}+1")
@@ -130,40 +97,24 @@ def check_matter(day, matter):
     return score, plus, veto
 
 
-def day_pillar(bazi):
-    for p in bazi.get("pillars", []):
-        if p.get("label") == "日柱":
-            return tr(p["gan"]), tr(p["zhi"])
-    return "", ""
-
-
 def check_personal(day, bazi, tag):
-    """L2 個人層: 日支沖日支否決; 日支六合/半三合+1; 日干五合+1; 日干剋-1.
-    回 (score, plus[], veto[])."""
+    """L2 個人層: 日支沖日支否決; 日支六合/半三合+1; 日干五合+1; 日干剋-1."""
     score, plus, veto = 0, [], []
-    mg, mz = day_pillar(bazi)
-    if not mg:
+    rel = personal_relations(day["gan"], day["zhi"], bazi)
+    if not rel:
         return score, plus, veto
-    if CHONG.get(day["zhi"]) == mz:
-        veto.append(f"{tag}日支沖(流日{day['zhi']}沖命主{mz})")
+    if rel["chong_day"]:
+        veto.append(f"{tag}日支沖(流日{day['zhi']}沖命主{rel['day_zhi']})")
         return score, plus, veto
-    if LIUHE.get(day["zhi"]) == mz:
+    if rel["liuhe_day"] or rel["sanhe_day"]:
         score += 1
-        plus.append(f"{tag}日支六合{day['zhi']}{mz}+1")
-    else:
-        for grp in SANHE:
-            if day["zhi"] in grp and mz in grp:
-                score += 1
-                plus.append(f"{tag}日支半三合{day['zhi']}{mz}+1")
-                break
-    if TIANGAN_HE.get(day["gan"]) == mg:
+        plus.append(f"{tag}日支{'六合' if rel['liuhe_day'] else '半三合'}{day['zhi']}{rel['day_zhi']}+1")
+    if rel["gan_he"]:
         score += 1
-        plus.append(f"{tag}日干{mg}{day['gan']}合+1")
-    elif GAN_WX.get(day["gan"]) and GAN_WX.get(mg) and (
-            WUXING_KE.get(GAN_WX[day["gan"]]) == GAN_WX[mg]
-            or WUXING_KE.get(GAN_WX[mg]) == GAN_WX[day["gan"]]):
+        plus.append(f"{tag}日干{rel['day_master']}{day['gan']}合+1")
+    elif rel["gan_ke"]:
         score -= 1
-        plus.append(f"{tag}日干剋({day['gan']}vs{mg})-1")
+        plus.append(f"{tag}日干剋({day['gan']}vs{rel['day_master']})-1")
     return score, plus, veto
 
 
@@ -174,33 +125,118 @@ def locate_star(chart, star):
     return ""
 
 
-def short_palace(name):
-    return tr(name).rstrip("宫宮") if name else ""
-
-
 def check_ziwei_day(day, chart, tag):
-    """L3 紫微層: 流日干四化. 忌落命/夫妻/遷移-1; 祿/權落命/財帛/官祿+1.
-    回 (score, plus[])."""
+    """L3 紫微層: 流日干四化. 忌落命/夫妻/遷移-1; 祿/權落命/財帛/官祿+1. 回 (score, plus)."""
     score, plus = 0, []
     trans = SI_HUA.get(day["gan"], ["", "", "", ""])
     lu, quan, _, ji = trans[0], trans[1], trans[2], trans[3]
     if ji:
-        pal = short_palace(locate_star(chart, ji))
-        if pal in ("命", "夫妻", "遷移"):
+        pal = norm_palace(locate_star(chart, ji))
+        if pal in MING_FU_QIAN:
             score -= 1
-            plus.append(f"{tag}流日忌{tr(ji)}在{pal}-1")
+            plus.append(f"{tag}流日忌{ji}在{pal}-1")
     for star, kind in ((lu, "祿"), (quan, "權")):
         if not star:
             continue
-        pal = short_palace(locate_star(chart, star))
-        if pal in ("命", "財帛", "官祿"):
+        pal = norm_palace(locate_star(chart, star))
+        if pal in CAI_GUAN:
             score += 1
-            plus.append(f"{tag}流日{kind}{tr(star)}在{pal}+1")
+            plus.append(f"{tag}流日{kind}{star}在{pal}+1")
     return score, plus
 
 
+# ── 時辰吉時層 ────────────────────────────────────────────────────
+def check_hour(hour, matter, bazis, ziweis):
+    """時辰層: 通書時宜/時忌 + 黃道黑道 + 個人(沖生年/日柱否決; 合/半三合/干合+1, 干剋-1)
+    + 紫微流時四化. 回 (score, plus, veto)."""
+    score, plus, veto = 0, [], []
+    if any(kw in hour["ji"] for kw in YI_KW[matter]):
+        veto.append(f"時忌含{matter}")
+    elif any(kw in hour["yi"] for kw in YI_KW[matter]):
+        score += 1
+        plus.append("時宜含+1")
+    if hour["huangdao_good"]:
+        score += 1
+        plus.append(f"時{hour['huangdao_name']}黃道+1")
+    else:
+        score -= 1
+        plus.append(f"時{hour['huangdao_name']}黑道-1")
+    for tag, bz in bazis:
+        rel = personal_relations(hour["gan"], hour["zhi"], bz)
+        if not rel:
+            continue
+        if rel["chong_year"]:
+            veto.append(f"{tag}時支沖生年({hour['zhi']}沖{rel['year_zhi']})")
+        if rel["chong_day"]:
+            veto.append(f"{tag}時支沖日柱({hour['zhi']}沖{rel['day_zhi']})")
+        if rel["liuhe_day"] or rel["sanhe_day"]:
+            score += 1
+            plus.append(f"{tag}時支{'六合' if rel['liuhe_day'] else '半三合'}+1")
+        if rel["gan_he"]:
+            score += 1
+            plus.append(f"{tag}時干{hour['gan']}合命主+1")
+        elif rel["gan_ke"]:
+            score -= 1
+            plus.append(f"{tag}時干剋-1")
+    for tag, zw in ziweis:
+        trans = SI_HUA.get(hour["gan"], ["", "", "", ""])
+        ji = trans[3]
+        if ji:
+            pal = norm_palace(locate_star(zw, ji))
+            if pal in MING_FU_QIAN:
+                score -= 1
+                plus.append(f"{tag}流時忌{ji}在{pal}-1")
+        for star, kind in ((trans[0], "祿"), (trans[1], "權")):
+            if not star:
+                continue
+            pal = norm_palace(locate_star(zw, star))
+            if pal in CAI_GUAN:
+                score += 1
+                plus.append(f"{tag}流時{kind}{star}在{pal}+1")
+    return score, plus, veto
+
+
+def score_hours(dt, matter, bazis, ziweis, hour_top, want_qimen):
+    scored = []
+    for h in hours_of_day(dt):
+        sc, pl, vt = check_hour(h, matter, bazis, ziweis)
+        h = {**h, "score": sc, "plus": pl, "veto": vt,
+             "status": "candidate" if not vt else "vetoed"}
+        scored.append(h)
+    cands = sorted([x for x in scored if x["status"] == "candidate"],
+                   key=lambda x: (-x["score"], x["index"]))
+    top = cands[:hour_top]
+    if want_qimen:
+        for h in top:
+            hh, mm = (int(x) for x in h["rep"].split(":"))
+            h["qimen"] = qimen_brief(datetime(dt.year, dt.month, dt.day, hh, mm))
+    return scored, top
+
+
+# ── 驗證 ──────────────────────────────────────────────────────────
+def verify(days, matter, bazis, ziweis, hours_flag):
+    checks, warnings = {}, []
+    checks["matter_valid"] = {"ok": matter in MATTERS}
+    checks["day_pillars_present"] = {"ok": all(len(d["ganzhi"]) == 2 for d in days)}
+    leaks = simplified_leaks(days)
+    checks["simp_trad_clean"] = {"ok": not leaks, "leaks": leaks}
+    checks["veto_has_reason"] = {
+        "ok": all(d["veto"] for d in days if d["status"] == "vetoed")}
+    if hours_flag:
+        cand_days = [d for d in days if d["status"] == "candidate"]
+        checks["hours_complete"] = {"ok": all(len(d.get("hours", [])) == 12 for d in cand_days)}
+        checks["top_hours_have_score"] = {
+            "ok": all("score" in h for d in cand_days for h in d.get("top_hours", []))}
+    if not bazis:
+        warnings.append("未提供八字: 個人層與吉時個人化略過 (加 --bazi)")
+    if not ziweis:
+        warnings.append("未提供紫微: 紫微層略過 (加 --ziwei)")
+    checks["all_pass"] = all(c["ok"] for c in checks.values() if "ok" in c)
+    return {"checks": checks, "warnings": warnings, "all_pass": checks["all_pass"]}
+
+
 def main():
-    ap = argparse.ArgumentParser(description="擇日確定性掃描")
+    ap = argparse.ArgumentParser(description="擇日確定性掃描 (日層+個人+紫微+吉時)")
     ap.add_argument("--matter", required=True, choices=MATTERS)
     ap.add_argument("--from", dest="date_from", required=True)
     ap.add_argument("--to", dest="date_to", required=True)
@@ -208,28 +244,26 @@ def main():
     ap.add_argument("--bazi-b", default=None)
     ap.add_argument("--ziwei", default=None)
     ap.add_argument("--ziwei-b", default=None)
+    ap.add_argument("--hours", action="store_true", help="候選日加掃 12 時辰, 出吉時")
+    ap.add_argument("--hour-top", type=int, default=3, help="每日列前 N 吉時")
+    ap.add_argument("--qimen", action="store_true", help="吉時附時家奇門簡表 (方位行動)")
     ap.add_argument("--top", type=int, default=10)
     ap.add_argument("--format", default="text", choices=["text", "json", "both"])
     a = ap.parse_args()
 
     d0 = datetime.strptime(a.date_from, "%Y-%m-%d")
     d1 = datetime.strptime(a.date_to, "%Y-%m-%d")
-    bazis = []
-    if a.bazi:
-        bazis.append(("甲", load(a.bazi)))
+    bazis = [("甲", load(a.bazi))] if a.bazi else []
     if a.bazi_b:
         bazis.append(("乙", load(a.bazi_b)))
-    ziweis = []
-    if a.ziwei:
-        ziweis.append(("甲", load(a.ziwei)))
+    ziweis = [("甲", load(a.ziwei))] if a.ziwei else []
     if a.ziwei_b:
         ziweis.append(("乙", load(a.ziwei_b)))
+
     days = []
     dt = d0
     while dt <= d1:
         info = day_info(dt)
-        info.update({"status": "candidate", "score": 0, "plus": [], "veto": [],
-                     "tongshu": 0, "personal": 0, "ziwei_pt": 0})
         veto = check_abs(info)
         if not veto:
             sc, pl, vt = check_matter(info, a.matter)
@@ -254,6 +288,9 @@ def main():
         if veto:
             info["status"] = "vetoed"
             info["veto"] = veto
+        elif a.hours:
+            info["hours"], info["top_hours"] = score_hours(
+                dt, a.matter, bazis, ziweis, a.hour_top, a.qimen)
         days.append(info)
         dt += timedelta(days=1)
 
@@ -263,7 +300,8 @@ def main():
            "days": days, "top": cands[:a.top],
            "summary": {"scanned": len(days), "vetoed": len(days) - len(cands),
                        "candidates": len(cands)},
-           "engine": "zeri_pick v1 (lunar_python + zeri.md)"}
+           "verification": verify(days, a.matter, bazis, ziweis, a.hours),
+           "engine": "zeri_pick v2 (tongshu_core + zeri.md)"}
 
     if a.format in ("text", "both"):
         print(f"【擇日-{a.matter}】掃描{len(days)}天 候選{len(cands)} 否決{len(days) - len(cands)}")
@@ -271,11 +309,19 @@ def main():
             print(f"{t['date']} {t['ganzhi']}{t['jianchu']} {t['huangdao']} {t['score']}分")
             for p in t["plus"][:6]:
                 print(f"  + {p}")
+            for h in t.get("top_hours", []):
+                line = f"  ▸吉時 {h['name']} {h['range']} {h['ganzhi']} {h['huangdao_name']}{h['huangdao_luck']} {h['score']}分"
+                if h.get("qimen"):
+                    line += f"｜奇門{h['qimen']['ju']} 值使{h['qimen']['zhishi']}"
+                print(line)
         vetoed = [d for d in days if d["status"] == "vetoed"]
         if vetoed:
             print(f"-- 否決{len(vetoed)}天 (前5) --")
             for v in vetoed[:5]:
                 print(f"{v['date']} {v['ganzhi']}{v['jianchu']}: {'; '.join(v['veto'][:2])}")
+        ver = out["verification"]
+        print(f"驗證: {'通過' if ver['all_pass'] else '未過'}"
+              + (f"｜⚠ {'; '.join(ver['warnings'])}" if ver["warnings"] else ""))
     if a.format in ("json", "both"):
         if a.format == "both":
             print("===== JSON =====")

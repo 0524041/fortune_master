@@ -9,7 +9,7 @@
 - **算命**：八字 ＋ 紫微斗數（**南派三合為體、北派四化為用**），雙盤交叉驗證。
 - **算事（占卜）**：易經六爻、梅花易數、大六壬、奇門遁甲（三式其二）＋四式合盤（隨機起卦，起卦前先引導問題）。
 - **問人輔助盤**：主盤（八字＋紫微）可加**六壬終身課**與**奇門終身盤**（補一生動態人事／方位行動，權重低、不翻轉主盤）。
-- **合盤／合婚**、**擇日**。
+- **合盤／合婚**、**擇日**（通書四層＋吉時＋時家奇門）、單日黃曆全資訊。
 - 排盤算數全走腳本（**不心算**），知識與解讀放 `references/`，共用表放 `data/`。
 - 陽宅風水不在此 skill（走 `fengshui` skill）。
 
@@ -154,8 +154,10 @@ fortune_master/
       ├─ SKILL.md                    # skill 入口（name/description/license/compatibility/metadata）
       ├─ references/                 # 知識與 SOP（按需讀）：schools/methods/knowledge/yijing/examples
       ├─ data/                       # 結構化表（干支/四化/神煞/調候/擇日規則/64卦/城市）
-      ├─ scripts/                    # 排盤：bazi_pai.py, ziwei_full.sh(+bundle), yijing/, hepan_check.py, zeri_pick.py, cast.py
+      ├─ scripts/                    # 排盤：bazi_pai.py, ziwei_full.sh(+bundle), yijing/, hepan_check.py, zeri_pick.py, tongshu_day.py, cast.py
+      │  ├─ han.py                   # 統一簡繁層（簡→繁, 單一真相）
       │  ├─ vendor/lunar_python/     # 內嵌曆法庫（純 Python, MIT）→ 免 venv/pip
+      │  ├─ vendor/opencc/           # 內嵌簡繁庫（純 Python, Apache-2.0）→ 免 pip
       │  └─ ziwei_full.bundle.mjs    # 內嵌紫微引擎（esbuild 打包 iztro, MIT）→ 免 npm
       └─ tests/                      # 回歸測試
 ```

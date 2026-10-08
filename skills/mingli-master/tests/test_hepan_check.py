@@ -96,8 +96,8 @@ def test_huaji_mutual_into_ming():
     d = run_hepan()
     h = d["checks"]["huaji"]
     assert h["mutual"] is True
-    assert any(f["star"] == "天同" and f["palace"] == "命宫" for f in h["a_to_b"])
-    assert any(f["star"] == "武曲" and f["palace"] == "命宫" for f in h["b_to_a"])
+    assert any(f["star"] == "天同" and f["palace"] == "命宮" for f in h["a_to_b"])
+    assert any(f["star"] == "武曲" and f["palace"] == "命宮" for f in h["b_to_a"])
     assert h["score"] == -2
 
 

@@ -14,6 +14,7 @@ DIR = Path(__file__).resolve().parent
 PY = sys.executable  # 用當前 Python 即可 (腳本自帶 vendor lunar_python, 免 venv)
 sys.path.insert(0, str(DIR))
 from twin_adjust import adjust as twin_rebase  # noqa: E402
+from han import s2t_deep  # 統一簡繁層: ziwei (iztro) 輸出簡體→繁體
 
 
 def run_json(cmd):
@@ -24,10 +25,10 @@ def run_json(cmd):
     return json.loads(r.stdout)
 
 
-LU_STARS = {"祿", "禄"}
-# 注意: ziwei bundle 宮名為簡體 (官禄/财帛/仆役…), 集合須用簡體比對
-CAI_GONG_JI = {"财帛", "田宅", "官禄", "福德"}   # 祿入此四宮為吉 (caiyun.md 財務四宮)
-CAI_GONG_XIONG = {"财帛", "田宅", "福德"}        # 忌入財帛/田宅為破財點；福德忌主想多易衝動
+LU_STARS = {"祿"}
+# ziwei (iztro) 輸出已由 han.s2t_deep 統一轉繁, 宮名一律繁體比對
+CAI_GONG_JI = {"財帛", "田宅", "官祿", "福德"}   # 祿入此四宮為吉 (caiyun.md 財務四宮)
+CAI_GONG_XIONG = {"財帛", "田宅", "福德"}        # 忌入財帛/田宅為破財點；福德忌想多易衝動
 
 
 def caiyun_semantic(bazi, ziwei):
@@ -107,7 +108,7 @@ def main():
         zcmd += ["--hour-shift", str(a.twin_order - 1)]
 
     bazi = run_json(bcmd)
-    ziwei = run_json(zcmd)
+    ziwei = s2t_deep(run_json(zcmd))  # 統一簡繁層: 紫微引擎輸出轉繁
     if a.twin_order > 1 and a.twin_ziwei == "rebase":
         try:
             ziwei = twin_rebase(ziwei, a.twin_order)

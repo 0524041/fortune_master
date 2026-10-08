@@ -6,7 +6,11 @@
 """
 import argparse
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from han import s2t_deep, norm_palace  # noqa: E402  # 統一簡繁層
 
 CHECKS = ["tianzuo", "fuqi_fude", "sun_moon", "pillars",
           "wuxing", "daxian", "peach", "huaji"]
@@ -19,14 +23,15 @@ SANHE_FULL = _ZH["san_he"]
 WUXING_KE = _ZH["wu_xing_ke"]
 WUXING_SHENG = _ZH["wu_xing_sheng"]
 GAN_WX = _ZH["gan_wuxing"]
-SHA_STARS = {"擎羊", "陀羅", "陀罗", "火星", "鈴星", "铃星", "地空", "地劫",
-             "七杀", "七殺", "破军", "破軍", "廉贞", "廉貞", "巨门", "巨門"}
-PEACH_STARS = {"紅鸞", "红鸾", "天喜", "咸池", "天姚"}
+# 星名一律繁體 (引擎輸出已由 han.s2t_deep 統一轉繁, 不再需要繁簡雙套)
+SHA_STARS = {"擎羊", "陀羅", "火星", "鈴星", "地空", "地劫",
+             "七殺", "破軍", "廉貞", "巨門"}
+PEACH_STARS = {"紅鸞", "天喜", "咸池", "天姚"}
 
 
 def load(p):
     with open(p, encoding="utf-8") as f:
-        return json.load(f)
+        return s2t_deep(json.load(f))  # 統一簡繁層: 引擎輸出 (八字/紫微) 轉繁
 
 
 def major_stars(palace):
@@ -35,7 +40,7 @@ def major_stars(palace):
 
 def find_palace(chart, name):
     for p in chart.get("palaces", []):
-        if p.get("name") == name or p.get("name", "").rstrip("宫") == name.rstrip("宫"):
+        if norm_palace(p.get("name")) == norm_palace(name):
             return p
     return None
 
@@ -171,7 +176,7 @@ def check_daxian(az, bz):
     sync = bool(an) and an == bn
     score, notes = (1 if sync else 0), []
     for tag, chart, name, rng in (("A", az, an, ar), ("B", bz, bn, br)):
-        if name.rstrip("宫") == "夫妻":
+        if norm_palace(name) == "夫妻":
             p = find_palace(chart, "夫妻") or {}
             ji = [s["name"] for s in p.get("stars", []) if s.get("siHua") == "忌"]
             if ji:
@@ -215,10 +220,8 @@ def check_huaji(az, bz):
     a_ji, b_ji = native_ji(az), native_ji(bz)
     a_to_b = [{"star": a_ji, "palace": locate_star(bz, a_ji)}] if a_ji else []
     b_to_a = [{"star": b_ji, "palace": locate_star(az, b_ji)}] if b_ji else []
-    key = {"命宫", "命", "夫妻"}
-
     def hit(entries):
-        return any(e["palace"] in key or e["palace"].rstrip("宫") in ("命", "夫妻") for e in entries)
+        return any(norm_palace(e["palace"]) in ("命", "夫妻") for e in entries)
 
     a_hit, b_hit = hit(a_to_b), hit(b_to_a)
     mutual = a_hit and b_hit

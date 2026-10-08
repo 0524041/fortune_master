@@ -31,6 +31,13 @@ else
     miss "內嵌 lunar_python" "缺 scripts/vendor/lunar_python（重抓 repo 或跑 setup.sh）"
 fi
 
+if command -v python3 >/dev/null 2>&1 \
+   && python3 -c "import sys; sys.path.insert(0,'${VENDOR}'); import opencc; assert opencc.OpenCC('s2t').convert('命宫')=='命宮'" >/dev/null 2>&1; then
+    pass "內嵌 opencc (scripts/vendor, 統一簡繁層 han.py)"
+else
+    miss "內嵌 opencc" "缺 scripts/vendor/opencc（重抓 repo；簡繁層會退回內建字表）"
+fi
+
 if [ -f "${BUNDLE}" ]; then
     pass "紫微 bundle ($(du -h "$BUNDLE" | cut -f1))"
 else

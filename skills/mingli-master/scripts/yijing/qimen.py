@@ -29,6 +29,7 @@ sys.path.insert(0, str(DIR.parent))
 sys.path.insert(0, str(DIR.parent / "vendor"))
 from qimen_core import QiMenChart  # noqa: E402
 from time_correct import true_solar  # noqa: E402
+from han import s2t, s2t_deep  # noqa: E402  # 統一簡繁層
 
 
 def parse_time(s: str) -> datetime:
@@ -66,7 +67,7 @@ def main():
 
     want_text = a.text or a.both or not (a.json or a.both)
     if want_text:
-        print(chart.format_for_ai())
+        print(s2t(chart.format_for_ai()))  # 統一簡繁層
         if solar_info:
             print(f"（真太陽時校正：{solar_info['input']} → {solar_info['true_solar']}，"
                   f"{solar_info['city']} 經度差 {solar_info['lon_corr_min']} 分＋均時差 {solar_info['eot_min']} 分）")
@@ -74,7 +75,7 @@ def main():
         if want_text:
             print()
             print('===== JSON =====')
-        print(json.dumps(d, ensure_ascii=False, indent=2))
+        print(json.dumps(s2t_deep(d), ensure_ascii=False, indent=2))
 
 
 if __name__ == '__main__':

@@ -5,6 +5,8 @@
 
 ## 一、四驗
 
+> **簡繁**：引擎（`lunar_python`／`iztro`）吐簡體，一律經 `scripts/han.py`（內嵌 opencc）**先轉繁**再比對/輸出；`data/*.json` 規則表亦繁體。**勿在各腳本另寫字表**（單一簡繁層）。`verification` 的 `simp_trad_clean` 只掃字串值（keys 為識別字）。
+
 1. **定盤**：兩盤年月日時是否一致？讀八字 `verification.checks`（真太陽時可逆／時支自洽／大運節氣／納音）與兩盤 `warnings`（跨日、時辰交界、節氣交界）——未過或有值即標低置信。**兩盤時支不一致須退回重定盤。**
 2. **命內**：八字 `geju`（月令取格）＋`yongshen`（扶抑＋`tiaohou` 調候）vs 紫微 `patterns`＋四化，方向是否同向？記「一致／衝突」。
 3. **環境**：有朝向入住年才查風水（走外部 fengshui skill）；無資料記「未驗」，不腦補。

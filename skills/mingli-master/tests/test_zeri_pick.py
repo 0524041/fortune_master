@@ -142,15 +142,65 @@ def test_ziwei_ji_irrelevant_palace():
 
 
 def test_no_simplified_leak_year():
-    """回歸: 全年輸出不得殘留簡體關鍵字 (開閉殺門財權祿貪貞機輔遷馬龍雞倉廢羅敗)."""
+    """回歸: 全年輸出不得殘留簡體關鍵字 (統一簡繁層 han)."""
     cmd = [VENV_PY, str(SCRIPT), "--matter", "嫁娶",
            "--from", "2026-01-01", "--to", "2026-12-31",
            "--bazi", str(FIX / "a_bazi.json"), "--ziwei", str(FIX / "a_ziwei.json"),
-           "--format", "json", "--top", "5"]
+           "--hours", "--format", "json", "--top", "5"]
     r = subprocess.run(cmd, capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
     d = json.loads(r.stdout)
-    bad = set("开闭杀门财权禄贪贞机辅迁马龙鸡仓废罗败惊艳钟萧肃啸")
+    # 註: 斗 (二十八宿) 為正體, 不列; 其餘為引擎可能殘留的簡體字
+    bad = set("开闭杀门财权禄贪贞机辅迁马龙鸡仓废罗败惊艳钟萧肃啸东黄陈虚残对兴体会伤动胜营业猪蚕来儿孙钱题须绿枢瑶玑灵疗网宫当")
     blob = json.dumps(d, ensure_ascii=False)
     leaks = bad & set(blob)
     assert not leaks, f"simplified leak: {leaks}"
+
+
+# ── 吉時層 (v2) ────────────────────────────────────────────────────
+
+def test_hours_schema_and_verification():
+    """--hours: 候選日各含 12 時辰與 top_hours; verification 全過."""
+    d = run_zeri_matter("入宅", "--bazi", str(FIX / "a_bazi.json"), "--hours")
+    cand = [x for x in d["days"] if x["status"] == "candidate"]
+    assert cand and all(len(x["hours"]) == 12 for x in cand)
+    assert all(x["top_hours"] for x in cand)
+    v = d["verification"]
+    assert v["all_pass"] is True
+    assert v["checks"]["hours_complete"]["ok"] is True
+    assert any("紫微" in w for w in v["warnings"])
+
+
+def test_hour_personal_veto():
+    """手工真值 (10-13 庚申, 甲=乙卯/年午): 子時丙子沖生年午→否決; 酉時乙酉沖日柱卯→否決."""
+    d = run_zeri_matter("入宅", "--bazi", str(FIX / "a_bazi.json"), "--hours")
+    day = by_date(d, "2026-10-13")
+    h = {x["index"]: x for x in day["hours"]}
+    assert h[0]["status"] == "vetoed" and any("沖生年" in v for v in h[0]["veto"])
+    assert h[9]["status"] == "vetoed" and any("沖日柱" in v for v in h[9]["veto"])
+    # 否決時辰不得進 top_hours
+    assert all(x["index"] not in (0, 9) for x in day["top_hours"])
+
+
+def test_hour_ji_veto():
+    """手工真值: 10-13 申時甲申 通書時忌含入宅 → 否決."""
+    d = run_zeri_matter("入宅", "--bazi", str(FIX / "a_bazi.json"), "--hours")
+    h = {x["index"]: x for x in by_date(d, "2026-10-13")["hours"]}
+    assert h[8]["status"] == "vetoed" and any("時忌含" in v for v in h[8]["veto"])
+
+
+def test_top_hour_pinned():
+    """手工真值: 10-13 入宅 6分, 首吉時 未時癸未 3分."""
+    d = run_zeri_matter("入宅", "--bazi", str(FIX / "a_bazi.json"), "--hours")
+    day = by_date(d, "2026-10-13")
+    assert day["score"] == 6
+    assert day["top_hours"][0]["name"] == "未時" and day["top_hours"][0]["score"] == 3
+
+
+def test_verification_keys():
+    d = run_zeri()
+    v = d["verification"]
+    assert {"checks", "warnings", "all_pass"} == set(v)
+    assert v["checks"]["matter_valid"]["ok"] is True
+    assert v["checks"]["veto_has_reason"]["ok"] is True
+    assert v["all_pass"] is True

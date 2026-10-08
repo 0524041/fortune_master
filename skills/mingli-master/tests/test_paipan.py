@@ -83,7 +83,7 @@ def test_dayun_civil_years():
     assert d["dayun"]["start_solar"] == "1997-08-18"
 
 
-JIE_12 = {"立春", "惊蛰", "清明", "立夏", "芒种", "小暑",
+JIE_12 = {"立春", "驚蟄", "清明", "立夏", "芒種", "小暑",
           "立秋", "白露", "寒露", "立冬", "大雪", "小寒"}
 
 
@@ -101,12 +101,12 @@ def test_pillar_essence_fields():
     d = run_bazi_json("--date", "1990-08-18", "--time", "06:30", "--city", "台北",
                       "--gender", "male")
     p = d["pillars"]
-    assert [x["nayin"] for x in p] == ["路旁土", "泉中水", "大溪水", "城头土"]
-    assert [x["dishi"] for x in p] == ["长生", "胎", "临官", "临官"]
+    assert [x["nayin"] for x in p] == ["路旁土", "泉中水", "大溪水", "城頭土"]
+    assert [x["dishi"] for x in p] == ["長生", "胎", "臨官", "臨官"]
     assert [x["xunkong"] for x in p] == ["戌亥", "午未", "子丑", "申酉"]
-    assert p[0]["shishen_zhi"] == ["食神", "偏财"]
-    assert p[0]["hidden_shishen"] == ["食神", "偏财"]
-    assert p[1]["shishen_zhi"] == ["正官", "正印", "正财"]
+    assert p[0]["shishen_zhi"] == ["食神", "偏財"]
+    assert p[0]["hidden_shishen"] == ["食神", "偏財"]
+    assert p[1]["shishen_zhi"] == ["正官", "正印", "正財"]
 
 
 def test_extras_four_palaces():
@@ -116,20 +116,20 @@ def test_extras_four_palaces():
     e = d["extras"]
     assert (e["taiyuan"]["gan_zhi"], e["taixi"]["gan_zhi"]) == ("乙亥", "庚戌")
     assert (e["minggong"]["gan_zhi"], e["shengong"]["gan_zhi"]) == ("壬午", "戊子")
-    assert e["minggong"]["nayin"] == "杨柳木"
+    assert e["minggong"]["nayin"] == "楊柳木"
 
 
 def test_liunian_liuyue_wuhudun():
-    """流年 2026 丙午(伤官); 流月五虎遁 丙年庚寅起: 1庚寅正官…5甲午劫财…12辛丑七杀."""
+    """流年 2026 丙午(傷官); 流月五虎遁 丙年庚寅起: 1庚寅正官…5甲午劫財…12辛丑七殺."""
     d = run_bazi_json("--date", "1990-08-18", "--time", "06:30", "--city", "台北",
                       "--gender", "male", "--year", "2026")
     ln = d["liunian"]
-    assert ln["gan_zhi"] == "丙午" and ln["shishen"] == "伤官"
+    assert ln["gan_zhi"] == "丙午" and ln["shishen"] == "傷官"
     m = ln["liuyue"]
     assert len(m) == 12
     assert m[0]["gan_zhi"] == "庚寅" and m[0]["shishen"] == "正官"
-    assert m[4]["gan_zhi"] == "甲午" and m[4]["shishen"] == "劫财"
-    assert m[11]["gan_zhi"] == "辛丑" and m[11]["shishen"] == "七杀"
+    assert m[4]["gan_zhi"] == "甲午" and m[4]["shishen"] == "劫財"
+    assert m[11]["gan_zhi"] == "辛丑" and m[11]["shishen"] == "七殺"
 
 
 def test_verification_all_pass():

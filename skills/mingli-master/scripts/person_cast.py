@@ -25,6 +25,7 @@ sys.path.insert(0, str(DIR.parent / "vendor"))
 from liuren_core import LiuRenChart  # noqa: E402
 from qimen_core import QiMenChart  # noqa: E402
 from time_correct import true_solar  # noqa: E402
+from han import s2t_deep  # 統一簡繁層 (輔助盤輸出轉繁)
 
 PY = sys.executable
 
@@ -97,6 +98,7 @@ def main():
         },
     }
 
+    out = s2t_deep(out)  # 統一簡繁層: 輔助盤輸出轉繁
     if a.format == "json":
         print(json.dumps(out, ensure_ascii=False, indent=2))
     else:

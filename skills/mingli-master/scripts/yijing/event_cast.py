@@ -21,12 +21,14 @@ from pathlib import Path
 
 DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(DIR))
+sys.path.insert(0, str(DIR.parent))          # han.py (統一簡繁層)
 sys.path.insert(0, str(DIR / "vendor"))
 
 from liuyao_core import LiuYaoChart, toss_coins  # noqa: E402
 import meihua as mh  # noqa: E402
 from liuren_core import LiuRenChart  # noqa: E402
 from qimen_core import QiMenChart  # noqa: E402
+from han import s2t, s2t_deep  # noqa: E402
 
 
 def parse_time(s: str) -> datetime:
@@ -106,18 +108,19 @@ def main():
         'cross': cross_check(ly_d, mhd, lr_d, qm_d),
     }
 
+    out = s2t_deep(out)  # 統一簡繁層
     if a.format in ('text', 'both'):
         print('═' * 8 + ' 六爻 ' + '═' * 8)
-        print(lyc.format_for_ai())
+        print(s2t(lyc.format_for_ai()))
         print()
         print('═' * 8 + ' 梅花 ' + '═' * 8)
-        print(mh.format_text(mhd))
+        print(s2t(mh.format_text(mhd)))
         print()
         print('═' * 8 + ' 六壬 ' + '═' * 8)
-        print(lrc.format_for_ai())
+        print(s2t(lrc.format_for_ai()))
         print()
         print('═' * 8 + ' 奇門 ' + '═' * 8)
-        print(qmc.format_for_ai())
+        print(s2t(qmc.format_for_ai()))
         print()
         print('─' * 8 + ' 交叉 ' + '─' * 8)
         cc = out['cross']

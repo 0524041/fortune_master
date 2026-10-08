@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "vendor"))  # 內嵌 lu
 from time_correct import true_solar
 from lunar_python import Lunar, Solar
 from lunar_python.util import LunarUtil
+from han import s2t_deep  # 統一簡繁層: 引擎輸出簡體→繁體 (單一真相)
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 # 知識/表格一律讀 data/ (單一真相), 不硬編
@@ -453,6 +454,7 @@ def main():
         data["liunian"] = {"year": a.year, "gan_zhi": f"{ygan}{ly.getYearZhi()}",
                            "shishen": LunarUtil.SHI_SHEN.get(day_gan + ygan, ""),
                            "liuyue": liuyue_pillars(ygan, day_gan)}
+    data = s2t_deep(data)  # 統一簡繁層: 全輸出轉繁 (長生/納音/神煞… 引擎吐簡體)
     if a.format in ("text", "both"):
         p = data["pillars"]
         print(f"【八字】{a.gender} {tc['input']} ({tc['city']} lon{tc['lon']}) -> 真太陽時 {tc['true_solar']} (經差{tc['lon_corr_min']}分+均時差{tc['eot_min']}分)")

@@ -56,11 +56,11 @@ def test_patterns_pinned():
     a = run_zw("--date", "1990-08-18", "--hour", "卯", "--gender", "male",
                "--liunian", "2026")
     assert sorted(g["name"] for g in a["patterns"]) == \
-        ["府相朝垣", "廉贞天相格", "武贪格", "火贪格", "紫府同宫", "铃贪格"]
+        ["府相朝垣", "廉貞天相格", "武貪格", "火貪格", "紫府同宮", "鈴貪格"]
     b = run_zw("--date", "1992-03-15", "--hour", "未", "--gender", "female",
                "--liunian", "2026")
     assert sorted(g["name"] for g in b["patterns"]) == \
-        ["天同天梁格", "天梁化禄入命", "天马在迁", "机月同梁", "武曲七杀"]
+        ["天同天梁格", "天梁化祿入命", "天馬在遷", "機月同梁", "武曲七殺"]
 
 
 # ── 運限六層 (大限/小限/流年/流月/流日/流時) ─────────────────────
@@ -85,11 +85,11 @@ def test_horoscope_six_levels_pinned():
     assert h["at"] == "2026-6-15"
     assert h["divide"] == "normal"
     expect = {
-        "daxian": ("癸未", "田宅", "未", "破军", "贪狼"),
-        "xiaoxian": ("庚辰", "命宫", "辰", "太阳", "天同"),
-        "liunian": ("丙午", "福德", "午", "天同", "廉贞"),
-        "liuyue": ("甲午", "官禄", "申", "廉贞", "太阳"),
-        "liuri": ("庚申", "官禄", "申", "太阳", "天同"),
+        "daxian": ("癸未", "田宅", "未", "破軍", "貪狼"),
+        "xiaoxian": ("庚辰", "命宮", "辰", "太陽", "天同"),
+        "liunian": ("丙午", "福德", "午", "天同", "廉貞"),
+        "liuyue": ("甲午", "官祿", "申", "廉貞", "太陽"),
+        "liuri": ("庚申", "官祿", "申", "太陽", "天同"),
         "liushi": ("壬午", "夫妻", "寅", "天梁", "武曲"),
     }
     for key, (gz, palace, branch, lu, ji) in expect.items():
@@ -103,7 +103,7 @@ def test_horoscope_palace_reorder_aligned():
     """流年十二宮重排: index 4(午/福德) 應為流年命宮, 且 native 對齊本命宮."""
     h = run_horoscope()["horoscope"]["liunian"]
     assert len(h["palaces"]) == 12
-    assert h["palaces"][4] == {"scope": "命宫", "native": "福德", "branch": "午"}
+    assert h["palaces"][4] == {"scope": "命宮", "native": "福德", "branch": "午"}
     # 運限命宮落宮 == 命宮所在的 native 宮
     assert h["palace"] == "福德" and h["branch"] == "午"
 
@@ -127,7 +127,7 @@ def test_horoscope_dec_star_full():
     """流年將前/歲前十二神各 12 顆."""
     ds = run_horoscope()["horoscope"]["liunian"]["dec_star"]
     assert len(ds["jiangqian12"]) == 12 and len(ds["suiqian12"]) == 12
-    assert ds["jiangqian12"][4] == "将星"
+    assert ds["jiangqian12"][4] == "將星"
 
 
 def test_horoscope_deterministic():
@@ -187,7 +187,7 @@ def test_twin_rebase_borrow_sibling_palace():
     by_gz = {p["gz"]: p for p in orig["palaces"]}
     rby = {p["gz"]: p for p in rb["palaces"]}
     assert rb["ming"]["branch"] == "卯" and rb["ming"]["shen"] == orig["ming"]["shen"]
-    assert rby["己卯"]["name"] == "命宫"
+    assert rby["己卯"]["name"] == "命宮"
     assert [s["name"] for s in rby["己卯"]["stars"]] == [s["name"] for s in by_gz["己卯"]["stars"]]
     assert rby["庚辰"]["name"] == "父母"
     assert rb["daxian"][0]["palaceBranch"] == 3

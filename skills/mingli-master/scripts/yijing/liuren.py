@@ -27,8 +27,10 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))          # han.py (統一簡繁層)
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "vendor"))
 from liuren_core import LiuRenChart  # noqa: E402
+from han import s2t, s2t_deep  # noqa: E402
 
 
 def parse_time(s: str) -> datetime:
@@ -82,12 +84,12 @@ def main():
 
     want_text = a.text or a.both or not (a.json or a.both)
     if want_text:
-        print(chart.format_for_ai())
+        print(s2t(chart.format_for_ai()))  # 統一簡繁層
     if a.json or a.both:
         if want_text:
             print()
             print('===== JSON =====')
-        print(json.dumps(chart.to_dict(), ensure_ascii=False, indent=2))
+        print(json.dumps(s2t_deep(chart.to_dict()), ensure_ascii=False, indent=2))
 
 
 if __name__ == '__main__':

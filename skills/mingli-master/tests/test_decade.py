@@ -26,12 +26,12 @@ def test_json_schema_and_range():
 
 
 def test_known_values_2026():
-    """手工真值抽查: 2026 丙午(偏财) / 大運庚戌 / 流年父母 / 流忌廉贞 (與單發引擎一致)."""
+    """手工真值抽查: 2026 丙午(偏財) / 大運庚戌 / 流年父母 / 流忌廉貞 (與單發引擎一致; 已統一繁體)."""
     d = json.loads(run_decade("--from", "2026", "--to", "2026"))
     r = d["years"][0]
-    assert r["bazi"]["liunian"] == "丙午" and r["bazi"]["shishen"] == "偏财"
+    assert r["bazi"]["liunian"] == "丙午" and r["bazi"]["shishen"] == "偏財"
     assert r["bazi"]["dayun"] == "庚戌"
-    assert r["ziwei"]["liunian_palace"] == "父母" and r["ziwei"]["liunian_ji"] == "廉贞"
+    assert r["ziwei"]["liunian_palace"] == "父母" and r["ziwei"]["liunian_ji"] == "廉貞"
 
 
 def test_text_one_line_per_year():

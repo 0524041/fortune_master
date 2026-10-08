@@ -22,7 +22,8 @@
 | 紫微細節／運限 | `scripts/ziwei_full.sh`（`--at YYYY-MM-DD` 出運限六層） | `ziwei.md`；單星 `star_detail.md` |
 | 財運／財富 | 財帛＋田宅＋官祿＋財星（雙盤交叉） | `caiyun.md` |
 | 合盤／合婚 | 兩人各排盤 → `scripts/hepan_check.py` | `hepan.md`＋`fuqi_stars.md` |
-| 擇日（嫁娶／入宅／開業／動土） | `scripts/zeri_pick.py` | `zeri.md` |
+| 擇日（嫁娶／入宅／開業／動土） | `scripts/zeri_pick.py`（`--hours` 出吉時） | `zeri.md` |
+| 單日黃曆全資訊／吉時 | `scripts/tongshu_day.py`（日層＋十二時辰＋可選八字/奇門） | `zeri.md` 第七節 |
 
 ## 三、流程
 
@@ -38,6 +39,8 @@ $VENV scripts/cast.py --calendar lunar --date 1990-07-28 --time 06:30 --city 台
 $VENV scripts/bazi_pai.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --year 2026 --format json
 $VENV scripts/decade.py --date 1990-08-18 --time 06:30 --city 台北 --gender male --from 2021 --to 2030  # 多年運總表（禁逐年迴圈）
 ./scripts/ziwei_full.sh --date 1990-08-18 --hour 卯 --gender male --at 2026-06-15 --format json
+$VENV scripts/zeri_pick.py --matter 入宅 --from 2026-10-01 --to 2026-12-31 --bazi a.json --hours --qimen  # 擇日＋吉時
+$VENV scripts/tongshu_day.py --date 2026-10-08 --bazi a.json --qimen  # 單日黃曆全資訊
 ```
 
 ## 四、本軸檔案

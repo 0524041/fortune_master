@@ -13,9 +13,13 @@
 import argparse
 import json
 import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from han import s2t_deep  # noqa: E402  # 統一簡繁層
 
 ZHI = '子丑寅卯辰巳午未申酉戌亥'
-SEQ = ['命宫', '兄弟', '夫妻', '子女', '财帛', '疾厄', '迁移', '仆役', '官禄', '田宅', '福德', '父母']
+SEQ = ['命宮', '兄弟', '夫妻', '子女', '財帛', '疾厄', '遷移', '僕役', '官祿', '田宅', '福德', '父母']
 
 
 def _branch(p):
@@ -31,7 +35,7 @@ def adjust(d, order):
     palaces = d['palaces']
     by_branch = {_branch(p): p for p in palaces}
     ming_b = ZHI.index(d['ming']['branch'])
-    if by_branch[ming_b]['name'] != '命宫':
+    if by_branch[ming_b]['name'] != '命宮':
         raise ValueError('輸入盤面命宮標記不一致，非 ziwei_full 原始輸出？')
     bro_b = next(b for b, p in by_branch.items() if p['name'] == '兄弟')
     dir_ = (bro_b - ming_b) % 12          # 宮名排列方向: 兄弟 = 命 + dir
@@ -78,7 +82,7 @@ def main():
     a = ap.parse_args()
     src = sys.stdin if a.ziwei == '-' else open(a.ziwei, encoding='utf-8')
     try:
-        d = json.load(src)
+        d = s2t_deep(json.load(src))  # 統一簡繁層: 引擎輸出轉繁後再變盤
     except Exception as e:
         print(f'錯誤: 無法讀取紫微 JSON: {e}', file=sys.stderr)
         sys.exit(2)

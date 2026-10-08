@@ -48,9 +48,12 @@ def main():
     parser.add_argument('--random', action='store_true', help='電腦隨機起卦')
     parser.add_argument('--time', nargs='?', const='now', default=None,
                         help='起卦時間 (省略=系統現在; 使用者提供實際起卦時刻才給值)')
-    parser.add_argument('--text', action='store_true', help='輸出固定文字格式 (預設)')
-    parser.add_argument('--json', action='store_true', help='輸出結構化 JSON')
-    parser.add_argument('--both', action='store_true', help='同時輸出文字與 JSON')
+    parser.add_argument('--format', choices=['text', 'md', 'json'], default=None,
+                        help='輸出格式: text=固定文字 (預設)、md=精簡 markdown、json=結構化')
+    # 舊旗標 (相容, 不宣傳)
+    parser.add_argument('--text', action='store_true', help=argparse.SUPPRESS)
+    parser.add_argument('--json', action='store_true', help=argparse.SUPPRESS)
+    parser.add_argument('--both', action='store_true', help=argparse.SUPPRESS)
     args = parser.parse_args()
 
     if args.coins and args.random:
@@ -65,11 +68,21 @@ def main():
     dt = datetime.now() if args.time in (None, 'now') else parse_time(args.time)
     chart = LiuYaoChart(dt, coins)
 
-    want_text = args.text or args.both or not (args.json or args.both)
+    # 格式決策: --format 優先; 舊 --text/--json/--both 相容
+    fmt = args.format
+    if fmt is None:
+        if args.both:
+            fmt = 'both'
+        elif args.json:
+            fmt = 'json'
+        else:
+            fmt = 'text'
+    want_text = fmt in ('text', 'md', 'both')
+    want_json = fmt in ('json', 'both')
     if want_text:
-        print(chart.format_for_ai())
-    if args.json or args.both:
-        if want_text and (args.json or args.both):
+        print(chart.format_for_ai(fmt='md' if fmt == 'md' else 'text'))
+    if want_json:
+        if want_text:
             print()
             print("===== JSON =====")
         print(json.dumps(chart.to_dict(), ensure_ascii=False, indent=2))

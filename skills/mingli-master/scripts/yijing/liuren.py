@@ -56,9 +56,12 @@ def main():
                     help='行年參考年 (預設為起課年/今年)')
     ap.add_argument('--twin', type=int, default=1,
                     help='雙胞胎次客序 (1=正課、2=二客、3=三客; 古法換將不換時, 低置信)')
-    ap.add_argument('--text', action='store_true')
-    ap.add_argument('--json', action='store_true')
-    ap.add_argument('--both', action='store_true')
+    ap.add_argument('--format', choices=['text', 'md', 'json'], default=None,
+                    help='輸出格式: text=固定文字 (預設)、md=精簡 markdown、json=結構化')
+    # 舊旗標 (相容, 不宣傳)
+    ap.add_argument('--text', action='store_true', help=argparse.SUPPRESS)
+    ap.add_argument('--json', action='store_true', help=argparse.SUPPRESS)
+    ap.add_argument('--both', action='store_true', help=argparse.SUPPRESS)
     a = ap.parse_args()
 
     if a.birth and len(a.birth) != len(a.gender):
@@ -82,10 +85,19 @@ def main():
         birth = [(dt.year, genders[0])]
     chart = LiuRenChart(dt, birth=birth, at_year=a.at_year, lifetime=a.lifetime, twin=a.twin)
 
-    want_text = a.text or a.both or not (a.json or a.both)
+    fmt = a.format
+    if fmt is None:
+        if a.both:
+            fmt = 'both'
+        elif a.json:
+            fmt = 'json'
+        else:
+            fmt = 'text'
+    want_text = fmt in ('text', 'md', 'both')
+    want_json = fmt in ('json', 'both')
     if want_text:
         print(s2t(chart.format_for_ai()))  # 統一簡繁層
-    if a.json or a.both:
+    if want_json:
         if want_text:
             print()
             print('===== JSON =====')

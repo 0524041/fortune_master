@@ -50,9 +50,12 @@ def main():
                     help='性別 (終身盤備註用)')
     ap.add_argument('--city', default=None, help='出生地/起局地 (真太陽時校正)')
     ap.add_argument('--lon', type=float, default=None, help='經度 (與 --city 二選一)')
-    ap.add_argument('--text', action='store_true')
-    ap.add_argument('--json', action='store_true')
-    ap.add_argument('--both', action='store_true')
+    ap.add_argument('--format', choices=['text', 'md', 'json'], default=None,
+                    help='輸出格式: text=固定文字 (預設)、md=精簡 markdown、json=結構化')
+    # 舊旗標 (相容, 不宣傳)
+    ap.add_argument('--text', action='store_true', help=argparse.SUPPRESS)
+    ap.add_argument('--json', action='store_true', help=argparse.SUPPRESS)
+    ap.add_argument('--both', action='store_true', help=argparse.SUPPRESS)
     a = ap.parse_args()
 
     dt = datetime.now() if a.time in (None, 'now') else parse_time(a.time)
@@ -65,13 +68,22 @@ def main():
     if solar_info:
         d['true_solar'] = solar_info
 
-    want_text = a.text or a.both or not (a.json or a.both)
+    fmt = a.format
+    if fmt is None:
+        if a.both:
+            fmt = 'both'
+        elif a.json:
+            fmt = 'json'
+        else:
+            fmt = 'text'
+    want_text = fmt in ('text', 'md', 'both')
+    want_json = fmt in ('json', 'both')
     if want_text:
         print(s2t(chart.format_for_ai()))  # 統一簡繁層
         if solar_info:
             print(f"（真太陽時校正：{solar_info['input']} → {solar_info['true_solar']}，"
                   f"{solar_info['city']} 經度差 {solar_info['lon_corr_min']} 分＋均時差 {solar_info['eot_min']} 分）")
-    if a.json or a.both:
+    if want_json:
         if want_text:
             print()
             print('===== JSON =====')

@@ -494,13 +494,14 @@ class LiuYaoChart:
 
         return result
 
-    def format_for_ai(self) -> str:
+    def format_for_ai(self, fmt: str = 'text') -> str:
         """
         固定文字格式輸出 (供 AI 解盤 / 後續詢問各種事項)
 
         【基本資訊】 → 起卦時間 / 干支 / 空亡 / 神煞
         【卦象結構】 → 本卦 / 變卦 / 六神 / 伏神 / 世應 / 動爻表
-        【本卦/變卦】→ 卦辭 / 象傳 / 諸事 / 愛情 / 事業 / 財運 / 建議 / 詳解
+        【本卦/變卦】→ 卦辭 / 象傳 / 諸事 / 愛情 / 事業 / 財運 / 建議
+        fmt='md': 精簡版, 卦辭/象傳/諸事/建議為一句摘要, 不貼長文
         """
         self._find_fushen()
 
@@ -584,16 +585,21 @@ class LiuYaoChart:
                 lines.append(f"象傳：{hexagram['xiang_text']}")
             if hexagram.get('general'):
                 lines.append(f"諸事：{hexagram['general']}")
-            if hexagram.get('love'):
-                lines.append(f"愛情：{hexagram['love']}")
-            if hexagram.get('career'):
-                lines.append(f"事業：{hexagram['career']}")
-            if hexagram.get('wealth'):
-                lines.append(f"財運：{hexagram['wealth']}")
-            if hexagram.get('advice'):
-                lines.append(f"建議：{hexagram['advice']}")
-            if hexagram.get('detailed_explanation'):
-                lines.append(f"詳解：{hexagram['detailed_explanation']}")
+            if fmt == 'md':
+                # 精簡: 建議只取首句 (一句摘要), 不貼長文
+                advice = hexagram.get('advice', '')
+                if advice:
+                    first = advice.split('。')[0]
+                    lines.append(f"建議：{first}。")
+            else:
+                if hexagram.get('love'):
+                    lines.append(f"愛情：{hexagram['love']}")
+                if hexagram.get('career'):
+                    lines.append(f"事業：{hexagram['career']}")
+                if hexagram.get('wealth'):
+                    lines.append(f"財運：{hexagram['wealth']}")
+                if hexagram.get('advice'):
+                    lines.append(f"建議：{hexagram['advice']}")
             lines.append("")
 
         return "\n".join(lines).strip()

@@ -123,14 +123,15 @@ def build(cast: dict) -> dict:
 
 
 def _hex_knowledge(label: str, name: str, full: bool = False) -> list:
-    """卦辭/象傳/諸事(+建議/詳解); 取自 data/hexagrams_64.json，不編造。"""
+    """卦辭/象傳/諸事(+建議); 取自 data/hexagrams_64.json，不編造。
+    註: advice 與 detailed_explanation 內容高度重疊, 只輸出 advice, 避免重複佔用. """
     h = get_hexagram(name)
     if not h:
         return []
     rows = [f"【{label}：{name}】"]
     fields = [("卦辭", "core_text"), ("象傳", "xiang_text"), ("諸事", "general")]
     if full:
-        fields += [("建議", "advice"), ("詳解", "detailed_explanation")]
+        fields += [("建議", "advice")]
     for k, field in fields:
         v = h.get(field)
         if v:
@@ -138,7 +139,7 @@ def _hex_knowledge(label: str, name: str, full: bool = False) -> list:
     return rows
 
 
-def format_text(d: dict) -> str:
+def format_text(d: dict, fmt: str = 'text') -> str:
     ln = ''.join('▅▅▅▅▅' if x else '▅▅　▅▅' for x in d['lines'])
     bg, hg, bgg = d['bengua'], d['hugua'], d['biangua']
     ti, yong = d['ti_yong']['體'], d['ti_yong']['用']
@@ -156,12 +157,33 @@ def format_text(d: dict) -> str:
            f"變卦疊加(結果): 變卦{bgg['side_gua']}({wx(bgg['side_gua'])}) 對體 → {bgg['ti_relation']}（{bgg['ti_judge']}）",
            f"爻象(初→上): {ln}"]
     out.append("")
+    if fmt == 'md':
+        out += _hex_knowledge_core("本卦", bg['name'])
+        out.append("")
+        out += _hex_knowledge_core("變卦", bgg['name'])
+        return '\n'.join(out)
     out += _hex_knowledge("本卦", bg['name'], full=True)
     out.append("")
     out += _hex_knowledge("互卦", hg['name'])
     out.append("")
     out += _hex_knowledge("變卦", bgg['name'])
     return '\n'.join(out)
+
+
+def _hex_knowledge_core(label: str, name: str) -> list:
+    """md 精簡: 卦辭/象傳/諸事/建議首句 (不貼長文)."""
+    h = get_hexagram(name)
+    if not h:
+        return []
+    rows = [f"【{label}：{name}】"]
+    for k, field in (("卦辭", "core_text"), ("象傳", "xiang_text"), ("諸事", "general")):
+        v = h.get(field)
+        if v:
+            rows.append(f"{k}：{v}")
+    advice = h.get('advice', '')
+    if advice:
+        rows.append(f"建議：{advice.split('。')[0]}。")
+    return rows
 
 
 def parse_time(s: str) -> datetime:
@@ -179,9 +201,12 @@ def main():
                     help='時間起卦；可給 YYYY-MM-DD HH:MM，或省略值=系統現在')
     ap.add_argument('--numbers', nargs='+', type=int, help='數字起卦 (兩數或三數)')
     ap.add_argument('--random', action='store_true', help='隨機起卦')
-    ap.add_argument('--text', action='store_true')
-    ap.add_argument('--json', action='store_true')
-    ap.add_argument('--both', action='store_true')
+    ap.add_argument('--format', choices=['text', 'md', 'json'], default=None,
+                    help='輸出格式: text=固定文字 (預設)、md=精簡 markdown、json=結構化')
+    # 舊旗標 (相容, 不宣傳)
+    ap.add_argument('--text', action='store_true', help=argparse.SUPPRESS)
+    ap.add_argument('--json', action='store_true', help=argparse.SUPPRESS)
+    ap.add_argument('--both', action='store_true', help=argparse.SUPPRESS)
     a = ap.parse_args()
     if a.numbers and a.random:
         print('錯誤：--numbers 與 --random 不能同時使用', file=sys.stderr)
@@ -198,10 +223,19 @@ def main():
         dt = datetime.now() if a.time in (None, 'now') else parse_time(a.time)
         cast = from_time(dt)
     d = build(cast)
-    want_text = a.text or a.both or not (a.json or a.both)
+    fmt = a.format
+    if fmt is None:
+        if a.both:
+            fmt = 'both'
+        elif a.json:
+            fmt = 'json'
+        else:
+            fmt = 'text'
+    want_text = fmt in ('text', 'md', 'both')
+    want_json = fmt in ('json', 'both')
     if want_text:
-        print(format_text(d))
-    if a.json or a.both:
+        print(format_text(d, fmt='md' if fmt == 'md' else 'text'))
+    if want_json:
         if want_text:
             print('\n===== JSON =====')
         print(json.dumps(d, ensure_ascii=False, indent=2))

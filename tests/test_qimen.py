@@ -96,14 +96,37 @@ def test_cli_schema():
 
 
 def test_event_cast_four_plates():
-    """四式合盤: 六爻+梅花+六壬+奇門 同刻，四盤日柱一致。"""
+    """四式合盤: 六爻+梅花+六壬+奇門 同刻，四盤日柱一致 (2026-10 起: 預設=六爻+梅花, --with 追加)。"""
     r = subprocess.run([PY, str(YJ / "event_cast.py"), "--time", "2026-10-07 10:30",
-                        "--coins", "1", "2", "3", "1", "0", "2", "--numbers", "17", "23", "--format", "json"],
+                        "--coins", "1", "2", "3", "1", "0", "2", "--numbers", "17", "23",
+                        "--with", "liuren", "qimen", "--format", "json"],
                        capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
     d = json.loads(r.stdout.split('===== JSON =====')[-1])
     assert {'liuyao', 'meihua', 'liuren', 'qimen', 'cross'} <= set(d)
     assert d['cross']['day_pillar_match'] is True
+
+
+def test_event_cast_default_summary():
+    """預設 summary: 只出六爻+梅花一行結論, 不含六壬/奇門全文 (省 token 契約)。"""
+    r = subprocess.run([PY, str(YJ / "event_cast.py"), "--time", "2026-10-07 10:30",
+                        "--coins", "1", "2", "3", "1", "0", "2", "--numbers", "17", "23"],
+                       capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    assert "問事摘要" in r.stdout
+    assert "六爻：" in r.stdout and "本卦" in r.stdout
+    assert "六壬：" not in r.stdout and "奇門：" not in r.stdout
+
+
+def test_event_cast_with_liuren_qimen():
+    """--with liuren qimen: summary + 追加兩式全文。"""
+    r = subprocess.run([PY, str(YJ / "event_cast.py"), "--time", "2026-10-07 10:30",
+                        "--coins", "1", "2", "3", "1", "0", "2", "--numbers", "17", "23",
+                        "--with", "liuren", "qimen"],
+                       capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    assert "六壬：" in r.stdout and "奇門：" in r.stdout
+    assert "【三傳】" in r.stdout and "【奇門遁甲】" in r.stdout
 
 
 def test_zhifu_zhonggong_no_crash():
